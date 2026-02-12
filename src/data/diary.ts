@@ -19,6 +19,12 @@ const diaryData: DiaryItem[] = [
 		date: "2026-02-12T08:17:21Z",
 		images: [],
 	},
+	{
+		id: 2,
+		content: "我的个人博客正式上线啦！并且我已经决定要买pocket3了。嗯对",
+		date: "2026-02-12T20:49:32Z",
+		images: [],
+	},
 ];
 
 // 获取日记统计数据
