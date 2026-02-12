@@ -38,27 +38,11 @@ export const friendsData: FriendItem[] = [
 	},
 	{
 		id: 4,
-		title: "Tailwind CSS",
-		imgurl: "https://avatars.githubusercontent.com/u/67109815?v=4&s=640",
-		desc: "A utility-first CSS framework for rapidly building custom designs",
-		siteurl: "https://tailwindcss.com",
-		tags: ["CSS", "Framework"],
-	},
-	{
-		id: 5,
 		title: "GitHub",
 		imgurl: "https://avatars.githubusercontent.com/u/9919?v=4&s=640",
 		desc: "开源代码托管平台",
 		siteurl: "https://github.com",
 		tags: ["Development", "Platform"],
-	},
-	{
-		id: 6,
-		title: "MDN Web Docs",
-		imgurl: "https://avatars.githubusercontent.com/u/7565578?v=4&s=640",
-		desc: "The web's most comprehensive resource for web developers",
-		siteurl: "https://developer.mozilla.org",
-		tags: ["Docs", "Reference"],
 	},
 ];
 
