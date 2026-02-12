@@ -51,6 +51,22 @@ export const projectsData: Project[] = [
 		featured: true,
 		tags: ["娱乐", "抽象", "开源"],
 	},
+	{
+		id: "jisuanqi",
+		title: "寄算器",
+		description: "无论你输入什么算式，他的结果永远是错的",
+		image: "",
+		category: "cpp",
+		techStack: ["C++"],
+		status: "completed",
+		liveDemo: "",
+		sourceCode: "https://github.com/xjhjtz/qipajisuanqi",
+		visitUrl: "https://github.com/xjhjtz/qipajisuanqi", // 添加前往项目链接
+		startDate: "2025-03-07",
+		endDate: "2025-05-22",
+		featured: true,
+		tags: ["娱乐", "抽象", "开源"],
+	},
 ];
 
 // Get project statistics
