@@ -16,24 +16,23 @@ export type DeviceCategory = {
 };
 
 export const devicesData: DeviceCategory = {
-	OnePlus: [
+	PC: [
 		{
-			name: "OnePlus 13T",
-			image: "/images/device/oneplus13t.png",
-			specs: "Gray / 16G + 1TB",
-			description:
-				"Flagship performance, Hasselblad imaging, 80W SuperVOOC.",
-			link: "https://www.oneplus.com/cn/13t",
+			name: "联想小新Pro 14 2024",
+			image: "/images/device/xiaoxinpro14.jpg",
+			specs: "Gray / 24G + 1TB",
+			description: "搭载AMD Ryzen7 8745H处理器与杜比音效，配备100W快充",
+			link: "https://www.bilibili.com/video/BV1um411S7U4",
 		},
 	],
-	Router: [
+	drone: [
 		{
-			name: "GL-MT3000",
-			image: "/images/device/mt3000.png",
-			specs: "1000Mbps / 2.5G",
+			name: "DJI Mini2",
+			image: "/images/device/mini2.jpg",
+			specs: "标准套装",
 			description:
-				"Portable WiFi 6 router suitable for business trips and home use.",
-			link: "https://www.gl-inet.cn/products/gl-mt3000/",
+				"搭载1/2.3英寸CMOS传感器，支持4K视频拍摄和31分钟飞行时间",
+			link: "https://store.dji.com/cn/product/mini-2",
 		},
 	],
 };
