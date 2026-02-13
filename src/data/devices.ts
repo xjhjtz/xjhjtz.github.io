@@ -28,7 +28,7 @@ export const devicesData: DeviceCategory = {
 	Drone: [
 		{
 			name: "DJI Mini2",
-			image: "/images/device/mini2.jpg",
+			image: "/images/device/mini2.webp",
 			specs: "标准套装",
 			description:
 				"搭载1/2.3英寸CMOS传感器，支持4K视频拍摄和31分钟飞行时间",
