@@ -25,6 +25,13 @@ const diaryData: DiaryItem[] = [
 		date: "2026-02-12T20:49:32Z",
 		images: [],
 	},
+	{
+		id: 3,
+		content:
+			"啊啊啊啊啊啊啊啊不是为啥我尝试了好几个CDN全炸了完了图床也用不了了啊TAT",
+		date: "2026-02-14T21:54:41Z",
+		images: [],
+	},
 ];
 
 // 获取日记统计数据
