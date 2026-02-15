@@ -7,7 +7,7 @@
 	"location": "辽宁桓仁",
 	"tags": ["摄影", "枫叶", "秋天"],
 	"layout": "masonry",
-	"columns": 3, //这里使用cdn.jsdmirror.com进行CDN加速，要不然github太慢了
+	"columns": 3,
 	"cover": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/cover.jpg",
 	"photos": [
 		{
