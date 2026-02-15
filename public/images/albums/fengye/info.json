@@ -1,46 +1,47 @@
 {
 	"mode": "external",
 	"title": "枫叶",
+	"hidden": false,
 	"description": "我去旅游期间拍到的一些枫叶",
 	"date": "2026-02-12",
 	"location": "辽宁桓仁",
 	"tags": ["摄影", "枫叶", "秋天"],
 	"layout": "masonry",
-	"columns": 3,
-	"cover": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/cover.jpg",
+	"columns": 3, //这里使用cdn.jsdmirror.com进行CDN加速，要不然github太慢了
+	"cover": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/cover.jpg",
 	"photos": [
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07191.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07191.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07193.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07193.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07203.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07203.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07222.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07222.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07225.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07225.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07229.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07229.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07231.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07231.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07241.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07241.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07318.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07318.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07384.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07384.JPG"
 		},
 		{
-			"src": "https://cdn.jsdelivr.net/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07389.JPG"
+			"src": "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/images/albums/fengye/DSC07389.JPG"
 		}
 	]
 }
