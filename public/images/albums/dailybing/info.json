@@ -10,14 +10,7 @@
 	"cover": "https://bing.img.run/uhd.php",
 	"photos": [
 		{
-			"id": "external-1",
-			"src": "https://bing.img.run/uhd.php",
-			"alt": "随机图片 1",
-			"title": "美丽的风景",
-			"description": "这是一张来自外链的美丽风景图片",
-			"tags": ["风景", "自然"],
-			"width": 800,
-			"height": 600
+			"src": "https://bing.img.run/uhd.php"
 		}
 	]
 }

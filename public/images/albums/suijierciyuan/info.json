@@ -1,0 +1,16 @@
+{
+	"mode": "external",
+	"hidden": false,
+	"title": "随机二次元图片",
+	"description": "这个相册调用loliapi接口，获取随机二次元图片",
+	"location": "loliapi",
+	"tags": ["二次元", "api", "随机"],
+	"layout": "masonry",
+	"columns": 3,
+	"cover": "https://www.loliapi.com/acg/",
+	"photos": [
+		{
+			"src": "https://www.loliapi.com/acg/"
+		}
+	]
+}
