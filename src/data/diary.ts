@@ -32,6 +32,12 @@ const diaryData: DiaryItem[] = [
 		date: "2026-02-14T21:54:41Z",
 		images: [],
 	},
+	{
+		id: 4,
+		content: "刚从武汉回来马上要开学了......",
+		date: "2026-02-28T13:39:00Z",
+		images: [],
+	},
 ];
 
 // 获取日记统计数据
