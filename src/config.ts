@@ -187,7 +187,7 @@ export const siteConfig: SiteConfig = {
 	toc: {
 		enable: true, // 启用目录功能
 		mode: "sidebar", // 目录显示模式："float" 悬浮按钮模式，"sidebar" 侧边栏模式
-		depth: 2, // 目录深度，1-6，1 表示只显示 h1 标题，2 表示显示 h1 和 h2 标题，依此类推
+		depth: 4, // 目录深度，1-6，1 表示只显示 h1 标题，2 表示显示 h1 和 h2 标题，依此类推
 		useJapaneseBadge: true, // 使用日语假名标记（あいうえお...）代替数字，开启后会将 1、2、3... 改为 あ、い、う...
 	},
 	showCoverInContent: true, // 在文章内容页显示文章封面
@@ -226,20 +226,20 @@ export const siteConfig: SiteConfig = {
 export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	src: {
 		desktop: [
-			"/assets/desktop-banner/1.webp",
-			"/assets/desktop-banner/2.webp",
-			"/assets/desktop-banner/3.webp",
-			"/assets/desktop-banner/4.webp",
-			"/assets/desktop-banner/5.webp",
-			"/assets/desktop-banner/6.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/1.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/2.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/3.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/4.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/5.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/6.webp",
 		], // 桌面横幅图片
 		mobile: [
-			"/assets/mobile-banner/1.webp",
-			"/assets/mobile-banner/2.webp",
-			"/assets/mobile-banner/3.webp",
-			"/assets/mobile-banner/4.webp",
-			"/assets/mobile-banner/5.webp",
-			"/assets/mobile-banner/6.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/1.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/2.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/3.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/4.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/5.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/6.webp",
 		], // 移动横幅图片
 	}, // 使用本地横幅图片
 	position: "center", // 壁纸位置，等同于 object-position
@@ -353,7 +353,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
+	avatar: "https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/src/assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
 	name: "xjhjtzac",
 	bio: "你好，世界！",
 	typewriter: {
