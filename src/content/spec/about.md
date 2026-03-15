@@ -1,11 +1,11 @@
 # 🚂 Hi there, I'm xjhjtzac! 👋  
-💬 -每日一言-
+💬  -每日一言-
 <!-- 请注意，以下的示例包含超链接，您可能需要手动配置样式使其不变色。如果您嫌麻烦，可以移除。 -->
 > <p id="hitokoto">
 >   <a href="#" id="hitokoto_text">-正在获取中-</a>
 > </p>
 <!-- 本例不能添加链接内容，放在此处只是因为此接口比较方便，也许能够解决大部分的需求-->
-> <script src="https://v1.hitokoto.cn/?c=i&encode=js&select=%23hitokoto" defer></script>  
+> <script src="https://v1.hitokoto.cn/?c=k&encode=js&select=%23hitokoto" defer></script>  
 ---
 
 ### 🧑‍🎓 About Me
@@ -49,6 +49,3 @@
 ---
 
 > “代码和铁轨一样，都有固定的逻辑，但沿途的风景却各不相同。” —— xjhjtzac
----
-
-*Built with ❤️ using Astro and inspired by modern web design principles.*

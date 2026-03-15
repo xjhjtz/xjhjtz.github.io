@@ -1,3 +1,4 @@
+import { truncate } from "node:fs";
 import type {
 	AnnouncementConfig,
 	CommentConfig,
@@ -211,14 +212,14 @@ export const siteConfig: SiteConfig = {
 			fontFamily: "ZenMaruGothic-Medium",
 			fontWeight: "400",
 			localFonts: ["ZenMaruGothic-Medium.ttf"],
-			enableCompress: false, // 启用字体子集优化，减少字体文件大小
+			enableCompress: true, // 启用字体子集优化，减少字体文件大小
 		},
 		cjkFont: {
 			// 中日韩字体 - 作为回退字体
 			fontFamily: "LXGWWenKaiScreen",
 			fontWeight: "500",
 			localFonts: ["LXGWWenKaiScreen.ttf"],
-			enableCompress: false, // 启用字体子集优化，减少字体文件大小
+			enableCompress: true, // 启用字体子集优化，减少字体文件大小
 		},
 	},
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
