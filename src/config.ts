@@ -211,14 +211,14 @@ export const siteConfig: SiteConfig = {
 			fontFamily: "ZenMaruGothic-Medium",
 			fontWeight: "400",
 			localFonts: ["ZenMaruGothic-Medium.ttf"],
-			enableCompress: true, // 启用字体子集优化，减少字体文件大小
+			enableCompress: false, // 启用字体子集优化，减少字体文件大小
 		},
 		cjkFont: {
 			// 中日韩字体 - 作为回退字体
 			fontFamily: "LXGWWenKaiScreen",
 			fontWeight: "500",
 			localFonts: ["LXGWWenKaiScreen.ttf"],
-			enableCompress: true, // 启用字体子集优化，减少字体文件大小
+			enableCompress: false, // 启用字体子集优化，减少字体文件大小
 		},
 	},
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
@@ -454,8 +454,9 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 };
 
 export const footerConfig: FooterConfig = {
-	enable: false, // 是否启用Footer HTML注入功能
-	customHtml: "", // HTML格式的自定义页脚信息，例如备案号等，默认留空
+	enable: true, // 是否启用Footer HTML注入功能
+	customHtml:
+		"“你是秋风里落进我心底的一片叶，从此我的四季，都带着未说出口的秋意。”", // HTML格式的自定义页脚信息，例如备案号等，默认留空
 	// 也可以直接编辑 FooterConfig.html 文件来添加备案号等自定义内容
 	// 注意：若 customHtml 不为空，则使用 customHtml 中的内容；若 customHtml 留空，则使用 FooterConfig.html 文件中的内容
 	// FooterConfig.html 可能会在未来的某个版本弃用
