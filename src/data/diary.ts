@@ -38,6 +38,12 @@ const diaryData: DiaryItem[] = [
 		date: "2026-02-28T13:39:00Z",
 		images: [],
 	},
+	{
+		id: 5,
+		content: "我去？我考了两年的地生突然改成开卷了？",
+		date: "2026-03-17T20:54:34Z",
+		images: [],
+	},
 ];
 
 // 获取日记统计数据
