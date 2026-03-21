@@ -102,34 +102,20 @@ export const siteConfig: SiteConfig = {
 	// 壁纸模式配置
 	wallpaperMode: {
 		// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		defaultMode: "banner",
+		defaultMode: "none",
 		// 整体布局方案切换按钮显示设置（默认："desktop"）
 		// "off" = 不显示
 		// "mobile" = 仅在移动端显示
 		// "desktop" = 仅在桌面端显示
 		// "both" = 在所有设备上显示
-		showModeSwitchOnMobile: "desktop",
+		showModeSwitchOnMobile: "off",
 	},
 
 	banner: {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
-			desktop: [
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/1.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/2.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/3.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/4.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/5.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/6.webp",
-			], // 桌面横幅图片
-			mobile: [
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/1.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/2.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/3.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/4.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/5.webp",
-				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/6.webp",
-			], // 移动横幅图片
+			desktop: [], // 桌面横幅图片
+			mobile: [], // 移动横幅图片
 		}, // 使用本地横幅图片
 
 		position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
@@ -575,7 +561,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 };
 
 export const sakuraConfig: SakuraConfig = {
-	enable: true, // 默认关闭樱花特效
+	enable: false, // 默认关闭樱花特效
 	sakuraNum: 21, // 樱花数量
 	limitTimes: -1, // 樱花越界限制次数，-1为无限循环
 	size: {
