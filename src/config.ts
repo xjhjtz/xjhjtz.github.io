@@ -33,7 +33,7 @@ export const siteConfig: SiteConfig = {
 	lang: SITE_LANG,
 
 	themeColor: {
-		hue: 60, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		hue: 90, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
@@ -102,20 +102,24 @@ export const siteConfig: SiteConfig = {
 	// 壁纸模式配置
 	wallpaperMode: {
 		// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		defaultMode: "none",
+		defaultMode: "fullscreen",
 		// 整体布局方案切换按钮显示设置（默认："desktop"）
 		// "off" = 不显示
 		// "mobile" = 仅在移动端显示
 		// "desktop" = 仅在桌面端显示
 		// "both" = 在所有设备上显示
-		showModeSwitchOnMobile: "off",
+		showModeSwitchOnMobile: "both",
 	},
 
 	banner: {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
-			desktop: [], // 桌面横幅图片
-			mobile: [], // 移动横幅图片
+			desktop: [
+				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/DSC021598.webp",
+			], // 桌面横幅图片
+			mobile: [
+				"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/DSC021598.webp",
+			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
 		position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
@@ -213,20 +217,10 @@ export const siteConfig: SiteConfig = {
 export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	src: {
 		desktop: [
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/1.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/2.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/3.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/4.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/5.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/6.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/DSC021598.webp",
 		], // 桌面横幅图片
 		mobile: [
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/1.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/2.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/3.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/4.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/5.webp",
-			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/mobile-banner/6.webp",
+			"https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtz.github.io/public/assets/desktop-banner/DSC021598.webp",
 		], // 移动横幅图片
 	}, // 使用本地横幅图片
 	position: "center", // 壁纸位置，等同于 object-position
@@ -443,7 +437,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 export const footerConfig: FooterConfig = {
 	enable: true, // 是否启用Footer HTML注入功能
 	customHtml:
-		"“你是秋风里落进我心底的一片叶，从此我的四季，都带着未说出口的秋意。”", // HTML格式的自定义页脚信息，例如备案号等，默认留空
+		"“你是秋风里落进我心底的一片叶，从此我的四季，都带着未说出口的秋意。 | 本博客使用的图片素材均已获得授权”", // HTML格式的自定义页脚信息，例如备案号等，默认留空
 	// 也可以直接编辑 FooterConfig.html 文件来添加备案号等自定义内容
 	// 注意：若 customHtml 不为空，则使用 customHtml 中的内容；若 customHtml 留空，则使用 FooterConfig.html 文件中的内容
 	// FooterConfig.html 可能会在未来的某个版本弃用
