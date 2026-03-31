@@ -185,7 +185,8 @@ export interface SiteConfig {
 		mobileTop: boolean; // 手机端顶部 TOC 按钮
 		desktopSidebar: boolean; // 电脑端右侧边栏 TOC
 		floating: boolean; // 悬浮 TOC 按钮
-		depth: 1 | 2 | 3;
+		depth: 1 | 2 | 3 | 4 | 5 | 6; // TOC 显示的标题层级
+		mode: "float" | "sidebar"; // TOC 显示模式：float=悬浮按钮，sidebar=侧边栏
 		useJapaneseBadge?: boolean; // 使用日语假名标记（あいうえお...）代替数字
 	};
 	showCoverInContent: boolean; // 控制文章封面在文章内容页显示的开关
