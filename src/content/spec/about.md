@@ -16,7 +16,6 @@
 - 💻 **编程语言** —— 主攻 C++（竞赛老本行），喜欢捣鼓算法和可视化小工具。
 
 ---
-
 ### 🛠️ Skills & Tools
 
 ![C++](https://img.shields.io/badge/-C++-00599C?style=flat-square&logo=c%2B%2B&logoColor=white)
@@ -48,4 +47,4 @@
 
 ---
 
-> “代码和铁轨一样，都有固定的逻辑，但沿途的风景却各不相同。” —— xjhjtzac
+> “Life is short, you need Python! ” - *Guido van Rossum*
