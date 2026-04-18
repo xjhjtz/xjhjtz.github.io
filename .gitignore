@@ -52,3 +52,6 @@ src/data/bilibili-data.json
 
 # Lighthouse CI
 .lighthouseci/
+
+#环境变量
+.env
