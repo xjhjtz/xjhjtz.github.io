@@ -6,7 +6,7 @@ export interface Project {
 	title: string;
 	description: string;
 	image: string;
-	category: "web" | "mobile" | "desktop" | "other" | " cpp";
+	category: "web" | "mobile" | "desktop" | "other" | " cpp" | "HTML/CSS/JS";
 	techStack: string[];
 	status: "completed" | "in-progress" | "planned";
 	liveDemo?: string;
@@ -67,6 +67,21 @@ export const projectsData: Project[] = [
 		endDate: "2025-05-22",
 		featured: true,
 		tags: ["娱乐", "抽象", "开源"],
+	},
+	{
+		id: "stat-tools",
+		title: "统计工具",
+		description: "用于统计和分析数据的小工具（使用vibe coding）",
+		image: "",
+		category: "HTML/CSS/JS",
+		techStack: ["JavaScript", "HTML", "CSS"],
+		status: "completed",
+		liveDemo: "https://xjhjtz.rth1.xyz/stat-tools.html",
+		visitUrl: "https://xjhjtz.rth1.xyz/stat-tools.html", // 添加前往项目链接
+		startDate: "2026-05-28",
+		endDate: "2026-05-28",
+		featured: true,
+		tags: ["数学", "统计"],
 	},
 ];
 
