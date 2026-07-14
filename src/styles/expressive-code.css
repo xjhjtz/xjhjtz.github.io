@@ -19,7 +19,7 @@
   }
 
   .title {
-    font-family: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: var(--ec-codeFontFml, "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
   }
 
   /* 复制按钮样式 (Copy Button) */
@@ -168,7 +168,7 @@
 }
 
 /* 移动端适配 (Mobile) */
-@media (max-width: 768px) {
+@media (width < 768px) {
   /* 调整复制按钮大小和位置 */
   .expressive-code .copy-btn {
     width: 1.75rem;

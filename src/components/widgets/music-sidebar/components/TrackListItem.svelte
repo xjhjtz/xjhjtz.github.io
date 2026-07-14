@@ -1,26 +1,26 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+import Icon from "@iconify/svelte";
 
-	import type { Song } from "../../music-player/types";
+import type { Song } from "../../music-player/types";
 
-	interface Props {
-		song: Song;
-		isCurrent: boolean;
-		isPlaying: boolean;
-		onclick: () => void;
+interface Props {
+	song: Song;
+	isCurrent: boolean;
+	isPlaying: boolean;
+	onclick: () => void;
+}
+
+const { song, isCurrent, isPlaying, onclick }: Props = $props();
+
+function getAssetPath(path: string): string {
+	if (path.startsWith("http://") || path.startsWith("https://")) {
+		return path;
 	}
-
-	const { song, isCurrent, isPlaying, onclick }: Props = $props();
-
-	function getAssetPath(path: string): string {
-		if (path.startsWith("http://") || path.startsWith("https://")) {
-			return path;
-		}
-		if (path.startsWith("/")) {
-			return path;
-		}
-		return `/${path}`;
+	if (path.startsWith("/")) {
+		return path;
 	}
+	return `/${path}`;
+}
 </script>
 
 <div
@@ -147,17 +147,6 @@
 
 	:global(.dark) .item-artist.active,
 	:global(.dark) .item-title.active {
-		color: var(--primary);
-	}
-
-	.now-playing {
-		color: var(--primary);
-		fill: currentColor;
-		font-size: 1rem;
-		flex-shrink: 0;
-	}
-
-	:global(.dark) .now-playing {
 		color: var(--primary);
 	}
 </style>

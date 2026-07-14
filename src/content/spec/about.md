@@ -1,11 +1,17 @@
-# 🚂 Hi there, I'm xjhjtzac! 👋  
-💬  -每日一言-
+# 🚂 Hi there, I'm xjhjtzac! 👋
+
+💬 -每日一言-
+
 <!-- 请注意，以下的示例包含超链接，您可能需要手动配置样式使其不变色。如果您嫌麻烦，可以移除。 -->
+
 > <p id="hitokoto">
 >   <a href="#" id="hitokoto_text">-正在获取中-</a>
 > </p>
+
 <!-- 本例不能添加链接内容，放在此处只是因为此接口比较方便，也许能够解决大部分的需求-->
-> <script src="https://v1.hitokoto.cn/?c=k&encode=js&select=%23hitokoto" defer></script>  
+
+> <script src="https://v1.hitokoto.cn/?c=k&encode=js&select=%23hitokoto" defer></script>
+
 ---
 
 ### 🧑‍🎓 About Me
@@ -16,6 +22,7 @@
 - 💻 **编程语言** —— 主攻 C++（竞赛老本行），喜欢捣鼓算法和可视化小工具。
 
 ---
+
 ### 🛠️ Skills & Tools
 
 ![C++](https://img.shields.io/badge/-C++-00599C?style=flat-square&logo=c%2B%2B&logoColor=white)
@@ -38,7 +45,6 @@
 
 ---
 
-
 ### 🤝 Let's Connect
 
 - 💬 如果你想聊聊 OI 算法、铁路知识，或者单纯想交个朋友，欢迎通过以下方式找到我：
@@ -47,4 +53,4 @@
 
 ---
 
-> “Life is short, you need Python! ” - *Guido van Rossum*
+> “Life is short, you need Python! ” - _Guido van Rossum_

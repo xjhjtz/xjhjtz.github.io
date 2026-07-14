@@ -3,6 +3,7 @@ import { FilterTabs } from "@components/atoms/filter-tabs";
 import { PageHeader } from "@components/features/page-header";
 import { SkillCard } from "@components/features/skills";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
 
 import { siteConfig } from "../config";
 import { skillsData } from "../data/skills";
@@ -13,9 +14,7 @@ if (!siteConfig.featurePages.skills) {
 	return Astro.redirect("/404/");
 }
 
-const categories = [
-	...new Set(skillsData.map((skill) => skill.category)),
-];
+const categories = [...new Set(skillsData.map((skill) => skill.category))];
 
 const getCategoryText = (category: string) => {
 	switch (category) {
@@ -83,7 +82,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 	<script is:inline src="/js/filter-tabs-handler.js"></script>
 
 	<div
-		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
 	>
 		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
 			<PageHeader title={title} subtitle={subtitle} />
@@ -93,18 +92,14 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 			</div>
 
 			<div id="skills-grid" class="grid gap-6 items-start">
-				{skillsData.map((skill) => (
-					<SkillCard skill={skill} />
-				))}
+				{skillsData.map((skill) => <SkillCard skill={skill} />)}
 			</div>
 
 			<div id="no-results" class="hidden text-center py-16">
-				<iconify-icon
-					icon="material-symbols:search-off-rounded"
-					width="64"
-					height="64"
-					class="text-black/15 dark:text-white/15 mb-4"
-				></iconify-icon>
+				<Icon
+					name="material-symbols:search-off-rounded"
+					class="text-6xl text-black/15 dark:text-white/15 mb-4"
+				/>
 				<p class="text-black/40 dark:text-white/40 text-lg">
 					No matching skills
 				</p>
@@ -118,7 +113,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 		grid-template-columns: 1fr;
 	}
 
-	@media (min-width: 640px) {
+	@media (width >= 640px) {
 		#skills-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
@@ -128,7 +123,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
-	@media (max-width: 639px) {
+	@media (width < 640px) {
 		#main-grid[data-layout-mode="grid"] #skills-grid {
 			grid-template-columns: 1fr;
 		}

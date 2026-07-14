@@ -1,208 +1,232 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
-	import { onMount } from "svelte";
+import Icon from "@iconify/svelte";
+import { onMount } from "svelte";
 
-	import CalendarGrid from "./components/CalendarGrid.svelte";
-	import MonthPicker from "./components/MonthPicker.svelte";
-	import YearPicker from "./components/YearPicker.svelte";
-	import {
-		formatDateKey,
-		formatMonthKey,
-		getCurrentPostId,
-		getDaysInMonth,
-		getFirstDayOfMonth,
-		processPostsData,
-	} from "./hooks/useCalendar";
-	import type {
-		CalendarGridCell,
-		CalendarPost,
-		CalendarStats,
-	} from "./types/calendar";
+let dateCheckInterval: ReturnType<typeof setInterval> | null = null;
 
-	interface Props {
-		monthNames: string[];
-		weekDays: string[];
-		yearSuffix: string;
-	}
+function updateTodayDate() {
+	const now = new Date();
+	todayYear = now.getFullYear();
+	todayMonth = now.getMonth();
+	todayDate = now.getDate();
+}
 
-	const { monthNames, weekDays, yearSuffix }: Props = $props();
+import CalendarGrid from "./components/CalendarGrid.svelte";
+import MonthPicker from "./components/MonthPicker.svelte";
+import YearPicker from "./components/YearPicker.svelte";
+import {
+	formatDateKey,
+	formatMonthKey,
+	getCurrentPostId,
+	getDaysInMonth,
+	getFirstDayOfMonth,
+	processPostsData,
+} from "./hooks/useCalendar";
+import type {
+	CalendarGridCell,
+	CalendarPost,
+	CalendarStats,
+} from "./types/calendar";
 
-	// State
-	let allPostsData: CalendarPost[] = $state([]);
-	let postDateMap: Record<string, CalendarPost[]> = $state({});
-	let postsByMonth: Record<string, CalendarPost[]> = $state({});
-	let stats: CalendarStats = $state({
-		hasPostInYear: {},
-		hasPostInMonth: {},
-		minYear: new Date().getFullYear(),
-		maxYear: new Date().getFullYear() + 5,
-	});
+interface Props {
+	monthNames: string[];
+	weekDays: string[];
+	yearSuffix: string;
+}
 
-	let currentYear = $state(new Date().getFullYear());
-	let currentMonth = $state(new Date().getMonth());
-	let selectedDateKey: string | null = $state(null);
-	let currentView: "day" | "month" | "year" = $state("day");
+const { monthNames, weekDays, yearSuffix }: Props = $props();
 
-	// Computed
-	const today = new Date();
-	const todayYear = today.getFullYear();
-	const todayMonth = today.getMonth();
-	const todayDate = today.getDate();
+// State
+let allPostsData: CalendarPost[] = $state([]);
+let postDateMap: Record<string, CalendarPost[]> = $state({});
+let postsByMonth: Record<string, CalendarPost[]> = $state({});
+let stats: CalendarStats = $state({
+	hasPostInYear: {},
+	hasPostInMonth: {},
+	minYear: new Date().getFullYear(),
+	maxYear: new Date().getFullYear() + 5,
+});
 
-	const isBackToTodayVisible = $derived(
-		currentYear !== todayYear ||
-			currentMonth !== todayMonth ||
-			selectedDateKey !== null,
-	);
+let currentYear = $state(new Date().getFullYear());
+let currentMonth = $state(new Date().getMonth());
+let selectedDateKey: string | null = $state(null);
+let currentView: "day" | "month" | "year" = $state("day");
 
-	const emptyCellsCount = $derived(
-		getFirstDayOfMonth(currentYear, currentMonth),
-	);
+// Today's date (reactive, updates at midnight)
+let todayYear = $state(new Date().getFullYear());
+let todayMonth = $state(new Date().getMonth());
+let todayDate = $state(new Date().getDate());
 
-	const cells = $derived(
-		(() => {
-			const daysInMonth = getDaysInMonth(currentYear, currentMonth);
-			const result: CalendarGridCell[] = [];
+const isBackToTodayVisible = $derived(
+	currentYear !== todayYear ||
+		currentMonth !== todayMonth ||
+		selectedDateKey !== null,
+);
 
-			for (let day = 1; day <= daysInMonth; day++) {
-				const dateKey = formatDateKey(currentYear, currentMonth, day);
-				const posts = postDateMap[dateKey] || [];
-				const isToday =
-					currentYear === todayYear &&
-					currentMonth === todayMonth &&
-					day === todayDate;
-				const isSelected = selectedDateKey === dateKey;
+const emptyCellsCount = $derived(getFirstDayOfMonth(currentYear, currentMonth));
 
-				result.push({
-					day,
-					dateKey,
-					posts,
-					hasPost: posts.length > 0,
-					postCount: posts.length,
-					isToday,
-					isSelected,
-					isEmpty: false,
-				});
-			}
+const cells = $derived(
+	(() => {
+		const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+		const result: CalendarGridCell[] = [];
 
-			return result;
-		})(),
-	);
+		for (let day = 1; day <= daysInMonth; day++) {
+			const dateKey = formatDateKey(currentYear, currentMonth, day);
+			const posts = postDateMap[dateKey] || [];
+			const isToday =
+				currentYear === todayYear &&
+				currentMonth === todayMonth &&
+				day === todayDate;
+			const isSelected = selectedDateKey === dateKey;
 
-	const currentPostId = $derived(
-		getCurrentPostId(window.location.pathname, allPostsData),
-	);
+			result.push({
+				day,
+				dateKey,
+				posts,
+				hasPost: posts.length > 0,
+				postCount: posts.length,
+				isToday,
+				isSelected,
+				isEmpty: false,
+			});
+		}
 
-	const displayedPosts = $derived(
-		(() => {
-			if (selectedDateKey && postDateMap[selectedDateKey]) {
-				return postDateMap[selectedDateKey];
-			}
-			const monthKey = formatMonthKey(currentYear, currentMonth);
-			return postsByMonth[monthKey] || [];
-		})(),
-	);
+		return result;
+	})(),
+);
 
-	// Functions
-	async function fetchCalendarData() {
-		try {
-			const res = await fetch("/api/calendar-data.json");
-			const data = await res.json();
-			if (Array.isArray(data)) {
-				allPostsData = data;
-				const processed = processPostsData(allPostsData);
-				postDateMap = processed.postDateMap;
-				postsByMonth = processed.postsByMonth;
-				stats = processed.stats;
+const currentPostId = $derived(
+	getCurrentPostId(window.location.pathname, allPostsData),
+);
 
-				const currentPostIdValue = getCurrentPostId(
-					window.location.pathname,
-					allPostsData,
+const displayedPosts = $derived(
+	(() => {
+		if (selectedDateKey && postDateMap[selectedDateKey]) {
+			return postDateMap[selectedDateKey];
+		}
+		const monthKey = formatMonthKey(currentYear, currentMonth);
+		return postsByMonth[monthKey] || [];
+	})(),
+);
+
+// Functions
+async function fetchCalendarData() {
+	try {
+		const res = await fetch("/api/calendar-data.json");
+		const data = await res.json();
+		if (Array.isArray(data)) {
+			allPostsData = data;
+			const processed = processPostsData(allPostsData);
+			postDateMap = processed.postDateMap;
+			postsByMonth = processed.postsByMonth;
+			stats = processed.stats;
+
+			const currentPostIdValue = getCurrentPostId(
+				window.location.pathname,
+				allPostsData,
+			);
+			if (currentPostIdValue) {
+				const matchedPost = allPostsData.find(
+					(p) => p.id === currentPostIdValue,
 				);
-				if (currentPostIdValue) {
-					const matchedPost = allPostsData.find(
-						(p) => p.id === currentPostIdValue,
-					);
-					if (matchedPost) {
-						const [y, m] = matchedPost.date.split("-");
-						currentYear = parseInt(y);
-						currentMonth = parseInt(m) - 1;
-					}
+				if (matchedPost) {
+					const [y, m] = matchedPost.date.split("-");
+					currentYear = Number.parseInt(y, 10);
+					currentMonth = Number.parseInt(m, 10) - 1;
 				}
 			}
-		} catch (error) {
-			console.error("Failed to fetch calendar data:", error);
 		}
+	} catch (error) {
+		console.error("Failed to fetch calendar data:", error);
 	}
+}
 
-	function handlePrevMonth() {
-		currentMonth--;
-		if (currentMonth < 0) {
-			currentMonth = 11;
-			currentYear--;
-		}
+function handlePrevMonth() {
+	currentMonth--;
+	if (currentMonth < 0) {
+		currentMonth = 11;
+		currentYear--;
 	}
+}
 
-	function handleNextMonth() {
-		currentMonth++;
-		if (currentMonth > 11) {
-			currentMonth = 0;
-			currentYear++;
-		}
+function handleNextMonth() {
+	currentMonth++;
+	if (currentMonth > 11) {
+		currentMonth = 0;
+		currentYear++;
 	}
+}
 
-	function handleBackToToday() {
-		currentYear = todayYear;
-		currentMonth = todayMonth;
-		selectedDateKey = null;
-		if (currentView !== "day") {
-			closeSelectionPanel();
-		}
-	}
-
-	function handleTitleClick() {
-		if (currentView === "day") {
-			showMonthPicker();
-		} else if (currentView === "month") {
-			showYearPicker();
-		} else {
-			closeSelectionPanel();
-		}
-	}
-
-	function handleCellClick(dateKey: string) {
-		if (selectedDateKey === dateKey) {
-			selectedDateKey = null;
-		} else {
-			selectedDateKey = dateKey;
-		}
-	}
-
-	function handleMonthSelect(month: number) {
-		currentMonth = month;
+function handleBackToToday() {
+	currentYear = todayYear;
+	currentMonth = todayMonth;
+	selectedDateKey = null;
+	if (currentView !== "day") {
 		closeSelectionPanel();
 	}
+}
 
-	function handleYearSelect(year: number) {
-		currentYear = year;
+function handleTitleClick() {
+	if (currentView === "day") {
 		showMonthPicker();
+	} else if (currentView === "month") {
+		showYearPicker();
+	} else {
+		closeSelectionPanel();
 	}
+}
 
-	function showMonthPicker() {
-		currentView = "month";
+function handleCellClick(dateKey: string) {
+	if (selectedDateKey === dateKey) {
+		selectedDateKey = null;
+	} else {
+		selectedDateKey = dateKey;
 	}
+}
 
-	function showYearPicker() {
-		currentView = "year";
-	}
+function handleMonthSelect(month: number) {
+	currentMonth = month;
+	closeSelectionPanel();
+}
 
-	function closeSelectionPanel() {
-		currentView = "day";
-	}
+function handleYearSelect(year: number) {
+	currentYear = year;
+	showMonthPicker();
+}
 
-	onMount(() => {
-		fetchCalendarData();
-	});
+function showMonthPicker() {
+	currentView = "month";
+}
+
+function showYearPicker() {
+	currentView = "year";
+}
+
+function closeSelectionPanel() {
+	currentView = "day";
+}
+
+onMount(() => {
+	fetchCalendarData();
+
+	// Check for date change every minute
+	dateCheckInterval = setInterval(() => {
+		const now = new Date();
+		if (
+			now.getFullYear() !== todayYear ||
+			now.getMonth() !== todayMonth ||
+			now.getDate() !== todayDate
+		) {
+			updateTodayDate();
+		}
+	}, 60000);
+
+	return () => {
+		if (dateCheckInterval) {
+			clearInterval(dateCheckInterval);
+		}
+	};
+});
 </script>
 
 <div class="flex justify-between items-center mb-2 mt-2">
@@ -227,32 +251,43 @@
 	</div>
 
 	<div class="flex items-center gap-1 shrink-0 ml-2">
+		{#if isBackToTodayVisible}
+			<button
+				type="button"
+				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all"
+				onclick={handleBackToToday}
+				aria-label="Back to today"
+			>
+				<Icon
+					icon="material-symbols:restart-alt-rounded"
+					class="text-xl"
+				/>
+			</button>
+		{/if}
 		<button
 			type="button"
-			class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all
-				{isBackToTodayVisible ? '' : 'invisible'}"
-			onclick={handleBackToToday}
-			aria-label="Back to today"
-		>
-			<Icon name="material-symbols:restart-alt-rounded" class="text-xl" />
-		</button>
-		<button
-			type="button"
-			class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] transition-colors text-xl font-extrabold
-				{currentView === 'day' ? '' : 'invisible'}"
+			class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] transition-colors {currentView ===
+			'day'
+				? ''
+				: 'invisible'}"
 			onclick={handlePrevMonth}
 			aria-label="Previous month"
 		>
-			＜
+			<Icon icon="material-symbols:arrow-back-ios-new" class="text-lg" />
 		</button>
 		<button
 			type="button"
-			class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] transition-colors text-xl font-extrabold
-				{currentView === 'day' ? '' : 'invisible'}"
+			class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] transition-colors {currentView ===
+			'day'
+				? ''
+				: 'invisible'}"
 			onclick={handleNextMonth}
 			aria-label="Next month"
 		>
-			＞
+			<Icon
+				icon="material-symbols:arrow-back-ios-new"
+				class="text-lg rotate-180"
+			/>
 		</button>
 	</div>
 </div>
