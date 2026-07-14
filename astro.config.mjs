@@ -99,9 +99,6 @@ export default defineConfig({
   },
 
   integrations: [
-    umami({
-      shareUrl: "https://cloud.umami.is/analytics/us/share/I7MlaNdE2GivqEvv",
-    }),
     swup({
       theme: false,
       animationClass: "transition-swup-",
