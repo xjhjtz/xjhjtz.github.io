@@ -28,7 +28,12 @@
   --breakpoint-xl: 1920px;
 }
 
-/* 导入 LXGWWenKaiGBScreen 字体 */
+/* ── 自定义字体 @font-face ──
+   切字体时需同步修改：
+     1. src/config/siteConfig.ts → font.asciiFont / font.cjkFont
+     2. 此处 @font-face 中的 font-family 和 url
+   字体文件放在 src/assets/fonts/ 即可 */
+
 @font-face {
   font-family: "LXGWWenKaiScreen";
   src: url("/assets/font/LXGWWenKaiGBScreen.ttf") format("truetype");
@@ -36,13 +41,21 @@
   font-display: swap;
 }
 
-/* 导入 xlwk 字体 */
 @font-face {
   font-family: "LXGWWenKaiScreen";
   src: url("/assets/font/LXGWWenKaiGBScreen.ttf") format("truetype");
-  font-style: normal;
   font-weight: 400;
   font-display: swap;
+}
+
+/* 一言 API 动态内容：强制使用系统字体，避免子集化后缺字造成字体混排 */
+#hitokoto,
+#hitokoto_text,
+#hitokoto a,
+#hitokoto_text a {
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, "Microsoft YaHei",
+    "PingFang SC", "Noto Sans CJK SC", sans-serif !important;
 }
 
 /* 确保平滑滚动，并稳定滚动条宽度以避免布局左右抖动 */

@@ -10,7 +10,7 @@ export async function updateCssFontReferences() {
 	try {
 		const fonts = getFontConfigs();
 		const distDir = path.join(ROOT_DIR, "dist/");
-		const publicFontDir = path.join(ROOT_DIR, "public/assets/font");
+		const publicFontDir = path.join(ROOT_DIR, "src/assets/fonts");
 
 		const cssFiles = readFilesRecursively(distDir).filter((f) =>
 			f.endsWith(".css"),

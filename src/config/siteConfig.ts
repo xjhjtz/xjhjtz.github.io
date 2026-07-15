@@ -6,7 +6,7 @@ const SITE_LANG = "en"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 export const siteConfig: SiteConfig = {
 	title: "Mizuki",
 	subtitle: "One demo website",
-	siteURL: "https://mizuki.mysqil.com/", // 请替换为你的站点URL，以斜杠结尾
+	siteURL: "https://xjhjtz.github.io/", // 请替换为你的站点URL，以斜杠结尾
 	siteStartDate: "2025-01-01", // 站点开始运行日期，用于站点统计组件计算运行天数
 
 	lang: SITE_LANG,
@@ -197,7 +197,23 @@ export const siteConfig: SiteConfig = {
 		// }
 	],
 
-	// 字体现在通过 astro.config.mjs 的 fonts 选项配置（Astro Font API）
+	// 字体配置（供 scripts/compress-fonts 子集化脚本读取）
+	// 注意：自定义字体需要在 src/styles/main.css 中引入字体文件
+	// 字体子集优化（enableCompress: true）仅在 build 后运行 compress-fonts 时生效
+	font: {
+		asciiFont: {
+			fontFamily: "LXGWWenKaiScreen",
+			fontWeight: "500",
+			localFonts: ["LXGWWenKaiGBScreen.ttf"],
+			enableCompress: true,
+		},
+		cjkFont: {
+			fontFamily: "LXGWWenKaiScreen",
+			fontWeight: "500",
+			localFonts: ["LXGWWenKaiGBScreen.ttf"],
+			enableCompress: true,
+		},
+	},
 	showLastModified: true, // 控制"上次编辑"卡片显示的开关
 	pageProgressBar: {
 		enable: true, // 启用页面顶部进度条

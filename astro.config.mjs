@@ -35,6 +35,24 @@ import { remarkEscapeNumericColons } from "./src/plugins/remark-escape-numeric-c
 import { remarkFixGithubAdmonitions } from "./src/plugins/remark-fix-github-admonitions.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 
+// ── 字体配置：从 siteConfig.font 动态构建，切字体只需改 siteConfig.ts ──
+const asciiFont = siteConfig.font.asciiFont;
+const cjkFont = siteConfig.font.cjkFont;
+const makeFontEntry = (font, cssVariable) => ({
+  name: font.fontFamily,
+  cssVariable,
+  provider: fontProviders.local(),
+  options: {
+    variants: [{
+      src: [`./src/assets/fonts/${font.localFonts[0]}`],
+      weight: font.fontWeight,
+      style: "normal",
+    }],
+  },
+  fallbacks: [],
+  optimizedFallbacks: false,
+});
+
 // https://astro.build/config
 export default defineConfig({
   fonts: [
@@ -44,38 +62,8 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       styles: ["normal", "italic"],
     },
-    {
-      name: "LXGWWenKaiGBScreen",
-      cssVariable: "--font-body",
-      provider: fontProviders.local(),
-      options: {
-        variants: [
-          {
-            src: ["./src/assets/fonts/LXGWWenKaiGBScreen.ttf"],
-            weight: "500",
-            style: "normal",
-          },
-        ],
-      },
-      fallbacks: [],
-      optimizedFallbacks: false,
-    },
-    {
-      name: "LXGWWenKaiGBScreen",
-      cssVariable: "--font-cjk",
-      provider: fontProviders.local(),
-      options: {
-        variants: [
-          {
-            src: ["./src/assets/fonts/LXGWWenKaiGBScreen.ttf"],
-            weight: "500",
-            style: "normal",
-          },
-        ],
-      },
-      fallbacks: [],
-      optimizedFallbacks: false,
-    },
+    makeFontEntry(asciiFont, "--font-body"),
+    makeFontEntry(cjkFont, "--font-cjk"),
   ],
 
   site: siteConfig.siteURL,

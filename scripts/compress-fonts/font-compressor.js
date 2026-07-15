@@ -51,14 +51,14 @@ export async function compressFonts() {
 			for (const fontFile of fontConfig.files) {
 				const fontSrc = path.join(
 					ROOT_DIR,
-					"public/assets/font",
+					"src/assets/fonts",
 					fontFile,
 				);
 				const ext = path.extname(fontFile).toLowerCase();
 				const baseName = path.basename(fontFile, ext);
 
 				if (!fs.existsSync(fontSrc)) {
-					const errorMsg = `❌ Config error [${fontConfig.type}]: Font file does not exist\n   In config: "${fontFile}"\n   Expected path: public/assets/font/${fontFile}\n\n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in public/assets/font/?\n   3. Is ${fontConfig.type}.localFonts in src/config/siteConfig.ts correct?`;
+					const errorMsg = `❌ Config error [${fontConfig.type}]: Font file does not exist\n   In config: "${fontFile}"\n   Expected path: public/assets/font/${fontFile}\n\n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in src/assets/fonts/?\n   3. Is ${fontConfig.type}.localFonts in src/config/siteConfig.ts correct?`;
 					errors.push(errorMsg);
 					console.log(`\n${errorMsg}\n`);
 					continue;
@@ -129,7 +129,7 @@ export async function compressFonts() {
 			console.log("\n❌ Font compression encountered errors!");
 			console.log(`${errors.length} errors, please fix and retry.\n`);
 
-			const fontDir = path.join(ROOT_DIR, "public/assets/font");
+			const fontDir = path.join(ROOT_DIR, "src/assets/fonts");
 			if (fs.existsSync(fontDir)) {
 				const actualFiles = fs
 					.readdirSync(fontDir)
