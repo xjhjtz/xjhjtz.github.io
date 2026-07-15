@@ -475,7 +475,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
   mode: "meting", // 音乐播放器模式，可选 "local" 或 "meting"
   meting_api:
     "https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r", // Meting API 地址
-  id: "12393947641", // 歌单ID
+  id: "17388719879", // 歌单ID
   server: "netease", // 音乐源服务器。有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
   type: "playlist", // 播单类型
 };
@@ -646,7 +646,7 @@ export const sakuraConfig: SakuraConfig = {
 
 // Pio 看板娘配置
 export const pioConfig: import("./types/config").PioConfig = {
-  enable: false, // 禁用看板娘以提升性能
+  enable: true, // 禁用看板娘以提升性能
   models: ["/pio/models/pio/model.json"], // 默认模型路径
   position: "left", // 模型位置
   width: 280, // 默认宽度
