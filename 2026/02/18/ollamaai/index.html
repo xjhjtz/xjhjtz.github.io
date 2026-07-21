@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>(教程向)在Ollama客户端中安装AI模型 - Xjhjtzac的Blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="前言 最近想要在本地部署AI大模型，我经过深思熟虑后决定使用Ollama客户端，主要是它拥有便捷的图形化界面，但是我发现，客户端原生的选择模型界面并没有我想要的模型，下面我们就以deepseek-r1:7b作为模型进行演示。 操作1.下载Ollama客户端  点击这个网址，进入Ollama官网，选择Download for Windows，下载完成后双击安装包，点击右下角”Install”，等待安">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(教程向)在Ollama客户端中安装AI模型">
+<meta property="og:url" content="https://xjhjtz.github.io/2026/02/18/ollamaai/index.html">
+<meta property="og:site_name" content="Xjhjtzac的Blog">
+<meta property="og:description" content="前言 最近想要在本地部署AI大模型，我经过深思熟虑后决定使用Ollama客户端，主要是它拥有便捷的图形化界面，但是我发现，客户端原生的选择模型界面并没有我想要的模型，下面我们就以deepseek-r1:7b作为模型进行演示。 操作1.下载Ollama客户端  点击这个网址，进入Ollama官网，选择Download for Windows，下载完成后双击安装包，点击右下角”Install”，等待安">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://free.picui.cn/free/2026/02/18/699532a4c760d.png">
+<meta property="og:image" content="https://free.picui.cn/free/2026/02/18/699533a1857b7.png">
+<meta property="article:published_time" content="2026-02-18T03:58:00.000Z">
+<meta property="article:modified_time" content="2026-07-20T13:49:13.759Z">
+<meta property="article:author" content="xjhjtzac">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Blogging">
+<meta property="article:tag" content="Ollama">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://free.picui.cn/free/2026/02/18/699532a4c760d.png">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="2"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="false"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Xjhjtzac</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" href="/archives" style="--index: 1">Archives</a>
+      
+      <a class="nav-item" href="/log" style="--index: 2">Log</a>
+      
+      <a class="nav-item" href="/about" style="--index: 3">About</a>
+      
+      <a class="nav-item" href="/friends" style="--index: 4">Friends</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 5"><i class="bi bi-search"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content" data-pagefind-body>
+      
+<article class="post">
+  
+  <div class="meta">
+    
+    <div class="categories text-uppercase">
+    
+      <a href="/categories/技术-教程向/">技术/教程向</a>
+    
+    </div>
+    
+
+    
+    <time class="date" datetime="2026-02-18T11:58:00+08:00">
+      February 18, 2026
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">(教程向)在Ollama客户端中安装AI模型</h1>
+  </div>
+
+  <div class="content">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 最近想要在本地部署AI大模型，我经过深思熟虑后决定使用Ollama客户端，主要是它拥有便捷的图形化界面，但是我发现，客户端原生的选择模型界面并没有我想要的模型，下面我们就以<strong>deepseek-r1:7b</strong>作为模型进行演示。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="1-下载Ollama客户端"><a href="#1-下载Ollama客户端" class="headerlink" title="1.下载Ollama客户端"></a>1.下载Ollama客户端</h3><p>  点击<a target="_blank" rel="noopener" href="https://ollama.com/download">这个网址</a>，进入Ollama官网，选择<strong>Download for Windows</strong>，下载完成后双击安装包，点击右下角”Install”，等待安装完成。</p>
+<h3 id="2-安装模型"><a href="#2-安装模型" class="headerlink" title="2.安装模型"></a>2.安装模型</h3><p>需要注意的是，Ollama模型默认安装地址在</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\&lt;用户名&gt;\AppData\Roaming\Ollama\models</span><br></pre></td></tr></table></figure>
+<p>这里的用户名要改成你自己的电脑用户名</p>
+<blockquote>
+<p>💡 小贴士：如何修改模型安装路径？</p>
+<p>如果你的C盘空间不足，可以通过设置环境变量来修改默认的存储位置。</p>
+<p>以管理员身份打开 Windows PowerShell。</p>
+<p>输入以下命令，将 &lt;你希望存放的文件夹路径&gt; 替换成你实际想设置的路径，例如 D:\OllamaModels。请注意，这个路径必须是一个已存在的文件夹。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;setx OLLAMA_MODELS &quot;&lt;你希望存放的文件夹路径&gt;&quot; /M</span><br></pre></td></tr></table></figure>
+
+
+<p>命令执行成功后，重启你的电脑使设置生效。</p>
+<p>这样设置后，以后下载的模型就会自动保存到你指定的新路径了。</p>
+</blockquote>
+<h3 id="2-1-使用Powershell命令行与Ollama官方源进行安装"><a href="#2-1-使用Powershell命令行与Ollama官方源进行安装" class="headerlink" title="2.1 使用Powershell命令行与Ollama官方源进行安装"></a>2.1 使用Powershell命令行与Ollama官方源进行安装</h3><p>这里先引入一个指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama run &lt;模型名称&gt;</span><br></pre></td></tr></table></figure>
+<p>这个指令的意思是运行模型，<strong>填模型名称的时候记得把&lt;&gt;也删掉</strong>!例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama run deepseek-r1:7b</span><br></pre></td></tr></table></figure>
+<p>操作时，（这里就以上文的模型为例）<br>在powershell里输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama run deepseek-r1:7b</span><br></pre></td></tr></table></figure>
+<p>这里的模型名称可以自己改，Ollama官方源的模型清单在<a target="_blank" rel="noopener" href="https://ollama.com/library">这里</a>。<br>获取名称时，点击你要安装的模型，下滑找到”Models”一栏，鼠标悬停在名称上，你就会看到一个复制按钮，点击它即可复制。  </p>
+<p><strong>注意</strong>，模型的参数(b)越大，同一模型下的能力越强，但并不是越大越好，需要按照自己的电脑配置（显卡、内存、CPU、显卡的显存）来选择，我这里使用的是7B版本，切记不要选择参数特别大的模型！</p>
+<p>  当出现类似于下面的提示时，说明安装成功<br><img src="https://free.picui.cn/free/2026/02/18/699532a4c760d.png" alt="图1.1"><br>下载完成后，在Ollama客户端中选择你刚刚下载好的模型，<strong>如下图</strong><img src="https://free.picui.cn/free/2026/02/18/699533a1857b7.png" alt="图1.2"><br>到这里，你的模型已经安装完成了。</p>
+<h3 id="2-2-使用Ollama客户端自带的下载按钮"><a href="#2-2-使用Ollama客户端自带的下载按钮" class="headerlink" title="2.2 使用Ollama客户端自带的下载按钮"></a>2.2 使用Ollama客户端自带的下载按钮</h3><p>如上面的图，选择你想要的模型，点击下载按钮，注意不是一朵云形状的那个，等待下载成功，选择那个模型。</p>
+<hr>
+<p>  全文完</p>
+
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by xjhjtzac, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.</div>
+    
+    <p class="tags">
+      <i class="bi bi-tags icon"></i>
+      
+      <a href="/tags/Blogging/" class="tag">#Blogging</a>
+      
+      <a href="/tags/AI/" class="tag">#AI</a>
+      
+      <a href="/tags/Ollama/" class="tag">#Ollama</a>
+      
+    </p>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    
+    <a href="/2026/03/21/milktea/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title">论如何在学校里制作茉莉奶绿</h3>
+      </div>
+    </a>
+    
+    
+    <a href="/2026/02/12/my-first-blog/" class="prev">
+      <div class="text">
+        <p class="label">Previous</p>
+        <h3 class="title">我的第一篇文章......</h3>
+      </div>
+    </a>
+    
+  </div>
+
+  
+    <div class="container">
+  <script src="https://giscus.app/client.js"
+    data-repo="xjhjtz/xjhjtz.github.io"
+    data-repo-id="R_kgDORObyEA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDORObyEM4DASfZ"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin="anonymous"
+    async>
+  </script>
+</div>
+
+  
+</article>
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">Blog</h2>
+        
+        <a href="/" class="item">Home</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/log" class="item">Log</a>
+        
+        <a href="/journal" class="item">Journal</a>
+        
+        <a href="/about" class="item">About</a>
+        
+        <a href="/friends" class="item">Friends</a>
+        
+        <a href="/search" class="item">Search</a>
+        
+        <a href="/atom.xml" class="item">RSS</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">Projects</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/xjhjtz/skmnq" class="item">上课模拟器</a>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/xjhjtz/small-tools" class="item">小工具</a>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/xjhjtz/qipajisuanqi" class="item">寄算器</a>
+        
+        <a target="_blank" rel="noopener" href="https://xjhjtz.rth1.xyz/stat-tools.html" class="item">统计工具</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">Me</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/xjhjtz" class="item">GitHub</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/1448526422" class="item">Bilibili</a>
+        
+        <a target="_blank" rel="noopener" href="https://gitee.com/xjhjtzac" class="item">Gitee</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 xjhjtzac<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    
+  </body>
+</html>
