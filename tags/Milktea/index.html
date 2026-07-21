@@ -329,6 +329,11 @@
 
     
 
-    
+    <script>
+if (window.location.pathname.startsWith('/about/')) {
+  document.querySelector('.toc')?.parentElement?.remove();
+}
+</script>
+
   </body>
 </html>
