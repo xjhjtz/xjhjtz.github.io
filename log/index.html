@@ -13,15 +13,15 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="记录本站发生的大事小情。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。  2026-07-20新站搭建 博客搭建完成，使用 Hexo 框架 + Cupertino 主题，部署于 GitHub Pages。  2026-02-12博客上线 博客正式上线，使用 Mizuki&amp;#x2">
+  <meta name="description" content="记录本站发生的大事小情。  2026-07-22细节修改 新增“Categories”页面。导航栏美化。新增“光影集”页面。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。  2026-07-20新站搭建 博客搭建完成，使用 Hexo 框架 + Cupertino 主题，部署于">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Logs">
 <meta property="og:url" content="https://xjhjtz.github.io/log/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="记录本站发生的大事小情。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。  2026-07-20新站搭建 博客搭建完成，使用 Hexo 框架 + Cupertino 主题，部署于 GitHub Pages。  2026-02-12博客上线 博客正式上线，使用 Mizuki&amp;#x2">
+<meta property="og:description" content="记录本站发生的大事小情。  2026-07-22细节修改 新增“Categories”页面。导航栏美化。新增“光影集”页面。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。  2026-07-20新站搭建 博客搭建完成，使用 Hexo 框架 + Cupertino 主题，部署于">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-07-21T05:27:31.489Z">
+<meta property="article:modified_time" content="2026-07-22T13:09:07.728Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -231,6 +231,8 @@
   <div class="content">
     <p>记录本站发生的大事小情。</p>
 <hr>
+<h3 id="2026-07-22"><a href="#2026-07-22" class="headerlink" title="2026-07-22"></a>2026-07-22</h3><p><strong>细节修改</strong> 新增“Categories”页面。导航栏美化。新增“光影集”页面。</p>
+<hr>
 <h3 id="2026-07-21"><a href="#2026-07-21" class="headerlink" title="2026-07-21"></a>2026-07-21</h3><p><strong>博客迁移</strong> 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。</p>
 <hr>
 <h3 id="2026-07-20"><a href="#2026-07-20" class="headerlink" title="2026-07-20"></a>2026-07-20</h3><p><strong>新站搭建</strong> 博客搭建完成，使用 Hexo 框架 + Cupertino 主题，部署于 GitHub Pages。</p>
@@ -291,6 +293,8 @@
         <a href="/log" class="item">Log</a>
         
         <a href="/journal" class="item">Journal</a>
+        
+        <a href="/album" class="item">Album</a>
         
         <a href="/categories" class="item">Categories</a>
         
@@ -364,7 +368,55 @@
 
     
 
-    <script>
+    <style>
+/* Album lightbox */
+.photo-lightbox {
+  border: none;
+  border-radius: 16px;
+  padding: 0;
+  background: transparent;
+  max-width: unset;
+  max-height: unset;
+  overflow: visible;
+  animation: fadeIn 0.2s ease;
+}
+.photo-lightbox::backdrop {
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.photo-lightbox img {
+  max-width: 92vw;
+  max-height: 88vh;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.photo-grid img {
+  cursor: zoom-in;
+  transition: transform 0.2s;
+}
+.photo-grid img:hover {
+  transform: scale(1.02);
+}
+</style>
+<script>
+document.querySelectorAll('.photo-grid img').forEach(img => {
+  img.addEventListener('click', () => {
+    const dialog = document.createElement('dialog');
+    dialog.className = 'photo-lightbox';
+    dialog.innerHTML = `<img src="${img.src}" alt="${img.alt || ''}">`;
+    dialog.onclick = e => { if (e.target === dialog) dialog.close(); };
+    document.body.appendChild(dialog);
+    dialog.showModal();
+    dialog.onclose = () => dialog.remove();
+  });
+});
+// Hide TOC on about page
 if (window.location.pathname.startsWith('/about/')) {
   document.querySelector('.toc')?.parentElement?.remove();
 }

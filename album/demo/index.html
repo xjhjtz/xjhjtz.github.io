@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   
-  <title>Categories - Xjhjtzac的Blog</title>
+  <title>示例相册 - Xjhjtzac的Blog</title>
   
     <link rel="shortcut icon" href="/favicon.png">
   
@@ -13,15 +13,18 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="退役 OIer &#x2F; 初中生 &#x2F; 火车迷 &#x2F; 编程爱好者">
+  <meta name="description" content=".photo-grid {   display: grid;   grid-template-columns: 1fr 1fr;   gap: 16px;   margin: 20px auto 0;   max-width: 900px; } .photo-grid img {   width: 100%;   border-radius: var(--radius-large);   cur">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Categories">
-<meta property="og:url" content="https://xjhjtz.github.io/categories/index.html">
+<meta property="og:title" content="示例相册">
+<meta property="og:url" content="https://xjhjtz.github.io/album/demo/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="退役 OIer &#x2F; 初中生 &#x2F; 火车迷 &#x2F; 编程爱好者">
+<meta property="og:description" content=".photo-grid {   display: grid;   grid-template-columns: 1fr 1fr;   gap: 16px;   margin: 20px auto 0;   max-width: 900px; } .photo-grid img {   width: 100%;   border-radius: var(--radius-large);   cur">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-07-22T06:11:35.248Z">
-<meta property="article:modified_time" content="2026-07-22T06:11:35.153Z">
+<meta property="og:image" content="https://picsum.photos/seed/photo1/800/600">
+<meta property="og:image" content="https://picsum.photos/seed/photo2/800/600">
+<meta property="og:image" content="https://picsum.photos/seed/photo3/800/600">
+<meta property="article:published_time" content="2026-07-22T13:02:19.089Z">
+<meta property="article:modified_time" content="2026-07-22T13:02:18.964Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -29,6 +32,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="铁路">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picsum.photos/seed/photo1/800/600">
 
   <script>window.ThemeCupertino = {}</script>
 
@@ -119,10 +123,6 @@
   
   
   
-  
-  
-<link rel="stylesheet" href="/css/categories.css">
-
   
   
   
@@ -216,23 +216,92 @@
   </div>
 </nav>
 
-    <main id="main-content">
+    <main id="main-content" data-pagefind-body>
       
-  <div class="container">
+<article class="post">
+  
   <div class="meta">
-    <h1 class="title">Categories</h1>
+    
+
+    
+    <time class="date" datetime="2026-07-22T21:02:19+08:00">
+      July 22, 2026
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">示例相册</h1>
   </div>
-  <div class="categories">
-    
-    <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%86%E5%8F%B2/" class="category">计算机历史<span class="count">2</span></a>
-    
-    <a href="/categories/%E9%97%B2%E8%81%8A-%E6%9D%82%E8%B0%88/" class="category">闲聊/杂谈<span class="count">3</span></a>
-    
-    <a href="/categories/%E6%8A%80%E6%9C%AF-%E6%95%99%E7%A8%8B%E5%90%91/" class="category">技术/教程向<span class="count">1</span></a>
-    
-  </div>
+
+  <div class="content">
+    <style>
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px auto 0;
+  max-width: 900px;
+}
+.photo-grid img {
+  width: 100%;
+  border-radius: var(--radius-large);
+  cursor: zoom-in;
+  transition: transform 0.2s;
+}
+.photo-grid img:hover {
+  transform: scale(1.02);
+}
+@media (max-width: 600px) {
+  .photo-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="photo-grid">
+  <img src="https://picsum.photos/seed/photo1/800/600" alt="照片 1" loading="lazy">
+  <img src="https://picsum.photos/seed/photo2/800/600" alt="照片 2" loading="lazy">
+  <img src="https://picsum.photos/seed/photo3/800/600" alt="照片 3" loading="lazy">
 </div>
 
+<p style="text-align:center;margin-top:20px;color:var(--color-text-secondary)">
+  <a href="/album/">← 返回相册列表</a>
+</p>
+
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by xjhjtzac, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.</div>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    <a class="next"></a>
+    <a class="prev"></a>
+  </div>
+
+  
+    <div class="container">
+  <script src="https://giscus.app/client.js"
+    data-repo="xjhjtz/xjhjtz.github.io"
+    data-repo-id="R_kgDORObyEA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDORObyEM4DASfZ"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin="anonymous"
+    async>
+  </script>
+</div>
+
+  
+</article>
 
 
     </main>

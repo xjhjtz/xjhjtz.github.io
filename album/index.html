@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   
-  <title>Categories - Xjhjtzac的Blog</title>
+  <title>光影集 - Xjhjtzac的Blog</title>
   
     <link rel="shortcut icon" href="/favicon.png">
   
@@ -13,15 +13,16 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="退役 OIer &#x2F; 初中生 &#x2F; 火车迷 &#x2F; 编程爱好者">
+  <meta name="description" content=".album-grid {   display: grid;   grid-template-columns: 1fr 1fr 1fr;   gap: 20px 16px;   max-width: 1000px;   margin: 20px auto 0;   padding: 0 16px; } .album-card {   border-radius: var(--radius-lar">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Categories">
-<meta property="og:url" content="https://xjhjtz.github.io/categories/index.html">
+<meta property="og:title" content="光影集">
+<meta property="og:url" content="https://xjhjtz.github.io/album/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="退役 OIer &#x2F; 初中生 &#x2F; 火车迷 &#x2F; 编程爱好者">
+<meta property="og:description" content=".album-grid {   display: grid;   grid-template-columns: 1fr 1fr 1fr;   gap: 20px 16px;   max-width: 1000px;   margin: 20px auto 0;   padding: 0 16px; } .album-card {   border-radius: var(--radius-lar">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-07-22T06:11:35.248Z">
-<meta property="article:modified_time" content="2026-07-22T06:11:35.153Z">
+<meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/cover.jpg">
+<meta property="article:published_time" content="2026-07-22T13:08:13.389Z">
+<meta property="article:modified_time" content="2026-07-22T13:08:13.389Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -29,6 +30,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="铁路">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/cover.jpg">
 
   <script>window.ThemeCupertino = {}</script>
 
@@ -119,10 +121,6 @@
   
   
   
-  
-  
-<link rel="stylesheet" href="/css/categories.css">
-
   
   
   
@@ -216,23 +214,135 @@
   </div>
 </nav>
 
-    <main id="main-content">
+    <main id="main-content" data-pagefind-body>
       
-  <div class="container">
+<article class="post">
+  
   <div class="meta">
-    <h1 class="title">Categories</h1>
+    
+
+    
+    <time class="date" datetime="2026-07-22T21:08:13+08:00">
+      July 22, 2026
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">光影集</h1>
   </div>
-  <div class="categories">
-    
-    <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%86%E5%8F%B2/" class="category">计算机历史<span class="count">2</span></a>
-    
-    <a href="/categories/%E9%97%B2%E8%81%8A-%E6%9D%82%E8%B0%88/" class="category">闲聊/杂谈<span class="count">3</span></a>
-    
-    <a href="/categories/%E6%8A%80%E6%9C%AF-%E6%95%99%E7%A8%8B%E5%90%91/" class="category">技术/教程向<span class="count">1</span></a>
-    
-  </div>
+
+  <div class="content">
+    <style>
+.album-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px 16px;
+  max-width: 1000px;
+  margin: 20px auto 0;
+  padding: 0 16px;
+}
+.album-card {
+  border-radius: var(--radius-large);
+  background-color: var(--color-background-secondary);
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+.album-card:hover {
+  transform: scale(1.02);
+}
+.album-card .thumb {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.album-card .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s, filter 0.4s;
+}
+.album-card:hover .thumb img {
+  transform: scale(1.05);
+  filter: brightness(0.8);
+}
+.album-card .info {
+  padding: 18px;
+}
+.album-card .info .title {
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+.album-card .info .desc {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+}
+.album-card .info .meta {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  margin-top: 4px;
+}
+@media (max-width: 800px) {
+  .album-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .album-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="album-grid">
+  <a class="album-card" href="/album/fengye/">
+    <div class="thumb">
+      <img src="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/cover.jpg" alt="枫叶" loading="lazy">
+    </div>
+    <div class="info">
+      <h3 class="title">枫叶</h3>
+      <p class="desc">我去旅游期间拍到的一些枫叶</p>
+      <p class="meta">12 张照片 · 辽宁桓仁</p>
+    </div>
+  </a>
 </div>
 
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by xjhjtzac, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.</div>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    <a class="next"></a>
+    <a class="prev"></a>
+  </div>
+
+  
+    <div class="container">
+  <script src="https://giscus.app/client.js"
+    data-repo="xjhjtz/xjhjtz.github.io"
+    data-repo-id="R_kgDORObyEA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDORObyEM4DASfZ"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin="anonymous"
+    async>
+  </script>
+</div>
+
+  
+</article>
 
 
     </main>
