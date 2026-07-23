@@ -21,8 +21,9 @@
 <meta property="og:description" content=".album-grid {   display: grid;   grid-template-columns: 1fr 1fr 1fr;   gap: 20px 16px;   max-width: 1000px;   margin: 20px auto 0;   padding: 0 16px; } .album-card {   border-radius: var(--radius-lar">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/cover.jpg">
-<meta property="article:published_time" content="2026-07-22T13:08:13.389Z">
-<meta property="article:modified_time" content="2026-07-22T13:08:13.389Z">
+<meta property="og:image" content="https://bing.img.run/uhd.php">
+<meta property="article:published_time" content="2026-07-23T04:56:38.725Z">
+<meta property="article:modified_time" content="2026-07-23T04:56:38.553Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -163,7 +164,7 @@
     data-scroll-reveal-disappear="false"
     data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
     
-    data-nav-blur-gradient="true"
+    data-nav-blur-gradient="false"
     style="--config-corner-squircle: true"
   >
     
@@ -171,22 +172,6 @@
 
     <a href="#main-content" id="skip-to-content">Skip to content</a>
     
-
-<div class="nav-mask">
-  
-  <div style="--sharp: 1"></div>
-  
-  <div style="--sharp: 2"></div>
-  
-  <div style="--sharp: 3"></div>
-  
-  <div style="--sharp: 4"></div>
-  
-  <div style="--sharp: 5"></div>
-  
-  <div style="--sharp: 6"></div>
-  
-</div>
 
 <nav id="theme-nav">
   <div class="inner">
@@ -222,8 +207,8 @@
     
 
     
-    <time class="date" datetime="2026-07-22T21:08:13+08:00">
-      July 22, 2026
+    <time class="date" datetime="2026-07-23T12:56:38+08:00">
+      July 23, 2026
     </time>
     
 
@@ -251,6 +236,17 @@
 }
 .album-card:hover {
   transform: scale(1.02);
+  text-decoration: none;
+  color: inherit;
+}
+.album-card:hover .info .title {
+  color: var(--color-text-primary);
+}
+.album-card:hover .info .desc {
+  color: var(--color-text-secondary);
+}
+.album-card:hover .info .meta {
+  color: var(--color-text-tertiary);
 }
 .album-card .thumb {
   aspect-ratio: 1 / 1;
@@ -302,6 +298,16 @@
       <h3 class="title">枫叶</h3>
       <p class="desc">我去旅游期间拍到的一些枫叶</p>
       <p class="meta">12 张照片 · 辽宁桓仁</p>
+    </div>
+  </a>
+  <a class="album-card" href="/album/dailybing/">
+    <div class="thumb">
+      <img src="https://bing.img.run/uhd.php" alt="每日必应" loading="lazy">
+    </div>
+    <div class="info">
+      <h3 class="title">每日必应</h3>
+      <p class="desc">调用bing.img.run API，获取每日更新的必应壁纸</p>
+      <p class="meta">1 张照片 · 每日更新</p>
     </div>
   </a>
 </div>
