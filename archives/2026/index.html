@@ -542,7 +542,7 @@
 }
 .lb-stage img {
   max-width: 92vw;
-  max-height: 80vh;
+  max-height: calc(100vh - 180px);
   border-radius: 12px;
   display: block;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
@@ -671,6 +671,17 @@
     if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1, true); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1, true); }
   });
+})();
+// Giscus 跟随网站亮暗主题
+(function () {
+  const send = theme => {
+    const f = document.querySelector('iframe.giscus-frame');
+    if (f) f.contentWindow.postMessage({ giscus: { setTheme: theme } }, 'https://giscus.app');
+  };
+  const sync = () => send(document.body.dataset.currentColorScheme === 'dark' ? 'dark' : 'light');
+  new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-current-color-scheme'] });
+  let tries = 0;
+  const timer = setInterval(() => { if (++tries > 10) { clearInterval(timer); return; } sync(); }, 500);
 })();
 // Hide TOC on about page
 if (window.location.pathname.startsWith('/about/')) {
