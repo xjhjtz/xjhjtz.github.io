@@ -413,14 +413,41 @@
     <script>
 // Giscus 跟随网站亮暗主题
 (function () {
+  // 注意：不能读 data-current-color-scheme——主题 body-top.js 的 updateCurrent() 无参调用会把它设成字符串 "undefined"
+  // 正确来源：data-color-scheme（auto/light/dark，用户选择）+ 系统 prefers-color-scheme 推算实际主题
+  const curTheme = () => {
+    const cs = document.body.dataset.colorScheme; // auto | light | dark
+    if (cs === 'dark') return 'dark';
+    if (cs === 'light') return 'light';
+    return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; // auto → 跟随系统
+  };
+  // 1) 关键：在 giscus client.js 执行前改写它的 data-theme，iframe 初始加载即用网站当前主题（避免闪烁）
+  //    client.js 读 document.currentScript.dataset.theme 生成 iframe URL；giscus.app 下载慢，本脚本（body 末尾同步）几乎总在其之前执行
+  const gscript = document.querySelector('script[src*="giscus.app/client.js"]');
+  if (gscript) gscript.dataset.theme = curTheme();
+  // 2) 已执行/切换时：postMessage 兜底同步
   const send = theme => {
     const f = document.querySelector('iframe.giscus-frame');
-    if (f) f.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
+    if (f && f.contentWindow) f.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
   };
-  const sync = () => send(document.body.dataset.currentColorScheme === 'dark' ? 'dark' : 'light');
-  new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-current-color-scheme'] });
+  const sync = () => send(curTheme());
+  new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-color-scheme'] });
+  const observeFrame = () => {
+    const f = document.querySelector('iframe.giscus-frame');
+    if (f && !f.dataset.syncBound) {
+      f.dataset.syncBound = '1';
+      f.addEventListener('load', sync);
+    }
+  };
+  window.addEventListener('message', e => {
+    if (e.origin === 'https://giscus.app') sync(); // 收到 iframe 消息 = iframe 已就绪
+  });
   let tries = 0;
-  const timer = setInterval(() => { if (++tries > 10) { clearInterval(timer); return; } sync(); }, 500);
+  const timer = setInterval(() => {
+    observeFrame();
+    sync();
+    if (++tries > 60) clearInterval(timer); // 30 秒兜底
+  }, 500);
 })();
 // Hide TOC on about page
 if (window.location.pathname.startsWith('/about/')) {

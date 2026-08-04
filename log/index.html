@@ -13,15 +13,15 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="记录本站发生的大事小情。  2026-07-22细节修改 新增“Categories”页面。导航栏美化。新增“光影集”页面。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。  2026-07-20新站搭建 博客搭建完成，使用 Hexo 框架 + Cupertino 主题，部署于">
+  <meta name="description" content="记录本站发生的大事小情。  2026-08-04修bug，调整 修复了Giscus评论区亮暗不随网站变化的问题。撤下光影集页面。  2026-07-22细节修改 新增“Categories”页面。导航栏美化。新增“光影集”页面。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Logs">
 <meta property="og:url" content="https://xjhjtz.github.io/log/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="记录本站发生的大事小情。  2026-07-22细节修改 新增“Categories”页面。导航栏美化。新增“光影集”页面。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。  2026-07-20新站搭建 博客搭建完成，使用 Hexo 框架 + Cupertino 主题，部署于">
+<meta property="og:description" content="记录本站发生的大事小情。  2026-08-04修bug，调整 修复了Giscus评论区亮暗不随网站变化的问题。撤下光影集页面。  2026-07-22细节修改 新增“Categories”页面。导航栏美化。新增“光影集”页面。  2026-07-21博客迁移 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-07-22T13:09:07.728Z">
+<meta property="article:modified_time" content="2026-08-04T13:08:05.251Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -222,6 +222,8 @@
   <div class="content">
     <p>记录本站发生的大事小情。</p>
 <hr>
+<h3 id="2026-08-04"><a href="#2026-08-04" class="headerlink" title="2026-08-04"></a>2026-08-04</h3><p><strong>修bug，调整</strong> 修复了Giscus评论区亮暗不随网站变化的问题。撤下光影集页面。</p>
+<hr>
 <h3 id="2026-07-22"><a href="#2026-07-22" class="headerlink" title="2026-07-22"></a>2026-07-22</h3><p><strong>细节修改</strong> 新增“Categories”页面。导航栏美化。新增“光影集”页面。</p>
 <hr>
 <h3 id="2026-07-21"><a href="#2026-07-21" class="headerlink" title="2026-07-21"></a>2026-07-21</h3><p><strong>博客迁移</strong> 从 Mizuki&#x2F;Astro 切换至 Hexo + Cupertino 主题。原博客文章、友链、关于页、日记全部迁移至新站。</p>
@@ -362,14 +364,41 @@
     <script>
 // Giscus 跟随网站亮暗主题
 (function () {
+  // 注意：不能读 data-current-color-scheme——主题 body-top.js 的 updateCurrent() 无参调用会把它设成字符串 "undefined"
+  // 正确来源：data-color-scheme（auto/light/dark，用户选择）+ 系统 prefers-color-scheme 推算实际主题
+  const curTheme = () => {
+    const cs = document.body.dataset.colorScheme; // auto | light | dark
+    if (cs === 'dark') return 'dark';
+    if (cs === 'light') return 'light';
+    return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; // auto → 跟随系统
+  };
+  // 1) 关键：在 giscus client.js 执行前改写它的 data-theme，iframe 初始加载即用网站当前主题（避免闪烁）
+  //    client.js 读 document.currentScript.dataset.theme 生成 iframe URL；giscus.app 下载慢，本脚本（body 末尾同步）几乎总在其之前执行
+  const gscript = document.querySelector('script[src*="giscus.app/client.js"]');
+  if (gscript) gscript.dataset.theme = curTheme();
+  // 2) 已执行/切换时：postMessage 兜底同步
   const send = theme => {
     const f = document.querySelector('iframe.giscus-frame');
-    if (f) f.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
+    if (f && f.contentWindow) f.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
   };
-  const sync = () => send(document.body.dataset.currentColorScheme === 'dark' ? 'dark' : 'light');
-  new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-current-color-scheme'] });
+  const sync = () => send(curTheme());
+  new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-color-scheme'] });
+  const observeFrame = () => {
+    const f = document.querySelector('iframe.giscus-frame');
+    if (f && !f.dataset.syncBound) {
+      f.dataset.syncBound = '1';
+      f.addEventListener('load', sync);
+    }
+  };
+  window.addEventListener('message', e => {
+    if (e.origin === 'https://giscus.app') sync(); // 收到 iframe 消息 = iframe 已就绪
+  });
   let tries = 0;
-  const timer = setInterval(() => { if (++tries > 10) { clearInterval(timer); return; } sync(); }, 500);
+  const timer = setInterval(() => {
+    observeFrame();
+    sync();
+    if (++tries > 60) clearInterval(timer); // 30 秒兜底
+  }, 500);
 })();
 // Hide TOC on about page
 if (window.location.pathname.startsWith('/about/')) {
