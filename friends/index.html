@@ -222,7 +222,7 @@
   <div class="content">
     <h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
 <ul>
-<li>邮箱: <a href="mailto:&#x68;&#105;&#x5f;&#x78;&#x6a;&#104;&#106;&#x74;&#122;&#97;&#x63;&#64;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;">hi_xjhjtzac@163.com</a></li>
+<li>邮箱: <a href="mailto:&#x68;&#105;&#95;&#x78;&#106;&#x68;&#106;&#x74;&#122;&#97;&#x63;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;">hi_xjhjtzac@163.com</a></li>
 <li>本页评论区</li>
 </ul>
 <p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
@@ -381,7 +381,7 @@
 (function () {
   const send = theme => {
     const f = document.querySelector('iframe.giscus-frame');
-    if (f) f.contentWindow.postMessage({ giscus: { setTheme: theme } }, 'https://giscus.app');
+    if (f) f.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
   };
   const sync = () => send(document.body.dataset.currentColorScheme === 'dark' ? 'dark' : 'light');
   new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-current-color-scheme'] });

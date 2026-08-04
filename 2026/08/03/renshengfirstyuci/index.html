@@ -393,7 +393,7 @@
 (function () {
   const send = theme => {
     const f = document.querySelector('iframe.giscus-frame');
-    if (f) f.contentWindow.postMessage({ giscus: { setTheme: theme } }, 'https://giscus.app');
+    if (f) f.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
   };
   const sync = () => send(document.body.dataset.currentColorScheme === 'dark' ? 'dark' : 'light');
   new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-current-color-scheme'] });
