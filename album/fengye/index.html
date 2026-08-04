@@ -13,12 +13,12 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content=".photo-grid {   display: grid;   grid-template-columns: 1fr 1fr;   gap: 16px;   margin: 20px auto 0;   max-width: 900px; } .photo-grid img {   width: 100%;   border-radius: var(--radius-large); } @me">
+  <meta name="description" content="&#x2F;* 照片日记详情页 *&#x2F; .album-post-header {   max-width: 900px;   margin: 20px auto 0;   padding: 0 16px; } .album-post-header .title {   font-size: 28px;   font-weight: bold;   color: var(--color-text-primar">
 <meta property="og:type" content="website">
 <meta property="og:title" content="枫叶">
 <meta property="og:url" content="https://xjhjtz.github.io/album/fengye/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content=".photo-grid {   display: grid;   grid-template-columns: 1fr 1fr;   gap: 16px;   margin: 20px auto 0;   max-width: 900px; } .photo-grid img {   width: 100%;   border-radius: var(--radius-large); } @me">
+<meta property="og:description" content="&#x2F;* 照片日记详情页 *&#x2F; .album-post-header {   max-width: 900px;   margin: 20px auto 0;   padding: 0 16px; } .album-post-header .title {   font-size: 28px;   font-weight: bold;   color: var(--color-text-primar">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/DSC07191.JPG">
 <meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/DSC07193.JPG">
@@ -32,8 +32,8 @@
 <meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/DSC07318.JPG">
 <meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/DSC07384.JPG">
 <meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/DSC07389.JPG">
-<meta property="article:published_time" content="2026-07-22T13:02:40.019Z">
-<meta property="article:modified_time" content="2026-07-22T13:02:39.890Z">
+<meta property="article:published_time" content="2026-08-04T12:48:04.696Z">
+<meta property="article:modified_time" content="2026-08-04T12:48:04.544Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -224,8 +224,8 @@
     
 
     
-    <time class="date" datetime="2026-07-22T21:02:40+08:00">
-      July 22, 2026
+    <time class="date" datetime="2026-08-04T20:48:04+08:00">
+      August 4, 2026
     </time>
     
 
@@ -234,12 +234,36 @@
 
   <div class="content">
     <style>
+/* 照片日记详情页 */
+.album-post-header {
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding: 0 16px;
+}
+.album-post-header .title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+.album-post-header .meta {
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+  margin-top: 8px;
+}
+.album-post-header .desc {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-top: 12px;
+}
 .photo-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  margin: 20px auto 0;
+  margin: 24px auto 0;
   max-width: 900px;
+  padding: 0 16px;
 }
 .photo-grid img {
   width: 100%;
@@ -248,7 +272,21 @@
 @media (max-width: 600px) {
   .photo-grid { grid-template-columns: 1fr; }
 }
+.album-post-footer {
+  max-width: 900px;
+  margin: 20px auto 40px;
+  padding: 0 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
 </style>
+
+<div class="album-post-header">
+  <h2 class="title">枫叶</h2>
+  <p class="meta">2025年秋 · 辽宁桓仁 · 12 张</p>
+  <p class="desc">去桓仁旅游时拍的枫叶。山里的秋色来得比城市早，叶子在阳光下透出深浅不一的红，捡了几片带回来夹进书里。</p>
+</div>
 
 <div class="photo-grid">
   <img src="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/DSC07191.JPG" alt="枫叶 1" loading="lazy">
@@ -265,9 +303,9 @@
   <img src="https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/fengye/DSC07389.JPG" alt="枫叶 12" loading="lazy">
 </div>
 
-<p style="text-align:center;margin-top:20px;color:var(--color-text-secondary)">
+<div class="album-post-footer">
   <a href="/album/">← 返回光影集</a>
-</p>
+</div>
 
   </div>
 
@@ -424,6 +462,9 @@
 .lb-stage img {
   max-width: 92vw;
   max-height: calc(100vh - 180px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
   border-radius: 12px;
   display: block;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);

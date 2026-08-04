@@ -13,18 +13,18 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content=".photo-grid {   display: grid;   grid-template-columns: 1fr 1fr;   gap: 16px;   margin: 20px auto 0;   max-width: 900px; } .photo-grid img {   width: 100%;   border-radius: var(--radius-large);   cur">
+  <meta name="description" content="&#x2F;* 照片日记详情页 *&#x2F; .album-post-header {   max-width: 900px;   margin: 20px auto 0;   padding: 0 16px; } .album-post-header .title {   font-size: 28px;   font-weight: bold;   color: var(--color-text-primar">
 <meta property="og:type" content="website">
 <meta property="og:title" content="示例相册">
 <meta property="og:url" content="https://xjhjtz.github.io/album/demo/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content=".photo-grid {   display: grid;   grid-template-columns: 1fr 1fr;   gap: 16px;   margin: 20px auto 0;   max-width: 900px; } .photo-grid img {   width: 100%;   border-radius: var(--radius-large);   cur">
+<meta property="og:description" content="&#x2F;* 照片日记详情页 *&#x2F; .album-post-header {   max-width: 900px;   margin: 20px auto 0;   padding: 0 16px; } .album-post-header .title {   font-size: 28px;   font-weight: bold;   color: var(--color-text-primar">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://picsum.photos/seed/photo1/800/600">
 <meta property="og:image" content="https://picsum.photos/seed/photo2/800/600">
 <meta property="og:image" content="https://picsum.photos/seed/photo3/800/600">
-<meta property="article:published_time" content="2026-07-23T03:31:49.246Z">
-<meta property="article:modified_time" content="2026-07-23T03:31:49.246Z">
+<meta property="article:published_time" content="2026-08-04T12:49:20.409Z">
+<meta property="article:modified_time" content="2026-08-04T12:49:20.278Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -215,8 +215,8 @@
     
 
     
-    <time class="date" datetime="2026-07-23T11:31:49+08:00">
-      July 23, 2026
+    <time class="date" datetime="2026-08-04T20:49:20+08:00">
+      August 4, 2026
     </time>
     
 
@@ -225,12 +225,36 @@
 
   <div class="content">
     <style>
+/* 照片日记详情页 */
+.album-post-header {
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding: 0 16px;
+}
+.album-post-header .title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+.album-post-header .meta {
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+  margin-top: 8px;
+}
+.album-post-header .desc {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-top: 12px;
+}
 .photo-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  margin: 20px auto 0;
+  margin: 24px auto 0;
   max-width: 900px;
+  padding: 0 16px;
 }
 .photo-grid img {
   width: 100%;
@@ -244,7 +268,21 @@
 @media (max-width: 600px) {
   .photo-grid { grid-template-columns: 1fr; }
 }
+.album-post-footer {
+  max-width: 900px;
+  margin: 20px auto 40px;
+  padding: 0 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
 </style>
+
+<div class="album-post-header">
+  <h2 class="title">示例相册</h2>
+  <p class="meta">占位相册 · 3 张</p>
+  <p class="desc">这是一个示例相册，用于展示光影集的照片日记样式。图片来自 picsum.photos 占位服务。</p>
+</div>
 
 <div class="photo-grid">
   <img src="https://picsum.photos/seed/photo1/800/600" alt="照片 1" loading="lazy">
@@ -252,9 +290,9 @@
   <img src="https://picsum.photos/seed/photo3/800/600" alt="照片 3" loading="lazy">
 </div>
 
-<p style="text-align:center;margin-top:20px;color:var(--color-text-secondary)">
+<div class="album-post-footer">
   <a href="/album/">← 返回光影集</a>
-</p>
+</div>
 
   </div>
 
@@ -411,6 +449,9 @@
 .lb-stage img {
   max-width: 92vw;
   max-height: calc(100vh - 180px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
   border-radius: 12px;
   display: block;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
