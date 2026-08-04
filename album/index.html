@@ -454,26 +454,82 @@
 /* Album lightbox */
 .photo-lightbox {
   border: none;
-  border-radius: 16px;
   padding: 0;
   background: transparent;
   max-width: unset;
   max-height: unset;
   overflow: visible;
-  animation: fadeIn 0.2s ease;
 }
 .photo-lightbox::backdrop {
   background: rgba(0,0,0,0.7);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
-.photo-lightbox img {
+.lb-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lb-stage img {
   max-width: 92vw;
-  max-height: 88vh;
+  max-height: 80vh;
   border-radius: 12px;
   display: block;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: fadeIn 0.25s ease;
+  transition: opacity 0.18s ease;
 }
+.lb-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+.lb-arrow:hover { background: rgba(255,255,255,0.32); }
+.lb-prev { left: 12px; }
+.lb-next { right: 12px; }
+.lb-count {
+  text-align: center;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  margin: 14px 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 1px;
+}
+.lb-thumbs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 4px 16px;
+  max-width: 92vw;
+  margin: 8px auto 0;
+  scrollbar-width: thin;
+}
+.lb-thumbs img {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.lb-thumbs img:hover { opacity: 0.9; transform: scale(1.06); }
+.lb-thumbs img.active { opacity: 1; outline: 2px solid rgba(255,255,255,0.9); }
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
@@ -487,17 +543,66 @@
 }
 </style>
 <script>
-document.querySelectorAll('.photo-grid img').forEach(img => {
-  img.addEventListener('click', () => {
-    const dialog = document.createElement('dialog');
-    dialog.className = 'photo-lightbox';
-    dialog.innerHTML = `<img src="${img.src}" alt="${img.alt || ''}">`;
-    dialog.onclick = e => { if (e.target === dialog) dialog.close(); };
-    document.body.appendChild(dialog);
-    dialog.showModal();
-    dialog.onclose = () => dialog.remove();
+(function () {
+  const items = Array.from(document.querySelectorAll('.photo-grid img'));
+  if (!items.length) return;
+  let dialog = null, cur = 0, timer = null;
+  function show(i, animate) {
+    const n = items.length;
+    cur = ((i % n) + n) % n;
+    const img = dialog.querySelector('.lb-img');
+    const next = items[cur];
+    if (timer) clearTimeout(timer);
+    if (animate && img.src) {
+      img.style.opacity = '0';
+      timer = setTimeout(() => {
+        img.src = next.src;
+        img.alt = next.alt || '';
+        img.style.opacity = '1';
+      }, 180);
+    } else {
+      img.src = next.src;
+      img.alt = next.alt || '';
+      img.style.opacity = '1';
+    }
+    dialog.querySelector('.lb-count').textContent = (cur + 1) + ' / ' + n;
+    const thumbs = dialog.querySelector('.lb-thumbs');
+    [...thumbs.children].forEach((t, j) => t.classList.toggle('active', j === cur));
+    const t = thumbs.children[cur];
+    if (t) thumbs.scrollTo({ left: t.offsetLeft - (thumbs.clientWidth - t.clientWidth) / 2, behavior: 'smooth' });
+  }
+  items.forEach((img, i) => {
+    img.addEventListener('click', () => {
+      if (!dialog) {
+        dialog = document.createElement('dialog');
+        dialog.className = 'photo-lightbox';
+        dialog.innerHTML = '<div class="lb-stage"><img class="lb-img" alt=""><button class="lb-arrow lb-prev" type="button" aria-label="上一张">‹</button><button class="lb-arrow lb-next" type="button" aria-label="下一张">›</button></div><div class="lb-count"></div><div class="lb-thumbs"></div>';
+        const thumbs = dialog.querySelector('.lb-thumbs');
+        items.forEach((s, j) => {
+          const t = document.createElement('img');
+          t.src = s.src;
+          t.alt = s.alt || '';
+          t.loading = 'lazy';
+          t.decoding = 'async';
+          t.addEventListener('click', () => show(j, true));
+          thumbs.appendChild(t);
+        });
+        dialog.querySelector('.lb-prev').addEventListener('click', e => { e.stopPropagation(); show(cur - 1, true); });
+        dialog.querySelector('.lb-next').addEventListener('click', e => { e.stopPropagation(); show(cur + 1, true); });
+        dialog.onclick = e => { if (e.target === dialog) dialog.close(); };
+        dialog.addEventListener('close', () => { dialog.remove(); dialog = null; });
+        document.body.appendChild(dialog);
+      }
+      show(i, false);
+      dialog.showModal();
+    });
   });
-});
+  document.addEventListener('keydown', e => {
+    if (!dialog || !dialog.open) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1, true); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1, true); }
+  });
+})();
 // Hide TOC on about page
 if (window.location.pathname.startsWith('/about/')) {
   document.querySelector('.toc')?.parentElement?.remove();
