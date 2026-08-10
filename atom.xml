@@ -10,7 +10,29 @@
   <rights>All rights reserved 2026, xjhjtzac</rights>
   <subtitle>欢迎来到我的Blog</subtitle>
   <title>Xjhjtzac的Blog</title>
-  <updated>2026-08-04T07:05:40.138Z</updated>
+  <updated>2026-08-09T03:52:59.575Z</updated>
+  <entry>
+    <author>
+      <name>xjhjtzac</name>
+    </author>
+    <category term="「流响」特别策划" scheme="https://xjhjtz.github.io/categories/%E3%80%8C%E6%B5%81%E5%93%8D%E3%80%8D%E7%89%B9%E5%88%AB%E7%AD%96%E5%88%92/"/>
+    <category term="网站记" scheme="https://xjhjtz.github.io/tags/%E7%BD%91%E7%AB%99%E8%AE%B0/"/>
+    <content>
+      <![CDATA[<blockquote><p>一万年太久，只争朝夕。</p></blockquote><p>兜兜转转，半年时光过去了。它陪我度过了一整个学期。</p><h1 id="网站简报"><a href="#网站简报" class="headerlink" title="网站简报"></a>网站简报</h1><ul><li><p>在过去<strong>180天</strong>内，我共计发布了<strong>7</strong>篇文章，总字数<strong>14833</strong>字。其中<strong>六</strong>篇文章是有实际意义的，<strong>一</strong>篇文章作为测试使用。注意到 $180÷6&#x3D;30$，所以我平均<strong>每个月</strong>发<strong>一</strong>篇文章，<del>可以说懒得出奇</del>。</p></li><li><p>在过去的<strong>180天</strong>内，网站共收到<strong>0</strong>条评论，没什么人气。</p></li><li><p>在过去的<strong>180天</strong>内，本站共有友链<strong>6</strong>条，其中双向友链<strong>5</strong>条。它们分别是：<strong>Yourlai Blog、轻风blog、二叉树树、Hsu Yeung 的博客 以及 I Am I</strong> （<strong>排名不分先后</strong>）。我想说的是，<br><strong>真的非常荣幸与您们交换友链(≧∇≦)ﾉ</strong>！</p></li><li><p>特别感谢 <strong>小志 | 丿</strong> 为本站测试移动端兼容性。</p></li></ul><h2 id="自我检讨"><a href="#自我检讨" class="headerlink" title="自我检讨"></a>自我检讨</h2><p>由于站长（也就是我）学业繁忙，每天有大量的作业需要完成，所以在开学的一段时间几乎没怎么更新文章，在这里<strong>深表歉意</strong>。</p><h1 id="关于「流响」"><a href="#关于「流响」" class="headerlink" title="关于「流响」"></a>关于「流响」</h1><p>「流响」这个主题在本站<strong>专注</strong>于记录某一个特殊的时间点，例如网站上线XX天。值得注意的是，<strong>本期是「流响」的第一期</strong>。</p><h1 id="关于更新"><a href="#关于更新" class="headerlink" title="关于更新"></a>关于更新</h1><p>嗯…怎么说呢？本网站随缘更新。内容方面几乎没有类别之分，毕竟我甚至还发过奶茶教程。我尽量保证每个月至少<strong>一</strong>篇。</p><h1 id="一些想说的"><a href="#一些想说的" class="headerlink" title="一些想说的"></a>一些想说的</h1><p>Github嘛，已经算得上是互联网基础设施了。所以这个部署在Github Pages上的小站几乎可以说是“不死族”-永远不会欠费下线。所以，他也许就是我在偌大的互联网上留下的轻轻一笔了。<br>总之，网站上线180周年快乐！(&#x2F;≧▽≦)&#x2F;</p>]]>
+    </content>
+    <id>https://xjhjtz.github.io/2026/08/10/liuxiangvol01/</id>
+    <link href="https://xjhjtz.github.io/2026/08/10/liuxiangvol01/"/>
+    <published>2026-08-09T16:00:00.000Z</published>
+    <summary>
+      <![CDATA[<blockquote>
+<p>一万年太久，只争朝夕。</p>
+</blockquote>
+<p>兜兜转转，半年时光过去了。它陪我度过了一整个学期。</p>
+<h1 id="网站简报"><a href="#网站简报" class="headerlink" title="网站简报"]]>
+    </summary>
+    <title>「流响」Vol.零壹-记网站上线180天</title>
+    <updated>2026-08-09T03:52:59.575Z</updated>
+  </entry>
   <entry>
     <author>
       <name>xjhjtzac</name>
@@ -79,8 +101,8 @@
       <name>xjhjtzac</name>
     </author>
     <category term="闲聊/杂谈" scheme="https://xjhjtz.github.io/categories/%E9%97%B2%E8%81%8A-%E6%9D%82%E8%B0%88/"/>
-    <category term="Blogging" scheme="https://xjhjtz.github.io/tags/Blogging/"/>
     <category term="Github" scheme="https://xjhjtz.github.io/tags/Github/"/>
+    <category term="Blogging" scheme="https://xjhjtz.github.io/tags/Blogging/"/>
     <content>
       <![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近一直在逛Github，偶然间看到了一些非常实用或者有趣的项目，于是我就想着整理出来。</p><hr><h2 id="1-HowToCook"><a href="#1-HowToCook" class="headerlink" title="1.HowToCook"></a>1.HowToCook</h2><ul><li><p>截至<strong>2026年3月24日</strong>，GithubStar数量<strong>99k</strong>个</p></li><li><p>项目地址:   <a href="https://github.com/Anduin2017/HowToCook">Anduin2017&#x2F;HowToCook: 程序员在家做饭方法指南</a></p></li></ul><p>这是一个极其实用的程序员在家做饭方法指南，收录了多达400余种菜品的制作方法。涵盖早餐、荤素菜、主食、水产类等多种菜肴。最让人舒服的是，菜谱内完全没有让人感到疑惑的模糊词语（如”适量”等）。可以说，每一个菜谱的详细程度堪比SOP。同时，索引会按照难度划分菜谱，极大的方便了在家做饭。值得一提的是，本项目有一些衍生作品，如<a href="https://github.com/ryanuo/whatToEat">whatToEat</a>与<a href="https://github.com/LeeJim/HowToCookOnMiniprogram">HowToCookOnMiniprogram</a>等。</p><p>地三鲜食谱(部分)</p><p><img src="https://free.picui.cn/free/2026/03/25/69c3c6acc335a.png" alt="地三鲜食谱（部分）"></p><hr><h2 id="2-Mizuki"><a href="#2-Mizuki" class="headerlink" title="2.Mizuki"></a>2.Mizuki</h2><ul><li><p>截至<strong>2026年3月24日</strong>，GithubStar数量<strong>1.3k</strong>个</p></li><li><p>项目地址：<a href="https://github.com/matsuzaka-yuki/Mizuki">matsuzaka-yuki&#x2F;Mizuki: 下一代Material Design 3 博客主题(Astro驱动)</a></p></li><li><p>项目文档：<a href="https://docs.mizuki.mysqil.com/">Mizuki Next Theme</a></p></li></ul><p>这是一个极其美观强大的博客主题，支持多种部署方法，并且还有完备的官方文档。如果你正在寻找一款既美观又功能强大的博客模板，Mizuki 无疑是一个值得考虑的选择。同时，他还具备基于<strong>Pagefind</strong>的全文搜索功能。自带现代化<strong>Twikoo</strong>评论系统。值得一体的是，其采用<strong>现代化技术栈</strong>，基于 <strong>Astro</strong> 和 <strong>Tailwind CSS</strong> 构建，确保高性能和灵活的样式定制能力。</p><p>模板大致效果(来源:该项目仓库)</p><p><img src="https://cdn.jsdmirror.com/gh/matsuzaka-yuki/Mizuki/README.webp" alt="README.webp (3835×1896)"></p><hr><h2 id="3-CEF-Detector-X"><a href="#3-CEF-Detector-X" class="headerlink" title="3.CEF Detector X"></a>3.CEF Detector X</h2><ul><li><p>截至2026年3月25日，GithubStar数量<strong>2.5k</strong>个</p></li><li><p>项目地址：<a href="https://github.com/ShirasawaSama/CefDetectorX">ShirasawaSama&#x2F;CefDetectorX</a></p></li></ul><p>这是一个 Windows 工具，用来一键扫描电脑里所有基于 Chromium Embedded Framework (CEF) 的应用——比如 Electron、NW.js、CefSharp 等。它会列出这些程序、统计它们占用的总空间，并按大小排序，让你一眼看清”CEF 们”是怎么悄悄吃掉硬盘的。还有背景音乐、高分辨率图标等小彩蛋，<del>最让人绷不住的是，据说有人在他的前作提了个issue，于是这个项目也被用Election重写了一遍。</del></p><p>效果大概是这样。(图片来源:该项目仓库)</p><img title="" src="https://cdn.jsdmirror.com/gh/ShirasawaSama/CefDetectorX/screenshot.png" alt="" data-align="inline"><hr><h2 id="4-Chinese-programmer-wrong-pronunciation"><a href="#4-Chinese-programmer-wrong-pronunciation" class="headerlink" title="4.Chinese-programmer-wrong-pronunciation"></a>4.Chinese-programmer-wrong-pronunciation</h2><ul><li><p>截至2026年3月25日，GithubStar数量<strong>23.2k</strong>个</p></li><li><p>项目地址：<a href="https://github.com/shimohq/chinese-programmer-wrong-pronunciation">shimohq&#x2F;chinese-programmer-wrong-pronunciation</a></p></li></ul><p>这是一个收录了中国程序员最容易读错的技术单词的开源项目，由石墨文档团队维护。它列出了像 <code>Git</code>、<code>nginx</code>、<code>Vue</code>、<code>Linux</code>、<code>cache</code> 等常见术语的正确发音（带🔊可点击收听）、典型错误发音和中文释义，方便随时查阅。此外，项目还衍生出了浏览器扩展、独立网页版和 iOS 应用，非常实用了属于是。而且他的标准发音指向<strong>网易有道词典</strong>，保证标准。</p><hr><h2 id="5-BongoCat"><a href="#5-BongoCat" class="headerlink" title="5.BongoCat"></a>5.BongoCat</h2><ul><li><p>截至2026年3月25日，GithubStar数量<strong>19.7k</strong>个</p></li><li><p>项目地址：<a href="https://github.com/ayangweb/BongoCat">ayangweb&#x2F;BongoCat</a></p></li></ul><p>这是一款开源的跨平台桌面互动宠物，基于 Tauri 构建，支持 macOS、Windows 以及 Linux (X11)。它会实时响应你的键盘、鼠标或手柄操作，同步做出拍打、敲击等生动动作，为桌面增添不少趣味。<br>除了默认的猫咪形象，你还可以导入自定义模型，打造专属伙伴；项目还提供了模型转换工具和专门的模型分享仓库（Awesome-BongoCat），方便大家交流创意。<br>整个应用完全开源，离线运行，不收集任何用户数据，既可爱又安心。如果你想要一只会在你敲代码、玩游戏时陪你互动的桌面小宠物，BongoCat 是个干净又好玩的选择。</p><p>图片来源:本项目仓库</p><p><img src="https://free.picui.cn/free/2026/03/25/69c3df9531b89.png" alt="屏幕截图 2026-03-25 211003.png"></p><hr><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>希望这篇文章能对你有所帮助。</p>]]>
     </content>
@@ -100,8 +122,8 @@
       <name>xjhjtzac</name>
     </author>
     <category term="闲聊/杂谈" scheme="https://xjhjtz.github.io/categories/%E9%97%B2%E8%81%8A-%E6%9D%82%E8%B0%88/"/>
-    <category term="Milktea" scheme="https://xjhjtz.github.io/tags/Milktea/"/>
     <category term="Blogging" scheme="https://xjhjtz.github.io/tags/Blogging/"/>
+    <category term="Milktea" scheme="https://xjhjtz.github.io/tags/Milktea/"/>
     <content>
       <![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在学校想喝茶，喝了几天后想换口味，于是想到了制作奶茶，但是学校里没热水，所以我只好选择常温泡茶，现在我公布一下自制茉莉奶绿的配方。</p><p>  本教程<strong>无需热水</strong>。</p><h2 id="🧾-材料清单（一杯大约400ml）"><a href="#🧾-材料清单（一杯大约400ml）" class="headerlink" title="🧾 材料清单（一杯大约400ml）"></a>🧾 材料清单（一杯大约400ml）</h2><ul><li><strong>茉莉花茶包</strong> 1包（约2g）——推荐用茉莉绿茶，香气最搭</li><li><strong>纯牛奶</strong> 200ml（选浓的）</li><li><strong>糖</strong> 2g (这里可以用两颗荷氏糖来代替)</li><li><strong>水</strong> 约150ml</li><li><strong>一个杯子</strong>（能装下所有东西的就行）</li></ul><h2 id="📝-制作步骤"><a href="#📝-制作步骤" class="headerlink" title="📝 制作步骤"></a>📝 制作步骤</h2><h4 id="1-冷泡茶底"><a href="#1-冷泡茶底" class="headerlink" title="1. 冷泡茶底"></a>1. 冷泡茶底</h4><p>把茉莉花茶包(或者2-3g茶叶)放进杯子里，加入150ml冷水。盖上盖子或者用保鲜膜封一下，放在阴凉处静置<strong>1.5小时</strong>。</p><h4 id="2-融化糖"><a href="#2-融化糖" class="headerlink" title="2. 融化糖"></a>2. 融化糖</h4><p>在茶汤里放入<strong>1-2g糖</strong>。如果是硬糖的话，可以摇晃减少溶解时间</p><h4 id="3-加入牛奶"><a href="#3-加入牛奶" class="headerlink" title="3. 加入牛奶"></a>3. 加入牛奶</h4><p>最后，把一整盒<strong>200ml纯牛奶</strong>倒进杯子里。</p><h4 id="4-进阶：摇出奶泡"><a href="#4-进阶：摇出奶泡" class="headerlink" title="4. 进阶：摇出奶泡"></a>4. 进阶：摇出奶泡</h4><p>如果想要口感更绵密，可以盖上杯盖<strong>上下用力摇晃30秒</strong>。这样会产生一层细腻的奶泡</p><h2 id="🍹Drink"><a href="#🍹Drink" class="headerlink" title="🍹Drink!!!"></a>🍹Drink!!!</h2><p>等待糖完全化掉就可以饮用啦！</p><h2 id="注意！"><a href="#注意！" class="headerlink" title="注意！"></a>注意！</h2><p>制作后<strong>一定</strong>要将杯子彻底刷干净，包括橡胶圈和杯盖的各种角落！否则会<strong>滋生大量细菌</strong>！</p><hr>]]>
     </content>
