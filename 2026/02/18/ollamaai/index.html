@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://free.picui.cn/free/2026/02/18/699532a4c760d.png">
 <meta property="og:image" content="https://free.picui.cn/free/2026/02/18/699533a1857b7.png">
 <meta property="article:published_time" content="2026-02-18T03:58:00.000Z">
-<meta property="article:modified_time" content="2026-07-20T13:49:13.759Z">
+<meta property="article:modified_time" content="2026-08-14T11:03:25.817Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="Blogging">
@@ -150,6 +150,18 @@
 .post .content a {
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+/* 剧透/模糊条（移植自 MrWillCom 博客）：文章里写 <span class="spoiler">文字</span>，
+   默认模糊遮挡，悬停显示。原版 CSS 来自 MrWillCom/MrWillCom.github.io 文章内联 style */
+.spoiler {
+  filter: blur(5px);
+  opacity: 0.6;
+  transition-property: filter, opacity;
+  transition-duration: 0.15s;
+}
+.spoiler:hover {
+  filter: none;
+  opacity: 1;
 }
 </style>
 

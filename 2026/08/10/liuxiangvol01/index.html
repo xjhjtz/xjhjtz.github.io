@@ -146,6 +146,18 @@
   overflow-wrap: anywhere;
   word-break: break-word;
 }
+/* 剧透/模糊条（移植自 MrWillCom 博客）：文章里写 <span class="spoiler">文字</span>，
+   默认模糊遮挡，悬停显示。原版 CSS 来自 MrWillCom/MrWillCom.github.io 文章内联 style */
+.spoiler {
+  filter: blur(5px);
+  opacity: 0.6;
+  transition-property: filter, opacity;
+  transition-duration: 0.15s;
+}
+.spoiler:hover {
+  filter: none;
+  opacity: 1;
+}
 </style>
 
 <meta name="generator" content="Hexo 8.1.2"></head>
@@ -278,7 +290,14 @@
   
 
   <div class="container post-prev-next" data-pagefind-ignore>
-    <a class="next"></a>
+    
+    <a href="/2026/08/14/0point1bbigmodel/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title">0.1B的“大”模型，还是全模态！这能用吗？</h3>
+      </div>
+    </a>
+    
     
     <a href="/2026/08/03/renshengfirstyuci/" class="prev">
       <div class="text">
