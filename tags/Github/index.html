@@ -341,7 +341,7 @@
     <span>&copy; 2026 xjhjtzac<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
     
     <br>
-    <span class="footer-extra-description">本博客主题为Cupertino。</span>
+    <span class="footer-extra-description">本网站已运行 <b id="site-runtime-days">0</b> 天。</span>
     
     
       <br>
@@ -419,6 +419,12 @@
 if (window.location.pathname.startsWith('/about/')) {
   document.querySelector('.toc')?.parentElement?.remove();
 }
+// 页脚运行天数（建站日 2026-02-12，改 START 即可）
+(function () {
+  var START = new Date('2026-02-12T00:00:00+08:00');
+  var el = document.getElementById('site-runtime-days');
+  if (el) el.textContent = Math.floor((Date.now() - START) / 864e5) + 1; // +1: 2/12 作为第 1 天
+})();
 </script>
 
   </body>
