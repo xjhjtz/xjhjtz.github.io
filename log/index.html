@@ -13,15 +13,16 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="记录本站发生的大事小情。   2026-08-18调整 新增“Logs”页面，页尾日记现已调整至Trinkets组，Trinkets组新增统计界面。  2026-08-17更新 网站主题更新至2.5.0版本；网站现已支持 KaTeX ；友链页现在可以显示头像了；新增“一言”。  2026-08-15调整 页尾撤下 Project 区域，改回联系方式，原Project区域内容变更为单独页面。  2">
+  <meta name="description" content="记录本站发生的大事小情。   2026-08-19美化 部分页面增加配图。  2026-08-18调整 新增“Logs”页面，页尾日记现已调整至Trinkets组，Trinkets组新增统计界面。  2026-08-17更新 网站主题更新至2.5.0版本；网站现已支持 KaTeX ；友链页现在可以显示头像了；新增“一言”。  2026-08-15调整 页尾撤下 Project 区域，改回联系方式">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Logs">
 <meta property="og:url" content="https://xjhjtz.github.io/log/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="记录本站发生的大事小情。   2026-08-18调整 新增“Logs”页面，页尾日记现已调整至Trinkets组，Trinkets组新增统计界面。  2026-08-17更新 网站主题更新至2.5.0版本；网站现已支持 KaTeX ；友链页现在可以显示头像了；新增“一言”。  2026-08-15调整 页尾撤下 Project 区域，改回联系方式，原Project区域内容变更为单独页面。  2">
+<meta property="og:description" content="记录本站发生的大事小情。   2026-08-19美化 部分页面增加配图。  2026-08-18调整 新增“Logs”页面，页尾日记现已调整至Trinkets组，Trinkets组新增统计界面。  2026-08-17更新 网站主题更新至2.5.0版本；网站现已支持 KaTeX ；友链页现在可以显示头像了；新增“一言”。  2026-08-15调整 页尾撤下 Project 区域，改回联系方式">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://a1.boltp.com/2026/08/19/6a85768996f9d.jpg">
 <meta property="article:published_time" content="2026-07-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-18T07:56:29.956Z">
+<meta property="article:modified_time" content="2026-08-19T10:40:57.837Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -29,6 +30,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="铁路">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://a1.boltp.com/2026/08/19/6a85768996f9d.jpg">
 
   <script>window.ThemeCupertino = {}</script>
 
@@ -169,6 +171,21 @@
   opacity: 0.55;
   text-align: center;
 }
+/* 触摸设备（hover:none + pointer:coarse = 纯触摸手机/平板）不用 6 层渐变毛玻璃：
+   展开时多层 blur+高度动画同时跑会掉帧（"抽一下"），且与菜单展开过渡不连贯。
+   改为隐藏 mask 层，导航栏用单层半透明+blur（同 false 模式外观）。
+   用输入设备判定而非视口宽度：桌面窗口缩窄不受影响，iPad/折叠屏触摸设备同样命中。
+   指针设备（鼠标/触控板，hover:hover）不受影响，保持 Apple 渐变效果 */
+@media (hover: none) and (pointer: coarse) {
+  .nav-mask {
+    display: none;
+  }
+  /* nav 本身在 nav_blur_gradient=true 时是透明的，隐藏 mask 后需补单层背景 */
+  nav {
+    background-color: var(--color-background-secondary-translucent);
+    backdrop-filter: var(--filter-blur);
+  }
+}
 </style>
 
 <!-- hexo injector head_end start -->
@@ -230,7 +247,7 @@
       
       <a class="nav-item" href="/log" style="--index: 3">Log</a>
       
-      <a class="nav-item" href="/" style="--index: 4">About</a>
+      <a class="nav-item" href="/about" style="--index: 4">About</a>
       
       <a class="nav-item" href="/friends" style="--index: 5">Friends</a>
       
@@ -245,6 +262,10 @@
     <main id="main-content" data-pagefind-body>
       
 <article class="post">
+  
+  <div class="cover">
+    <img src="https://a1.boltp.com/2026/08/19/6a85768996f9d.jpg" alt="" class="cover-img" data-pagefind-meta="image[src], image_alt[alt]" />
+  </div>
   
   <div class="meta">
     
@@ -262,6 +283,8 @@
     <blockquote>
 <p>记录本站发生的大事小情。</p>
 </blockquote>
+<hr>
+<h3 id="2026-08-19"><a href="#2026-08-19" class="headerlink" title="2026-08-19"></a>2026-08-19</h3><p><strong>美化</strong> 部分页面增加配图。</p>
 <hr>
 <h3 id="2026-08-18"><a href="#2026-08-18" class="headerlink" title="2026-08-18"></a>2026-08-18</h3><p><strong>调整</strong> 新增“Logs”页面，页尾日记现已调整至Trinkets组，Trinkets组新增统计界面。</p>
 <hr>
@@ -372,11 +395,13 @@
         
         <a href="/time" class="item">Time</a>
         
-        <a href="/yiyan" class="item">一言</a>
+        <a href="/yiyan" class="item">断点</a>
         
         <a target="_blank" rel="noopener" href="https://cloud.umami.is/analytics/us/share/g6cJvu4XEy6GhY3x" class="item">统计</a>
         
         <a href="/journal" class="item">Journal</a>
+        
+        <a href="/yiyan/daily" class="item">每日一言</a>
         
       </div>
       

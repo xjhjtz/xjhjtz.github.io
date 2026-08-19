@@ -168,6 +168,21 @@
   opacity: 0.55;
   text-align: center;
 }
+/* 触摸设备（hover:none + pointer:coarse = 纯触摸手机/平板）不用 6 层渐变毛玻璃：
+   展开时多层 blur+高度动画同时跑会掉帧（"抽一下"），且与菜单展开过渡不连贯。
+   改为隐藏 mask 层，导航栏用单层半透明+blur（同 false 模式外观）。
+   用输入设备判定而非视口宽度：桌面窗口缩窄不受影响，iPad/折叠屏触摸设备同样命中。
+   指针设备（鼠标/触控板，hover:hover）不受影响，保持 Apple 渐变效果 */
+@media (hover: none) and (pointer: coarse) {
+  .nav-mask {
+    display: none;
+  }
+  /* nav 本身在 nav_blur_gradient=true 时是透明的，隐藏 mask 后需补单层背景 */
+  nav {
+    background-color: var(--color-background-secondary-translucent);
+    backdrop-filter: var(--filter-blur);
+  }
+}
 </style>
 
 <!-- hexo injector head_end start -->
@@ -229,7 +244,7 @@
       
       <a class="nav-item" href="/log" style="--index: 3">Log</a>
       
-      <a class="nav-item" href="/" style="--index: 4">About</a>
+      <a class="nav-item" href="/about" style="--index: 4">About</a>
       
       <a class="nav-item" href="/friends" style="--index: 5">Friends</a>
       
@@ -647,11 +662,13 @@
         
         <a href="/time" class="item">Time</a>
         
-        <a href="/yiyan" class="item">一言</a>
+        <a href="/yiyan" class="item">断点</a>
         
         <a target="_blank" rel="noopener" href="https://cloud.umami.is/analytics/us/share/g6cJvu4XEy6GhY3x" class="item">统计</a>
         
         <a href="/journal" class="item">Journal</a>
+        
+        <a href="/yiyan/daily" class="item">每日一言</a>
         
       </div>
       
