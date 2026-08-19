@@ -169,19 +169,14 @@
   opacity: 0.55;
   text-align: center;
 }
-/* 触摸设备（hover:none + pointer:coarse = 纯触摸手机/平板）不用 6 层渐变毛玻璃：
-   展开时多层 blur+高度动画同时跑会掉帧（"抽一下"），且与菜单展开过渡不连贯。
-   改为隐藏 mask 层，导航栏用单层半透明+blur（同 false 模式外观）。
+/* 触摸设备（hover:none + pointer:coarse = 纯触摸手机/平板）禁用导航毛玻璃动画：
+   6 层全屏 blur(1→36px)+高度 0.6s 动画同时跑，移动端 GPU 每帧重采样会掉帧（"抽一下"）。
+   渐变效果保留（打开时 blur(36px) 静态生效），仅去掉 transition 动画。
    用输入设备判定而非视口宽度：桌面窗口缩窄不受影响，iPad/折叠屏触摸设备同样命中。
-   指针设备（鼠标/触控板，hover:hover）不受影响，保持 Apple 渐变效果 */
+   指针设备（鼠标/触控板，hover:hover）不受影响，保持完整动画 */
 @media (hover: none) and (pointer: coarse) {
-  .nav-mask {
-    display: none;
-  }
-  /* nav 本身在 nav_blur_gradient=true 时是透明的，隐藏 mask 后需补单层背景 */
-  nav {
-    background-color: var(--color-background-secondary-translucent);
-    backdrop-filter: var(--filter-blur);
+  .nav-mask > div {
+    transition: none !important;
   }
 }
 </style>
