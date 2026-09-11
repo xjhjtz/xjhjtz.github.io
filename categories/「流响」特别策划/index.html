@@ -182,13 +182,33 @@
     transition: none !important;
   }
 }
+/* Twikoo 评论区：Twikoo 自身样式基本都用 currentColor + 透明背景，会自动跟随网站亮暗；
+   这里只替换少数硬编码的浅色（emoji 选择器弹层、展开/收起条 hover、图片灯箱占位）。
+   用主题 CSS 变量 → 亮/暗/跟随系统三种状态全部自动切换，无需任何 JS。
+   选择器用 .twikoo-wrap（comments_section 里的包裹层，Vue 只替换 #tcomment 本身）提高优先级：
+   Twikoo 是运行时才把自身样式注入 <head>，排在本文之后，同优先级会被它盖过去。 */
+.twikoo-wrap .OwO .OwO-body {
+  color: var(--color-text-primary);
+  background-color: var(--color-background-secondary);
+}
+.twikoo-wrap .tk-expand:hover {
+  background-color: var(--color-background-secondary-hover);
+}
+.twikoo-wrap .tk-expand:active {
+  background-color: var(--color-background-primary-active);
+}
+.twikoo-wrap .tk-lightbox-image {
+  background: var(--color-background-secondary-hover);
+}
 </style>
 
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.47/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.2"></head>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Xjhjtzac的Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Xjhjtzac的Blog" type="application/rss+xml">
+</head>
 
   <body
     data-color-scheme="auto"
@@ -401,44 +421,6 @@
     
 
     <script>
-// Giscus 跟随网站亮暗主题
-(function () {
-  // 注意：不能读 data-current-color-scheme——主题 body-top.js 的 updateCurrent() 无参调用会把它设成字符串 "undefined"
-  // 正确来源：data-color-scheme（auto/light/dark，用户选择）+ 系统 prefers-color-scheme 推算实际主题
-  const curTheme = () => {
-    const cs = document.body.dataset.colorScheme; // auto | light | dark
-    if (cs === 'dark') return 'dark';
-    if (cs === 'light') return 'light';
-    return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; // auto → 跟随系统
-  };
-  // 1) 关键：在 giscus client.js 执行前改写它的 data-theme，iframe 初始加载即用网站当前主题（避免闪烁）
-  //    client.js 读 document.currentScript.dataset.theme 生成 iframe URL；giscus.app 下载慢，本脚本（body 末尾同步）几乎总在其之前执行
-  const gscript = document.querySelector('script[src*="giscus.app/client.js"]');
-  if (gscript) gscript.dataset.theme = curTheme();
-  // 2) 已执行/切换时：postMessage 兜底同步
-  const send = theme => {
-    const f = document.querySelector('iframe.giscus-frame');
-    if (f && f.contentWindow) f.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
-  };
-  const sync = () => send(curTheme());
-  new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['data-color-scheme'] });
-  const observeFrame = () => {
-    const f = document.querySelector('iframe.giscus-frame');
-    if (f && !f.dataset.syncBound) {
-      f.dataset.syncBound = '1';
-      f.addEventListener('load', sync);
-    }
-  };
-  window.addEventListener('message', e => {
-    if (e.origin === 'https://giscus.app') sync(); // 收到 iframe 消息 = iframe 已就绪
-  });
-  let tries = 0;
-  const timer = setInterval(() => {
-    observeFrame();
-    sync();
-    if (++tries > 60) clearInterval(timer); // 30 秒兜底
-  }, 500);
-})();
 // Hide TOC on about page
 //if (window.location.pathname.startsWith('/about/')) {
   //document.querySelector('.toc')?.parentElement?.remove();
