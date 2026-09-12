@@ -182,24 +182,170 @@
     transition: none !important;
   }
 }
-/* Twikoo 评论区：Twikoo 自身样式基本都用 currentColor + 透明背景，会自动跟随网站亮暗；
-   这里只替换少数硬编码的浅色（emoji 选择器弹层、展开/收起条 hover、图片灯箱占位）。
-   用主题 CSS 变量 → 亮/暗/跟随系统三种状态全部自动切换，无需任何 JS。
-   选择器用 .twikoo-wrap（comments_section 里的包裹层，Vue 只替换 #tcomment 本身）提高优先级：
-   Twikoo 是运行时才把自身样式注入 <head>，排在本文之后，同优先级会被它盖过去。 */
+/* ================= Twikoo 评论区（移植 blog.liushen.fun/posts/b9d10ed/ 的 twikoo 美化）=================
+   与原版的差异（都是必要的适配，不是随意改）：
+   · 原版写死颜色、依赖 [data-theme="light|dark"] 和 Butterfly 的 --card-box-shadow/--btn-bg；
+     这里全部换成 Cupertino 的主题变量 + 圆角 token，于是亮 / 暗 / 跟随系统三种状态自动切换，且不需要任何 JS。
+   · 阴影做卡片层次（亮色）／1px 描边（暗色）——沿用原作者思路，只是换成本主题的颜色；
+     四个阴影/边框值抽成变量，免得每条规则写两遍亮暗。
+   · 所有选择器加 .twikoo-wrap 前缀（comments_section 里的包裹层）：Twikoo 是运行时才把自身样式注入
+     <head>、排在本文之后，同优先级会被它盖过去，必须提高优先级（Vue 只替换 #tcomment 本身，包裹层不会没）。
+   · 补了 box-sizing: border-box：本主题没有全局 border-box，.tk-expand 是 width:100% + padding，
+     不补会横向溢出（窄屏会撑出滚动条）。 */
+/* 注意：token 必须定义在 body 上（不能放 :root）——主题的 --color-* 变量定义在 body[data-color-scheme]，
+   放 :root 的话 var() 链在根层解析不到，亮色下的 hover 会直接失效。 */
+body {
+  --twikoo-shadow-card: 0 8px 24px #0000000f;
+  --twikoo-shadow-card-hover: 0 8px 24px #0002;
+  --twikoo-shadow-chip: 0 2px 8px #0000000d;
+  --twikoo-border: 1px solid transparent;
+  --twikoo-expand-hover-bg: var(--color-background-secondary-hover);
+  --twikoo-expand-hover-fg: inherit;
+}
+body[data-color-scheme='dark'] {
+  --twikoo-shadow-card: none;
+  --twikoo-shadow-card-hover: none;
+  --twikoo-shadow-chip: none;
+  --twikoo-border: 1px solid var(--color-border-primary);
+  --twikoo-expand-hover-bg: var(--color-background-accent);
+  --twikoo-expand-hover-fg: var(--color-background-accent-contrast);
+}
+@media (prefers-color-scheme: dark) {
+  body[data-color-scheme='auto'] {
+    --twikoo-shadow-card: none;
+    --twikoo-shadow-card-hover: none;
+    --twikoo-shadow-chip: none;
+    --twikoo-border: 1px solid var(--color-border-primary);
+    --twikoo-expand-hover-bg: var(--color-background-accent);
+    --twikoo-expand-hover-fg: var(--color-background-accent-contrast);
+  }
+}
+
+/* 1. 提交框：工具行与输入区贴齐
+   （参考站原本还有一条「隐藏评论者头像」= .tk-submit .tk-avatar.tk-has-avatar { display: none }，
+   已按用户要求去掉：那条会把主提交框里"你自己的头像"一起藏掉，只留空位。） */
+.twikoo-wrap .tk-submit .tk-row.actions { margin-left: 0; margin-bottom: 0; }
+.twikoo-wrap .tk-submit .tk-col .tk-meta-input { margin-bottom: 16px; }
+
+/* 2. 输入区圆角（与主题搜索框一致） */
+.twikoo-wrap .tk-meta-input input { border-top-right-radius: var(--radius-medium); border-bottom-right-radius: var(--radius-medium); }
+.twikoo-wrap .tk-meta-input div { border-top-left-radius: var(--radius-medium); border-bottom-left-radius: var(--radius-medium); }
+.twikoo-wrap .tk-input.el-textarea textarea { border-radius: var(--radius-medium); min-height: 150px !important; height: auto; }
+
+/* 3. 按钮：固定高度（修掉 element-ui 高度偶发失效）+ 圆角 */
+.twikoo-wrap .tk-row.actions button.el-button { height: 32px; border-radius: var(--radius-small); }
+
+/* 4. 卡片化：顶层评论 + 提交框（悬浮时阴影加深） */
+.twikoo-wrap .tk-comments-container > .tk-comment,
+.twikoo-wrap .tk-comments .tk-submit {
+  box-sizing: border-box;
+  padding: 20px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-radius: var(--radius-medium);
+  background: var(--color-background-secondary);
+  border: var(--twikoo-border);
+  box-shadow: var(--twikoo-shadow-card);
+  transition: 0.3s;
+}
+.twikoo-wrap .tk-comments-container > .tk-comment:hover,
+.twikoo-wrap .tk-comments .tk-submit:hover {
+  box-shadow: var(--twikoo-shadow-card-hover);
+}
+
+/* 5. 设备 / 浏览器 / 地区 标签做成小卡片 */
+.twikoo-wrap .tk-extra {
+  box-sizing: border-box;
+  border-radius: var(--radius-small);
+  background: var(--color-background-secondary);
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+  border: var(--twikoo-border);
+  box-shadow: var(--twikoo-shadow-chip);
+  transition: 0.3s;
+}
+
+/* 6. 展开 / 加载更多 条 */
+.twikoo-wrap .tk-expand {
+  box-sizing: border-box;
+  border-radius: var(--radius-small);
+  background: var(--color-background-secondary);
+  border: var(--twikoo-border);
+  box-shadow: var(--twikoo-shadow-chip);
+  transition: 0.3s;
+}
+.twikoo-wrap .tk-expand:hover {
+  background-color: var(--twikoo-expand-hover-bg);
+  color: var(--twikoo-expand-hover-fg);
+  box-shadow: var(--twikoo-shadow-card-hover);
+}
+.twikoo-wrap .tk-expand:active { background-color: var(--color-background-primary-active); }
+
+/* 7. 评论里的图片不要撑破卡片 */
+.twikoo-wrap .tk-content img { max-width: 100%; height: auto; }
+
+/* 8. 窄屏收敛：≤570px 隐藏设备信息，≤420px 隐藏预览按钮 */
+@media screen and (max-width: 570px) { .twikoo-wrap .tk-extras { display: none; } }
+@media screen and (max-width: 420px) { .twikoo-wrap .tk-row.actions button.tk-preview { display: none; } }
+
+/* 9. 补齐 Twikoo 自己写死的浅色（其余靠 currentColor 自动跟随） */
 .twikoo-wrap .OwO .OwO-body {
   color: var(--color-text-primary);
   background-color: var(--color-background-secondary);
 }
-.twikoo-wrap .tk-expand:hover {
-  background-color: var(--color-background-secondary-hover);
-}
-.twikoo-wrap .tk-expand:active {
-  background-color: var(--color-background-primary-active);
-}
 .twikoo-wrap .tk-lightbox-image {
   background: var(--color-background-secondary-hover);
 }
+
+/* 10. 与上下篇区域拉开距离 + 区块标题
+   实测：.post-prev-next 的 margin 全是 0，所以之前评论区是贴着它站的（间距 0px）。
+   补 64px —— 与主题里「关于这篇文章 → 上下篇」的 64px 节奏一致（相邻 margin 会折叠，最终就是 64px）。
+   标题排版对齐主题 .about h2：24px / 700 / 下边距 16px。 */
+.comments-section { margin-top: 64px; }
+.comments-heading {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+/* 11. 超椭圆圆角（跟随主题 squircle 开关）
+   主题的做法：utilities_partial.scss 的 corner-squircle mixin —— @container style(--config-corner-squircle: true)
+   + @supports (corner-shape: squircle)，命中后把 --radius-* 放大到 10/20/30/40 并加 corner-shape。
+   但那个 mixin 只挂在主题自己的组件上，外部组件（Twikoo）拿不到，所以这里复刻一份：把半径 token 放大，
+   并与主题一致地加上 corner-shape。实测本机浏览器里 .corner-squircle / htc-callout 都是
+   corner-shape: superellipse(2) + 30px，机制可用。
+   注意 corner-shape 不继承，必须逐个元素给 —— 用通配最省，且它只影响本来就有 border-radius 的元素。 */
+@supports (corner-shape: squircle) {
+  @container document-body style(--config-corner-squircle: true) {
+    .twikoo-wrap {
+      --radius-tiny: 10px;
+      --radius-small: 20px;
+      --radius-medium: 30px;
+      --radius-large: 40px;
+    }
+    .twikoo-wrap,
+    .twikoo-wrap * {
+      corner-shape: squircle;
+    }
+  }
+}
+/* 12. 人机验证（Turnstile）摆位修正
+   Twikoo 默认把它锚在工具行上、absolute 到下方 75px（.tk-turnstile-container
+   { position: absolute; right: 0; bottom: -75px }），实测其底边正好落进下面
+   「N 条评论」那一行里（overlapTitle: true），卡片化之后更是直接挂到卡片外面。
+   改成：工具行允许换行，验证码独占一行并右对齐 —— 于是它落在卡片内部，不压任何东西。
+   （不用验证码时 v-show 会写内联 display:none，内联样式优先级高于这里的 display:flex，不会留空行） */
+.twikoo-wrap .tk-submit .tk-row.actions { flex-wrap: wrap; }
+.twikoo-wrap .tk-turnstile-container {
+  position: static;
+  right: auto;
+  bottom: auto;
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.twikoo-wrap .tk-turnstile { align-items: flex-end; }
 </style>
 
 <!-- hexo injector head_end start -->
@@ -330,7 +476,8 @@
   </div>
 
   
-    <div class="container">
+    <div class="container comments-section">
+  <h2 class="comments-heading">评论</h2>
   <div class="twikoo-wrap">
     <div id="tcomment"></div>
   </div>
