@@ -22,7 +22,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
 <meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-08T14:50:02.151Z">
+<meta property="article:modified_time" content="2026-09-12T05:23:07.022Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -147,6 +147,48 @@
 <script src="/js/head.js"></script>
 
   <script defer src="https://cloud.umami.is/script.js" data-website-id="71fc8321-74fa-474d-beda-1c0be570eec4"></script>
+<script>
+/* Twikoo 头像「链式兜底」= 自建图床 → QQ 头像 → 静态兜底图。
+   为什么需要：静态图床（GitHub + jsdmirror）不认 Gravatar 的 ?d= 兜底参数，文件不存在即 404 裂图；
+   CSS 无法回退加载失败的图片，只能在捕获阶段接住 img 的 error 事件重写 src（error 不冒泡，但捕获阶段能拿到）。
+   只处理 .tk-avatar-img（评论列表头像 + 提交框头像），表情包/正文图片一律不碰。三级：
+   ① 自建图床命中就结束（国区直连，最快）。
+   ② 能从失败的头像 URL（带 nk=<QQ号>）或评论昵称（纯 QQ 号，Twikoo 前端也这样认）里拿到 QQ 号
+      → 取 QQ 头像 https://thirdqq.qlogo.cn/g?b=sdk&nk=<QQ号>&s=140（已有 nk= 的说明该域名挂了 → 换 q1.qlogo.cn）
+      （Twikoo 服务端也在做同一件事，但它用的 aq.qq.com 接口已下线，见 skill 记录，故这里补一层）
+   ③ 都不是 → 静态兜底图 = 后台 DEFAULT_GRAVATAR（改兜底图时这里同步改）。
+   注：曾用 weavatar 做第二级、曾用 gh-proxy 取 GitHub 头像，均已按用户要求移除。 */
+(function () {
+  var DEFAULT_AVATAR = 'https://a1.boltp.com/2026/09/11/6aa3fe1a4fbb6.jpeg';
+  function qqNumber(img) {
+    var m = /[?&]nk=([0-9]{5,11})/.exec(img.src);          // 头像 URL 自带 QQ 号
+    if (m) return m[1];
+    var box = img.closest('.tk-comment') || img.closest('.tk-submit');
+    if (!box) return '';
+    var el = box.querySelector('.tk-nick'), nick = el ? el.textContent.trim() : '';
+    if (!nick) { var inp = box.querySelector('.tk-meta-input input'); if (inp) nick = (inp.value || '').trim(); }
+    return /^[1-9][0-9]{4,10}$/.test(nick) ? nick : '';     // 昵称本身就是 QQ 号（纯 5-11 位数字、首位非 0）
+  }
+  document.addEventListener('error', function (e) {
+    var img = e.target;
+    if (!img || img.tagName !== 'IMG' || !img.classList || !img.classList.contains('tk-avatar-img')) return;
+    var stage = img.dataset.tkStage || '0';
+    if (stage === '0') {
+      var qq = qqNumber(img);
+      if (qq) {
+        img.dataset.tkStage = '1';
+        img.src = /[?&]nk=/.test(img.src)
+          ? 'https://q1.qlogo.cn/g?b=qq&nk=' + qq + '&s=140'          // 已是 QQ 头像 → 换备用域名重试
+          : 'https://thirdqq.qlogo.cn/g?b=sdk&nk=' + qq + '&s=140';   // 昵称是 QQ 号 → 取 QQ 头像
+        return;
+      }
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    } else if (stage === '1') {
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    }
+  }, true);
+})();
+</script>
 <style>
 /* 长 URL（如参考文献裸链接）在窄屏可断行，防止横向溢出撑破导航栏 */
 .post .content a {
@@ -455,7 +497,7 @@ body[data-color-scheme='dark'] {
 
 <h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
 <ul>
-<li>邮箱: <a href="mailto:&#x68;&#105;&#x5f;&#x78;&#106;&#x68;&#106;&#116;&#122;&#97;&#x63;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
+<li>邮箱: <a href="mailto:&#104;&#x69;&#x5f;&#x78;&#x6a;&#104;&#106;&#116;&#x7a;&#x61;&#99;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
 <li>本页评论区</li>
 </ul>
 <p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
@@ -482,9 +524,6 @@ body[data-color-scheme='dark'] {
 <hr>
 <h2 id="xxtsoft"><a href="#xxtsoft" class="headerlink" title=" xxtsoft"></a><img class="friend-avatar" src="https://xxtsoft.top/favicon.ico" alt="xxtsoft"> xxtsoft</h2><p>原BSOD-MEMZ的小站</p>
 <p>→ <a target="_blank" rel="noopener" href="https://xxtsoft.top/">xxtsoft.top</a></p>
-<hr>
-<h2 id="ooliver-的博客"><a href="#ooliver-的博客" class="headerlink" title=" ooliver 的博客"></a><img class="friend-avatar" src="https://ooliver.cn/images/avatar.jpg" alt="ooliver 的博客"> ooliver 的博客</h2><p>The Show Must Go On!</p>
-<p>→ <a target="_blank" rel="noopener" href="https://blog.ooliver.cn/">https://blog.ooliver.cn</a></p>
 
   </div>
 

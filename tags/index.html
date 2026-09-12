@@ -149,6 +149,48 @@
 <script src="/js/head.js"></script>
 
   <script defer src="https://cloud.umami.is/script.js" data-website-id="71fc8321-74fa-474d-beda-1c0be570eec4"></script>
+<script>
+/* Twikoo 头像「链式兜底」= 自建图床 → QQ 头像 → 静态兜底图。
+   为什么需要：静态图床（GitHub + jsdmirror）不认 Gravatar 的 ?d= 兜底参数，文件不存在即 404 裂图；
+   CSS 无法回退加载失败的图片，只能在捕获阶段接住 img 的 error 事件重写 src（error 不冒泡，但捕获阶段能拿到）。
+   只处理 .tk-avatar-img（评论列表头像 + 提交框头像），表情包/正文图片一律不碰。三级：
+   ① 自建图床命中就结束（国区直连，最快）。
+   ② 能从失败的头像 URL（带 nk=<QQ号>）或评论昵称（纯 QQ 号，Twikoo 前端也这样认）里拿到 QQ 号
+      → 取 QQ 头像 https://thirdqq.qlogo.cn/g?b=sdk&nk=<QQ号>&s=140（已有 nk= 的说明该域名挂了 → 换 q1.qlogo.cn）
+      （Twikoo 服务端也在做同一件事，但它用的 aq.qq.com 接口已下线，见 skill 记录，故这里补一层）
+   ③ 都不是 → 静态兜底图 = 后台 DEFAULT_GRAVATAR（改兜底图时这里同步改）。
+   注：曾用 weavatar 做第二级、曾用 gh-proxy 取 GitHub 头像，均已按用户要求移除。 */
+(function () {
+  var DEFAULT_AVATAR = 'https://a1.boltp.com/2026/09/11/6aa3fe1a4fbb6.jpeg';
+  function qqNumber(img) {
+    var m = /[?&]nk=([0-9]{5,11})/.exec(img.src);          // 头像 URL 自带 QQ 号
+    if (m) return m[1];
+    var box = img.closest('.tk-comment') || img.closest('.tk-submit');
+    if (!box) return '';
+    var el = box.querySelector('.tk-nick'), nick = el ? el.textContent.trim() : '';
+    if (!nick) { var inp = box.querySelector('.tk-meta-input input'); if (inp) nick = (inp.value || '').trim(); }
+    return /^[1-9][0-9]{4,10}$/.test(nick) ? nick : '';     // 昵称本身就是 QQ 号（纯 5-11 位数字、首位非 0）
+  }
+  document.addEventListener('error', function (e) {
+    var img = e.target;
+    if (!img || img.tagName !== 'IMG' || !img.classList || !img.classList.contains('tk-avatar-img')) return;
+    var stage = img.dataset.tkStage || '0';
+    if (stage === '0') {
+      var qq = qqNumber(img);
+      if (qq) {
+        img.dataset.tkStage = '1';
+        img.src = /[?&]nk=/.test(img.src)
+          ? 'https://q1.qlogo.cn/g?b=qq&nk=' + qq + '&s=140'          // 已是 QQ 头像 → 换备用域名重试
+          : 'https://thirdqq.qlogo.cn/g?b=sdk&nk=' + qq + '&s=140';   // 昵称是 QQ 号 → 取 QQ 头像
+        return;
+      }
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    } else if (stage === '1') {
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    }
+  }, true);
+})();
+</script>
 <style>
 /* 长 URL（如参考文献裸链接）在窄屏可断行，防止横向溢出撑破导航栏 */
 .post .content a {
@@ -431,10 +473,6 @@ body[data-color-scheme='dark'] {
   </div>
   <div class="tags">
     
-    <a href="/tags/103-%E8%AE%A1%E7%AE%97%E6%9C%BA/" class="tag">#103-计算机<span class="count">1</span></a>
-    
-    <a href="/tags/computer-history/" class="tag">#computer history<span class="count">2</span></a>
-    
     <a href="/tags/AI/" class="tag">#AI<span class="count">2</span></a>
     
     <a href="/tags/Omni/" class="tag">#Omni<span class="count">1</span></a>
@@ -445,19 +483,21 @@ body[data-color-scheme='dark'] {
     
     <a href="/tags/wtf/" class="tag">#wtf<span class="count">1</span></a>
     
-    <a href="/tags/Markdown/" class="tag">#Markdown<span class="count">2</span></a>
-    
-    <a href="/tags/ascii/" class="tag">#ascii<span class="count">1</span></a>
-    
-    <a href="/tags/unicode/" class="tag">#unicode<span class="count">1</span></a>
+    <a href="/tags/Github/" class="tag">#Github<span class="count">1</span></a>
     
     <a href="/tags/%E7%BD%91%E7%AB%99%E8%AE%B0/" class="tag">#网站记<span class="count">1</span></a>
     
-    <a href="/tags/Github/" class="tag">#Github<span class="count">1</span></a>
+    <a href="/tags/103-%E8%AE%A1%E7%AE%97%E6%9C%BA/" class="tag">#103-计算机<span class="count">1</span></a>
+    
+    <a href="/tags/computer-history/" class="tag">#computer history<span class="count">2</span></a>
+    
+    <a href="/tags/Ollama/" class="tag">#Ollama<span class="count">1</span></a>
     
     <a href="/tags/Milktea/" class="tag">#Milktea<span class="count">1</span></a>
     
-    <a href="/tags/Ollama/" class="tag">#Ollama<span class="count">1</span></a>
+    <a href="/tags/Travel/" class="tag">#Travel<span class="count">1</span></a>
+    
+    <a href="/tags/Life/" class="tag">#Life<span class="count">1</span></a>
     
     <a href="/tags/website/" class="tag">#website<span class="count">1</span></a>
     
@@ -467,9 +507,11 @@ body[data-color-scheme='dark'] {
     
     <a href="/tags/js/" class="tag">#js<span class="count">1</span></a>
     
-    <a href="/tags/Travel/" class="tag">#Travel<span class="count">1</span></a>
+    <a href="/tags/Markdown/" class="tag">#Markdown<span class="count">2</span></a>
     
-    <a href="/tags/Life/" class="tag">#Life<span class="count">1</span></a>
+    <a href="/tags/ascii/" class="tag">#ascii<span class="count">1</span></a>
+    
+    <a href="/tags/unicode/" class="tag">#unicode<span class="count">1</span></a>
     
   </div>
 </div>
