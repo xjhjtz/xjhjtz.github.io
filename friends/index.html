@@ -13,16 +13,16 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content=".friend-avatar {   width: 30px;   height: 30px;   border-radius: 50%;   object-fit: cover;   vertical-align: middle;   margin-right: 4px; }   友链申请欢迎交换友链，若有意向请通过以下方式联系我：  邮箱: hi_xjhjtzac@163.com 本页评论区">
+  <meta name="description" content=".friends-grid {   display: grid;   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));   gap: 14px;   margin: 24px 0; }  .friends-grid .friend-card {   position: relative;   display: flex;">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Friends">
 <meta property="og:url" content="https://xjhjtz.github.io/friends/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content=".friend-avatar {   width: 30px;   height: 30px;   border-radius: 50%;   object-fit: cover;   vertical-align: middle;   margin-right: 4px; }   友链申请欢迎交换友链，若有意向请通过以下方式联系我：  邮箱: hi_xjhjtzac@163.com 本页评论区">
+<meta property="og:description" content=".friends-grid {   display: grid;   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));   gap: 14px;   margin: 24px 0; }  .friends-grid .friend-card {   position: relative;   display: flex;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
 <meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-15T11:15:48.026Z">
+<meta property="article:modified_time" content="2026-09-16T14:23:15.256Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -485,49 +485,203 @@ body[data-color-scheme='dark'] {
 
   <div class="content">
     <style>
-.friend-avatar {
-  width: 30px;
-  height: 30px;
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.friends-grid .friend-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-m, 12px);
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit;
+  background: var(--card-background, #fff);
+  border: 1px solid var(--card-border-color, rgba(0, 0, 0, .08));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+  transition: transform .28s cubic-bezier(.22, .61, .36, 1),
+              box-shadow .28s, border-color .28s;
+}
+
+.friends-grid .friend-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary-color, #49b1f5), #8e6bff);
+  transform: scaleY(0);
+  transition: transform .3s;
+}
+
+.friends-grid .friend-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-color, rgba(73, 177, 245, .5));
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .1);
+}
+
+.friends-grid .friend-card:hover::before {
+  transform: scaleY(1);
+}
+
+.friends-grid .friend-avatar {
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
+  margin: 0;
   vertical-align: middle;
-  margin-right: 4px;
+  background: rgba(0, 0, 0, .05);
+  transition: transform .3s;
+}
+
+.friends-grid .friend-card:hover .friend-avatar {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.friends-grid .friend-info {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.friends-grid .friend-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friends-grid .friend-desc {
+  display: -webkit-box;
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  opacity: .62;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.friends-grid .friend-url {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  opacity: .42;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (prefers-color-scheme: dark) {
+  .friends-grid .friend-card {
+    background: var(--card-background, rgba(255, 255, 255, .045));
+    border-color: var(--card-border-color, rgba(255, 255, 255, .1));
+  }
+  .friends-grid .friend-card:hover {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
+  }
 }
 </style>
 
 <h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
 <ul>
-<li>邮箱: <a href="mailto:&#104;&#105;&#x5f;&#120;&#106;&#104;&#106;&#116;&#122;&#x61;&#x63;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#111;&#109;">hi_xjhjtzac@163.com</a></li>
+<li>邮箱: <a href="mailto:&#104;&#x69;&#x5f;&#120;&#x6a;&#x68;&#106;&#x74;&#122;&#x61;&#99;&#x40;&#49;&#54;&#51;&#46;&#x63;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
 <li>本页评论区</li>
 </ul>
 <p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">网站名称：xjhjtzac的Blog</span><br><span class="line">网站链接：https://xjhjtz.github.io</span><br><span class="line">网站描述：待到山花烂漫时</span><br><span class="line">网站头像（可选）：https://cdn.jsdmirror.com/gh/xjhjtz/xjhjtzac-photos-bed@main/avatar.webp</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">网站名称：xjhjtzac的Blog</span><br><span class="line">网站链接：https:<span class="regexp">//</span>xjhjtz.github.io</span><br><span class="line">网站描述：待到山花烂漫时</span><br><span class="line">网站头像（可选）：https:<span class="regexp">//</span>cdn.jsdmirror.com<span class="regexp">/gh/</span>xjhjtz<span class="regexp">/xjhjtzac-photos-bed@main/</span>avatar.webp</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="I-Am-I"><a href="#I-Am-I" class="headerlink" title=" I Am I"></a><img class="friend-avatar" src="https://cdn.jsdelivr.net/gh/5ime/img/avatar.jpg" alt="I Am I"> I Am I</h2><p>永远相信美好的事情即将发生</p>
-<p>→ <a target="_blank" rel="noopener" href="https://5ime.cn/">5ime.cn</a></p>
-<hr>
-<h2 id="KASUIEの次元"><a href="#KASUIEの次元" class="headerlink" title=" KASUIEの次元"></a><img class="friend-avatar" src="https://kasuie.cc/avatar.webp" alt="KASUIEの次元"> KASUIEの次元</h2><p>喜欢温柔的人</p>
-<p>→ <a target="_blank" rel="noopener" href="https://kasuie.cc/">kasuie.cc</a></p>
-<hr>
-<h2 id="二叉树树"><a href="#二叉树树" class="headerlink" title=" 二叉树树"></a><img class="friend-avatar" src="https://q2.qlogo.cn/headimg_dl?dst_uin=2726730791&amp;spec=100" alt="二叉树树"> 二叉树树</h2><p>Protect What You love.</p>
-<p>→ <a target="_blank" rel="noopener" href="https://2x.nz/">2x.nz</a></p>
-<hr>
-<h2 id="Hsu-Yeung-的博客"><a href="#Hsu-Yeung-的博客" class="headerlink" title=" Hsu Yeung 的博客"></a><img class="friend-avatar" src="https://www.hsuyeung.com/img/avatar.jpg" alt="Hsu Yeung 的博客"> Hsu Yeung 的博客</h2><p>前天看到了小兔，昨天是小鹿，今天是你。</p>
-<p>→ <a target="_blank" rel="noopener" href="https://www.hsuyeung.com/">www.hsuyeung.com</a></p>
-<hr>
-<h2 id="轻风blog"><a href="#轻风blog" class="headerlink" title=" 轻风blog"></a><img class="friend-avatar" src="https://img.qingfengnb.cn/LightPicture/2025/07/bec6eb9625656d60.jpg" alt="轻风blog"> 轻风blog</h2><p>茫茫人海，多么幸运才能遇见你！</p>
-<p>→ <a target="_blank" rel="noopener" href="https://www.qingfengnb.cn/">www.qingfengnb.cn</a></p>
-<hr>
-<h2 id="Yourlai-Blog"><a href="#Yourlai-Blog" class="headerlink" title=" Yourlai Blog"></a><img class="friend-avatar" src="https://cdn.cdn.yourlai.icu/img/logo/ava.png" alt="Yourlai Blog"> Yourlai Blog</h2><p>无bug 是理想，调设备是日常</p>
-<p>→ <a target="_blank" rel="noopener" href="https://yourlai.com/">yourlai.com</a></p>
-<hr>
-<h2 id="xxtsoft"><a href="#xxtsoft" class="headerlink" title=" xxtsoft"></a><img class="friend-avatar" src="https://xxtsoft.top/favicon.ico" alt="xxtsoft"> xxtsoft</h2><p>原BSOD-MEMZ的小站</p>
-<p>→ <a target="_blank" rel="noopener" href="https://xxtsoft.top/">xxtsoft.top</a></p>
-<hr>
-<h2 id="鑫辰伴我行"><a href="#鑫辰伴我行" class="headerlink" title="  鑫辰伴我行"></a><img class="friend-avatar" src="https://pic.wxweb.xyz/pic/main.jpg" alt="xxtsoft">  鑫辰伴我行</h2><p>活着就是为了折腾！</p>
-<p>→ <a target="_blank" rel="noopener" href="https://wxweb.xyz/">wxweb.xyz</a></p>
+<h2 id="友友们-≧▽≦"><a href="#友友们-≧▽≦" class="headerlink" title="友友们 (&#x2F;≧▽≦)&#x2F;"></a>友友们 (&#x2F;≧▽≦)&#x2F;</h2><div class="container">
 
+<div class="friends-grid">
+
+<a class="friend-card" href="https://5ime.cn" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://cdn.jsdelivr.net/gh/5ime/img/avatar.jpg" alt="I Am I" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">I Am I</span>
+    <span class="friend-desc">永远相信美好的事情即将发生</span>
+    <span class="friend-url">5ime.cn</span>
+  </span>
+</a>
+
+<a class="friend-card" href="https://kasuie.cc" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://kasuie.cc/avatar.webp" alt="KASUIEの次元" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">KASUIEの次元</span>
+    <span class="friend-desc">喜欢温柔的人</span>
+    <span class="friend-url">kasuie.cc</span>
+  </span>
+</a>
+
+<a class="friend-card" href="https://2x.nz" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://q2.qlogo.cn/headimg_dl?dst_uin=2726730791&spec=100" alt="二叉树树" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">二叉树树</span>
+    <span class="friend-desc">Protect What You love.</span>
+    <span class="friend-url">2x.nz</span>
+  </span>
+</a>
+
+<a class="friend-card" href="https://www.hsuyeung.com" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://www.hsuyeung.com/img/avatar.jpg" alt="Hsu Yeung 的博客" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">Hsu Yeung 的博客</span>
+    <span class="friend-desc">前天看到了小兔，昨天是小鹿，今天是你。</span>
+    <span class="friend-url">www.hsuyeung.com</span>
+  </span>
+</a>
+
+<a class="friend-card" href="https://www.qingfengnb.cn" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://img.qingfengnb.cn/LightPicture/2025/07/bec6eb9625656d60.jpg" alt="轻风blog" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">轻风blog</span>
+    <span class="friend-desc">茫茫人海，多么幸运才能遇见你！</span>
+    <span class="friend-url">www.qingfengnb.cn</span>
+  </span>
+</a>
+
+<a class="friend-card" href="https://yourlai.com" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://cdn.cdn.yourlai.icu/img/logo/ava.png" alt="Yourlai Blog" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">Yourlai Blog</span>
+    <span class="friend-desc">无bug 是理想，调设备是日常</span>
+    <span class="friend-url">yourlai.com</span>
+  </span>
+</a>
+
+<a class="friend-card" href="https://xxtsoft.top" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://xxtsoft.top/favicon.ico" alt="xxtsoft" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">xxtsoft</span>
+    <span class="friend-desc">原 BSOD-MEMZ 的小站</span>
+    <span class="friend-url">xxtsoft.top</span>
+  </span>
+</a>
+
+<a class="friend-card" href="https://wxweb.xyz" target="_blank" rel="noopener">
+  <img class="friend-avatar" src="https://pic.wxweb.xyz/pic/main.jpg" alt="鑫辰伴我行" loading="lazy">
+  <span class="friend-info">
+    <span class="friend-name">鑫辰伴我行</span>
+    <span class="friend-desc">活着就是为了折腾！</span>
+    <span class="friend-url">wxweb.xyz</span>
+  </span>
+</a>
+
+</div>
+
+</div>
   </div>
 
   
