@@ -386,6 +386,30 @@ body[data-color-scheme='dark'] {
   margin-top: 12px;
 }
 .twikoo-wrap .tk-turnstile { align-items: flex-end; }
+
+/* 13. 自定义头衔（评论标签，脚本在 comments_section 里）
+   形状/内边距沿用 Twikoo 自己的 .tk-tag，只补两个它没有的颜色：
+   · tk-tag-purple = 自定义头衔的默认颜色（对齐参考站 blog.cancin.cn 的紫色标签）
+   · tk-tag-grey   = 备用颜色之一（脚本里写 '头衔|grey' 才用到），它走主题变量，亮暗自动跟随
+   选择器带 .twikoo-wrap 前缀是必需的：Twikoo 运行时才注入 .tk-tag{background:#f2f6fc}，
+   同优先级时后注入的会赢，必须提高一级优先级才压得住它。
+   紫色用 Twikoo 那套写死的 rgba 值，和它自带的 green/blue/yellow/red 保持一致。
+   名单外的评论不会有任何标签 —— 脚本匹配不到就直接不加元素。 */
+.twikoo-wrap .tk-tag-purple {
+  background-color: rgba(150, 105, 225, 0.13);
+  border: 1px solid rgba(150, 105, 225, 0.5);
+  border-radius: 2px;
+  color: #9669e1;
+}
+.twikoo-wrap .tk-tag-grey {
+  background-color: var(--color-background-secondary-hover);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 2px;
+  color: var(--color-text-secondary);
+}
+/* 头衔紧跟昵称：Twikoo 自己的标签前面有一个空格文本节点，我们插入的元素没有，
+   实测那个空格 = 4px，这里用 margin 补上，视觉上「昵称 头衔 站长」才连成一串。 */
+.twikoo-wrap .tk-custom-title { margin-left: 4px; }
 </style>
 
 <!-- hexo injector head_end start -->
@@ -500,21 +524,21 @@ body[data-color-scheme='dark'] {
 <h3 id="1-剧透文字"><a href="#1-剧透文字" class="headerlink" title="1. 剧透文字"></a>1. 剧透文字</h3><p>效果如下：</p>
 <p><span class="spoiler">这是一些文字</span></p>
 <h4 id="实现方式："><a href="#实现方式：" class="headerlink" title="实现方式："></a>实现方式：</h4><p>这个效果原主题是没有的，本站的剧透文字效果复刻自<code>MrWillCom/MrWillCom.github.io</code>，想要复刻，请在<code>_config.cupertino.yml</code>配置文件中的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insertions:</span><br><span class="line">  head:</span><br><span class="line">    ending: |</span><br></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">insertions:</span></span><br><span class="line"><span class="symbol">  head:</span></span><br><span class="line"><span class="symbol">    ending:</span> |</span><br></pre></td></tr></table></figure>
 
 <p>中添加如下代码：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">.spoiler</span> &#123;</span><br><span class="line">        <span class="attr">filter:</span> <span class="string">blur(5px);</span></span><br><span class="line">        <span class="attr">opacity:</span> <span class="number">0.6</span><span class="string">;</span></span><br><span class="line">        <span class="attr">transition-property:</span> <span class="string">filter</span>, <span class="string">opacity;</span></span><br><span class="line">        <span class="attr">transition-duration:</span> <span class="number">0.</span><span class="string">15s;</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="string">.spoiler:hover</span> &#123;</span><br><span class="line">        <span class="attr">filter:</span> <span class="string">none;</span></span><br><span class="line">        <span class="attr">opacity:</span> <span class="number">1</span><span class="string">;</span></span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
 <p>然后在文章中使用以下写法即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span class=&quot;spoiler&quot;&gt;这里填文字&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span <span class="keyword">class</span>=&quot;<span class="symbol">spoiler</span>&quot;&gt;这里填文字&lt;/<span class="symbol">span</span>&gt;</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-容器"><a href="#2-容器" class="headerlink" title="2. 容器"></a>2. 容器</h3><p>默认情况下，这个主题的几乎所有组件都没有视口边缘的边距或填充。这让你能够创建超宽的内容，而不受固定宽度限制。所以你必须用 <code>.container</code> 来恢复边距和填充：</p>
 <h4 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h4><p>把你的组件包裹在如下结构内。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">  &lt;!-- 在这里写组件 --&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 在这里写组件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="3-按钮"><a href="#3-按钮" class="headerlink" title="3. 按钮"></a>3. 按钮</h3><p>效果如下：</p>
 <p><a class="action-button-primary" href="#3-按钮">按下导航至锚点或链接</a></p>
 <p><button class="action-button-primary">普通按钮</button></p>
-<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a class=&quot;action-button-primary&quot; href=&quot;在这里填链接&quot;&gt;在这里填显示文字&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;button class=&quot;action-button-primary&quot;&gt;普通按钮&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a <span class="attribute">class</span>=<span class="string">&quot;action-button-primary&quot;</span> <span class="attribute">href</span>=<span class="string">&quot;在这里填链接&quot;</span>&gt;在这里填显示文字&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;button <span class="attribute">class</span>=<span class="string">&quot;action-button-primary&quot;</span>&gt;普通按钮&lt;/button&gt;</span><br></pre></td></tr></table></figure>
 
 <p>值得注意的是，按钮无需包裹容器。</p>
 <h3 id="4-徽章"><a href="#4-徽章" class="headerlink" title="4. 徽章"></a>4. 徽章</h3><p>效果如下：</p>
@@ -522,7 +546,7 @@ body[data-color-scheme='dark'] {
 <p><span class="badge warning">Warning</span></p>
 <p><span class="badge secondary">Secondary</span></p>
 <p><span class="badge success">Success</span></p>
-<h4 id="实现方式-1"><a href="#实现方式-1" class="headerlink" title="实现方式"></a>实现方式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;span class=&quot;badge&quot;&gt;Stable&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class=&quot;badge warning&quot;&gt;Warning&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class=&quot;badge secondary&quot;&gt;Secondary&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class=&quot;badge success&quot;&gt;Success&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="实现方式-1"><a href="#实现方式-1" class="headerlink" title="实现方式"></a>实现方式</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;span <span class="keyword">class</span>=&quot;<span class="symbol">badge</span>&quot;&gt;<span class="symbol">Stable</span>&lt;/<span class="symbol">span</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="symbol">span</span> <span class="symbol">class</span>=&quot;<span class="symbol">badge</span> <span class="symbol">warning</span>&quot;&gt;<span class="symbol">Warning</span>&lt;/<span class="symbol">span</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="symbol">span</span> <span class="symbol">class</span>=&quot;<span class="symbol">badge</span> <span class="symbol">secondary</span>&quot;&gt;<span class="symbol">Secondary</span>&lt;/<span class="symbol">span</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="symbol">span</span> <span class="symbol">class</span>=&quot;<span class="symbol">badge</span> <span class="symbol">success</span>&quot;&gt;<span class="symbol">Success</span>&lt;/<span class="symbol">span</span>&gt;</span><br></pre></td></tr></table></figure>
 
 <p>值得注意的是，徽章无需包裹容器。</p>
 <h3 id="5-提示框"><a href="#5-提示框" class="headerlink" title="5. 提示框"></a>5. 提示框</h3><p>效果如下：</p>
@@ -554,16 +578,16 @@ body[data-color-scheme='dark'] {
 
 <h4 id="实现方式-2"><a href="#实现方式-2" class="headerlink" title="实现方式"></a>实现方式</h4><p>这里直接给出包裹后的写法。</p>
 <p>默认无色</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">&lt;htc-callout&gt;</span><br><span class="line">  &lt;span slot=&quot;title&quot;&gt;Default&lt;/span&gt;</span><br><span class="line">  Your content goes here.</span><br><span class="line">&lt;/htc-callout&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">htc-callout</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">&quot;title&quot;</span>&gt;</span>Default<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  Your content goes here.</span><br><span class="line"><span class="tag">&lt;/<span class="name">htc-callout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>黄色</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">&lt;htc-callout type=&quot;warning&quot;&gt;</span><br><span class="line">  &lt;span slot=&quot;icon&quot;&gt;&lt;i class=&quot;bi bi-exclamation-triangle-fill&quot;&gt;&lt;/i&gt;&lt;/span&gt;</span><br><span class="line">  &lt;span slot=&quot;title&quot;&gt;Warning&lt;/span&gt;</span><br><span class="line">  Your content goes here.</span><br><span class="line">&lt;/htc-callout&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">htc-callout</span> <span class="attr">type</span>=<span class="string">&quot;warning&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">&quot;icon&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;bi bi-exclamation-triangle-fill&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">&quot;title&quot;</span>&gt;</span>Warning<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  Your content goes here.</span><br><span class="line"><span class="tag">&lt;/<span class="name">htc-callout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>蓝色</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">&lt;htc-callout type=&quot;accent&quot;&gt;</span><br><span class="line">  &lt;span slot=&quot;icon&quot;&gt;&lt;i class=&quot;bi bi-palette-fill&quot;&gt;&lt;/i&gt;&lt;/span&gt;</span><br><span class="line">  &lt;span slot=&quot;title&quot;&gt;Accent&lt;/span&gt;</span><br><span class="line">  Your content goes here.</span><br><span class="line">&lt;/htc-callout&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">htc-callout</span> <span class="attr">type</span>=<span class="string">&quot;accent&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">&quot;icon&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;bi bi-palette-fill&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">&quot;title&quot;</span>&gt;</span>Accent<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  Your content goes here.</span><br><span class="line"><span class="tag">&lt;/<span class="name">htc-callout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>绿色</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">&lt;htc-callout type=&quot;success&quot;&gt;</span><br><span class="line">  &lt;span slot=&quot;icon&quot;&gt;&lt;i class=&quot;bi bi-check-circle-fill&quot;&gt;&lt;/i&gt;&lt;/span&gt;</span><br><span class="line">  &lt;span slot=&quot;title&quot;&gt;Success&lt;/span&gt;</span><br><span class="line">  Your content goes here.</span><br><span class="line">&lt;/htc-callout&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">htc-callout</span> <span class="attr">type</span>=<span class="string">&quot;success&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">&quot;icon&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;bi bi-check-circle-fill&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">&quot;title&quot;</span>&gt;</span>Success<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  Your content goes here.</span><br><span class="line"><span class="tag">&lt;/<span class="name">htc-callout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="6-卡片与卡片网格"><a href="#6-卡片与卡片网格" class="headerlink" title="6. 卡片与卡片网格"></a>6. 卡片与卡片网格</h3><p>适合用来展示「一个条目一块卡」的内容，比如开源项目、作品、常用工具等。卡片网格是响应式的：宽屏一行三列、中等宽度两列、手机上单列，无需包裹容器（和按钮、徽章一样自带宽度约束，居中显示）。</p>
 <p>效果如下：</p>
@@ -580,7 +604,7 @@ body[data-color-scheme='dark'] {
 <p class="description">这张卡没有封面图也没有底部操作区，只有标题和描述。同排卡片高度会自动对齐，没有操作区的卡会由内容撑满。</p></div></div></div>
 
 <h4 id="实现方式-3"><a href="#实现方式-3" class="headerlink" title="实现方式"></a>实现方式</h4><p>卡片由一组配套的标签构成，<code>cardGrid</code> 包整体、<code>card</code> 是一张卡，其余部分按需自由组合、全部可以删减：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;% cardGrid %&#125;</span><br><span class="line">&#123;% card %&#125;</span><br><span class="line">&#123;% cardCoverImg 图片链接 &quot;图片描述&quot; %&#125;          &lt;!-- 封面图，可选 --&gt;</span><br><span class="line">&#123;% cardContent %&#125;</span><br><span class="line">&#123;% cardContentTitle &quot;标题&quot; %&#125;</span><br><span class="line">&#123;% cardContentDescription &quot;描述文字&quot; %&#125;</span><br><span class="line">&#123;% endcardContent %&#125;</span><br><span class="line">&#123;% cardActions %&#125;                            &lt;!-- 底部操作区，可选 --&gt;</span><br><span class="line">&#123;% cardActionsLeft %&#125;</span><br><span class="line">&lt;span class=&quot;badge&quot;&gt;Stable&lt;/span&gt;            &lt;!-- 左半区：通常放徽章 --&gt;</span><br><span class="line">&#123;% endcardActionsLeft %&#125;</span><br><span class="line">&#123;% cardActionsRight %&#125;</span><br><span class="line">&lt;a class=&quot;action-button-primary&quot; href=&quot;链接&quot;&gt;Learn more&lt;/a&gt;</span><br><span class="line">&#123;% endcardActionsRight %&#125;                    &lt;!-- 右半区：通常放按钮 --&gt;</span><br><span class="line">&#123;% endcardActions %&#125;</span><br><span class="line">&#123;% endcard %&#125;</span><br><span class="line">&#123;% endcardGrid %&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">cardGrid</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">card</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">cardCoverImg</span> 图片链接 &quot;图片描述&quot; %&#125;</span><span class="language-xml">          <span class="comment">&lt;!-- 封面图，可选 --&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">cardContent</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">cardContentTitle</span> &quot;标题&quot; %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">cardContentDescription</span> &quot;描述文字&quot; %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcardContent</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">cardActions</span> %&#125;</span><span class="language-xml">                            <span class="comment">&lt;!-- 底部操作区，可选 --&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">cardActionsLeft</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;badge&quot;</span>&gt;</span>Stable<span class="tag">&lt;/<span class="name">span</span>&gt;</span>            <span class="comment">&lt;!-- 左半区：通常放徽章 --&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcardActionsLeft</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">cardActionsRight</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;action-button-primary&quot;</span> <span class="attr">href</span>=<span class="string">&quot;链接&quot;</span>&gt;</span>Learn more<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcardActionsRight</span> %&#125;</span><span class="language-xml">                    <span class="comment">&lt;!-- 右半区：通常放按钮 --&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcardActions</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcard</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcardGrid</span> %&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>几个要点：</p>
 <ul>
@@ -601,7 +625,7 @@ body[data-color-scheme='dark'] {
 </div>
 </div>
 
-<h4 id="实现方式-4"><a href="#实现方式-4" class="headerlink" title="实现方式"></a>实现方式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">&lt;div class=&quot;carousel&quot;&gt;</span><br><span class="line">  &lt;img src=&quot;图片链接1&quot; class=&quot;carousel-item&quot; /&gt;</span><br><span class="line">  &lt;figure&gt;</span><br><span class="line">    &lt;img src=&quot;图片链接2&quot; alt=&quot;图片描述&quot; class=&quot;carousel-item&quot; /&gt;</span><br><span class="line">    &lt;figcaption&gt;这张图的说明文字&lt;/figcaption&gt;</span><br><span class="line">  &lt;/figure&gt;</span><br><span class="line">  &lt;img src=&quot;图片链接3&quot; class=&quot;carousel-item&quot; /&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="实现方式-4"><a href="#实现方式-4" class="headerlink" title="实现方式"></a>实现方式</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;carousel&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;图片链接1&quot;</span> <span class="attr">class</span>=<span class="string">&quot;carousel-item&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">figure</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;图片链接2&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;图片描述&quot;</span> <span class="attr">class</span>=<span class="string">&quot;carousel-item&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">figcaption</span>&gt;</span>这张图的说明文字<span class="tag">&lt;/<span class="name">figcaption</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">figure</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;图片链接3&quot;</span> <span class="attr">class</span>=<span class="string">&quot;carousel-item&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>几个要点：</p>
 <ul>
@@ -610,10 +634,10 @@ body[data-color-scheme='dark'] {
 </ul>
 <h3 id="8-工具类"><a href="#8-工具类" class="headerlink" title="8. 工具类"></a>8. 工具类</h3><p>除了组件，主题还提供一些现成的工具类，直接在标签的 <code>class</code> 里加上就能生效：</p>
 <p><code>.block-large</code> 让块级元素突破正文列宽、更宽一些（最大 1000px 居中，视口足够宽时才看得出差别）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;block-large&quot;&gt;</span><br><span class="line">  这里放你想加宽的内容</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">div</span> <span class="built_in">class</span>=<span class="string">&quot;block-large&quot;</span>&gt;</span><br><span class="line">  这里放你想加宽的内容</span><br><span class="line">&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
 
 <p><code>.no-select</code> 禁止选中文字（不过按 F12 依然能在开发者工具里看到内容）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class=&quot;no-select&quot;&gt;这段文字无法被选中&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;no-select&quot;</span>&gt;</span>这段文字无法被选中<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><code>.text-left</code> &#x2F; <code>.text-center</code> &#x2F; <code>.text-right</code> 控制文本对齐，<code>.text-uppercase</code> &#x2F; <code>.text-lowercase</code> &#x2F; <code>.text-capitalize</code> 变换字母大小写（对中文无效，只作用于英文）</p>
 <p>效果如下：</p>
@@ -681,6 +705,86 @@ body[data-color-scheme='dark'] {
       el: '#tcomment',
       lang: 'zh-CN',
     });
+  </script>
+  <script>
+    /* ============ 自定义头衔（评论标签）============
+       思路来自 https://blog.cancin.cn/post/5c6ff12b.html，但**不改 twikoo.min.js**：
+       那篇是本地改压缩源码再托管，本站用 CDN 版，改了就等于把 Twikoo 钉死在旧版本上。
+       这里改成「渲染完之后往昵称后面补一个 <span class="tk-tag ...">」，
+       样式由 head.ending 第 13 节提供，Twikoo 升级不受影响。
+
+       规则：**只有写进 TITLES 的人才有头衔**，名单外的人（包括博主自己）一律不加任何标签。
+
+       ★ 怎么加人 ★ 往 TITLES 里加一行（**键只认邮箱哈希，认昵称等于谁都能冒充**）：
+           '邮箱哈希': '头衔',             // 只写头衔 → 紫色
+           '邮箱哈希': '头衔|blue',        // 想换色 → 头衔|颜色
+         · 邮箱哈希 = sha256(邮箱去掉首尾空格、转小写)。QQ/微信只管填成 123456@qq.com 再算。
+           1.6.36 之前的老评论、以及导入进来的数据可能是 32 位 md5，那就写 32 位的。
+           （极端情况：服务端对「没有邮箱的评论」存的是 md5(昵称)，这种只能写 md5(昵称)。）
+           不会算就把邮箱发我，我给你哈希。
+         · 可选颜色：purple(默认) / green / blue / yellow / red / grey —— 前 5 个是 Twikoo 自带的
+           tk-tag-* 调色，grey 是我补的（走主题变量、亮暗自动跟随）。
+         · 改完必须重新生成页面才生效。
+
+       怎么认出「这条评论是谁发的」（按可靠性排序，两条路都源自邮箱）：
+         ① 评论元素上的 Vue 2 组件实例 __vue__.$props.comment.mailMd5（与库里字段同源，最准）
+         ② 头像 URL 里的哈希 <CDN>/avatar/<hash>?d=（评论自带 avatar 字段时这条路取不到）
+         ⚠️ 故意**不按昵称匹配**：昵称谁都能改，写进名单等于送人一个可冒充的头衔（用户要求）。 */
+    (function () {
+      var TITLES = {
+        // 例（XT20100612，QQ 2542155619@qq.com，哈希见下）—— 抄一行改掉引号里的内容即可：
+        // '0623e95c7b950eaf4b24f55f164b0d61ce4cfe6b2da65cfe59b4c0959ad1f8d1': '挚友',
+        // '0623e95c7b950eaf4b24f55f164b0d61ce4cfe6b2da65cfe59b4c0959ad1f8d1': '挚友|blue',
+        '1c212263eda5cd69e53a83f0583ad5ee0d86e5be9ad897e39b97a2b8dceaeb10': '哈基米南北绿豆'
+        '92f8ecddb4ff9423e056ae8c4646ae6b71cb8fa6fd5f8e6dcc33fff4e2ef6a2d': '站长|green'
+      };
+
+      var wrap = document.querySelector('.twikoo-wrap');
+      if (!wrap) return;
+
+      function hashOf(box) {
+        var vm = box.__vue__;                                  // Vue 2 把实例挂在组件根元素上
+        var c = vm && vm.$props && vm.$props.comment;
+        if (c && c.mailMd5) return String(c.mailMd5).toLowerCase();
+        var img = box.querySelector('img.tk-avatar-img');
+        var m = img && /\/avatar\/([0-9a-f]{32,64})(?:[?#]|$)/i.exec(img.getAttribute('src') || '');
+        return m ? m[1].toLowerCase() : '';
+      }
+
+      function decorate(meta) {
+        var box = meta.closest('.tk-comment');
+        var nickEl = meta.querySelector('.tk-nick');
+        if (!box || !nickEl) return;
+        var raw = TITLES[hashOf(box)] || '';                   // 只按邮箱哈希认人（不认昵称）
+        var parts = String(raw).split('|');
+        var text = parts[0].trim(), color = (parts[1] || 'purple').trim();
+        var el = meta.querySelector(':scope > .tk-custom-title');
+        if (!text) { if (el) el.remove(); return; }            // 不在名单里 → 不留任何标签
+        if (!el) {                                             // 插在昵称之后、博主/置顶标签之前
+          el = document.createElement('span');
+          el.className = 'tk-custom-title';
+          nickEl.insertAdjacentElement('afterend', el);
+        }
+        var cls = 'tk-tag tk-tag-' + color + ' tk-custom-title';
+        if (el.className !== cls) el.className = cls;
+        if (el.textContent !== text) el.textContent = text;
+      }
+
+      function run() {
+        var metas = wrap.querySelectorAll('.tk-comment .tk-meta');
+        for (var i = 0; i < metas.length; i++) decorate(metas[i]);
+      }
+
+      // 只在「真的改了 DOM」时才产生变动 → 观察器不会自激循环；同一帧内多次变动合并成一次 run
+      var queued = false;
+      new MutationObserver(function () {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () { queued = false; run(); });
+      }).observe(wrap, { childList: true, subtree: true });
+
+      run();                                                   // 首次渲染（Twikoo 异步，靠上面的观察器兜住）
+    })();
   </script>
 </div>
 
