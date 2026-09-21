@@ -384,30 +384,6 @@ body[data-color-scheme='dark'] {
   margin-top: 12px;
 }
 .twikoo-wrap .tk-turnstile { align-items: flex-end; }
-
-/* 13. 自定义头衔（评论标签，脚本在 comments_section 里）
-   形状/内边距沿用 Twikoo 自己的 .tk-tag，只补两个它没有的颜色：
-   · tk-tag-purple = 自定义头衔的默认颜色（对齐参考站 blog.cancin.cn 的紫色标签）
-   · tk-tag-grey   = 备用颜色之一（脚本里写 '头衔|grey' 才用到），它走主题变量，亮暗自动跟随
-   选择器带 .twikoo-wrap 前缀是必需的：Twikoo 运行时才注入 .tk-tag{background:#f2f6fc}，
-   同优先级时后注入的会赢，必须提高一级优先级才压得住它。
-   紫色用 Twikoo 那套写死的 rgba 值，和它自带的 green/blue/yellow/red 保持一致。
-   名单外的评论不会有任何标签 —— 脚本匹配不到就直接不加元素。 */
-.twikoo-wrap .tk-tag-purple {
-  background-color: rgba(150, 105, 225, 0.13);
-  border: 1px solid rgba(150, 105, 225, 0.5);
-  border-radius: 2px;
-  color: #9669e1;
-}
-.twikoo-wrap .tk-tag-grey {
-  background-color: var(--color-background-secondary-hover);
-  border: 1px solid var(--color-border-primary);
-  border-radius: 2px;
-  color: var(--color-text-secondary);
-}
-/* 头衔紧跟昵称：Twikoo 自己的标签前面有一个空格文本节点，我们插入的元素没有，
-   实测那个空格 = 4px，这里用 margin 补上，视觉上「昵称 头衔 站长」才连成一串。 */
-.twikoo-wrap .tk-custom-title { margin-left: 4px; }
 </style>
 
 <!-- hexo injector head_end start -->
@@ -658,13 +634,13 @@ body[data-color-scheme='dark'] {
     <p class="tags">
       <i class="bi bi-tags icon"></i>
       
+      <a href="/tags/computer-history/" class="tag">#computer history</a>
+      
       <a href="/tags/Markdown/" class="tag">#Markdown</a>
       
       <a href="/tags/ascii/" class="tag">#ascii</a>
       
       <a href="/tags/unicode/" class="tag">#unicode</a>
-      
-      <a href="/tags/computer-history/" class="tag">#computer history</a>
       
     </p>
     
@@ -704,86 +680,6 @@ body[data-color-scheme='dark'] {
       el: '#tcomment',
       lang: 'zh-CN',
     });
-  </script>
-  <script>
-    /* ============ 自定义头衔（评论标签）============
-       思路来自 https://blog.cancin.cn/post/5c6ff12b.html，但**不改 twikoo.min.js**：
-       那篇是本地改压缩源码再托管，本站用 CDN 版，改了就等于把 Twikoo 钉死在旧版本上。
-       这里改成「渲染完之后往昵称后面补一个 <span class="tk-tag ...">」，
-       样式由 head.ending 第 13 节提供，Twikoo 升级不受影响。
-
-       规则：**只有写进 TITLES 的人才有头衔**，名单外的人（包括博主自己）一律不加任何标签。
-
-       ★ 怎么加人 ★ 往 TITLES 里加一行（**键只认邮箱哈希，认昵称等于谁都能冒充**）：
-           '邮箱哈希': '头衔',             // 只写头衔 → 紫色
-           '邮箱哈希': '头衔|blue',        // 想换色 → 头衔|颜色
-         · 邮箱哈希 = sha256(邮箱去掉首尾空格、转小写)。QQ/微信只管填成 123456@qq.com 再算。
-           1.6.36 之前的老评论、以及导入进来的数据可能是 32 位 md5，那就写 32 位的。
-           （极端情况：服务端对「没有邮箱的评论」存的是 md5(昵称)，这种只能写 md5(昵称)。）
-           不会算就把邮箱发我，我给你哈希。
-         · 可选颜色：purple(默认) / green / blue / yellow / red / grey —— 前 5 个是 Twikoo 自带的
-           tk-tag-* 调色，grey 是我补的（走主题变量、亮暗自动跟随）。
-         · 改完必须重新生成页面才生效。
-
-       怎么认出「这条评论是谁发的」（按可靠性排序，两条路都源自邮箱）：
-         ① 评论元素上的 Vue 2 组件实例 __vue__.$props.comment.mailMd5（与库里字段同源，最准）
-         ② 头像 URL 里的哈希 <CDN>/avatar/<hash>?d=（评论自带 avatar 字段时这条路取不到）
-         ⚠️ 故意**不按昵称匹配**：昵称谁都能改，写进名单等于送人一个可冒充的头衔（用户要求）。 */
-    (function () {
-      var TITLES = {
-        // 例（XT20100612，QQ 2542155619@qq.com，哈希见下）—— 抄一行改掉引号里的内容即可：
-        // '0623e95c7b950eaf4b24f55f164b0d61ce4cfe6b2da65cfe59b4c0959ad1f8d1': '挚友',
-        // '0623e95c7b950eaf4b24f55f164b0d61ce4cfe6b2da65cfe59b4c0959ad1f8d1': '挚友|blue',
-        '1c212263eda5cd69e53a83f0583ad5ee0d86e5be9ad897e39b97a2b8dceaeb10': '哈基米南北绿豆'
-        '92f8ecddb4ff9423e056ae8c4646ae6b71cb8fa6fd5f8e6dcc33fff4e2ef6a2d': '站长|green'
-      };
-
-      var wrap = document.querySelector('.twikoo-wrap');
-      if (!wrap) return;
-
-      function hashOf(box) {
-        var vm = box.__vue__;                                  // Vue 2 把实例挂在组件根元素上
-        var c = vm && vm.$props && vm.$props.comment;
-        if (c && c.mailMd5) return String(c.mailMd5).toLowerCase();
-        var img = box.querySelector('img.tk-avatar-img');
-        var m = img && /\/avatar\/([0-9a-f]{32,64})(?:[?#]|$)/i.exec(img.getAttribute('src') || '');
-        return m ? m[1].toLowerCase() : '';
-      }
-
-      function decorate(meta) {
-        var box = meta.closest('.tk-comment');
-        var nickEl = meta.querySelector('.tk-nick');
-        if (!box || !nickEl) return;
-        var raw = TITLES[hashOf(box)] || '';                   // 只按邮箱哈希认人（不认昵称）
-        var parts = String(raw).split('|');
-        var text = parts[0].trim(), color = (parts[1] || 'purple').trim();
-        var el = meta.querySelector(':scope > .tk-custom-title');
-        if (!text) { if (el) el.remove(); return; }            // 不在名单里 → 不留任何标签
-        if (!el) {                                             // 插在昵称之后、博主/置顶标签之前
-          el = document.createElement('span');
-          el.className = 'tk-custom-title';
-          nickEl.insertAdjacentElement('afterend', el);
-        }
-        var cls = 'tk-tag tk-tag-' + color + ' tk-custom-title';
-        if (el.className !== cls) el.className = cls;
-        if (el.textContent !== text) el.textContent = text;
-      }
-
-      function run() {
-        var metas = wrap.querySelectorAll('.tk-comment .tk-meta');
-        for (var i = 0; i < metas.length; i++) decorate(metas[i]);
-      }
-
-      // 只在「真的改了 DOM」时才产生变动 → 观察器不会自激循环；同一帧内多次变动合并成一次 run
-      var queued = false;
-      new MutationObserver(function () {
-        if (queued) return;
-        queued = true;
-        requestAnimationFrame(function () { queued = false; run(); });
-      }).observe(wrap, { childList: true, subtree: true });
-
-      run();                                                   // 首次渲染（Twikoo 异步，靠上面的观察器兜住）
-    })();
   </script>
 </div>
 

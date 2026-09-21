@@ -390,30 +390,6 @@ body[data-color-scheme='dark'] {
   margin-top: 12px;
 }
 .twikoo-wrap .tk-turnstile { align-items: flex-end; }
-
-/* 13. 自定义头衔（评论标签，脚本在 comments_section 里）
-   形状/内边距沿用 Twikoo 自己的 .tk-tag，只补两个它没有的颜色：
-   · tk-tag-purple = 自定义头衔的默认颜色（对齐参考站 blog.cancin.cn 的紫色标签）
-   · tk-tag-grey   = 备用颜色之一（脚本里写 '头衔|grey' 才用到），它走主题变量，亮暗自动跟随
-   选择器带 .twikoo-wrap 前缀是必需的：Twikoo 运行时才注入 .tk-tag{background:#f2f6fc}，
-   同优先级时后注入的会赢，必须提高一级优先级才压得住它。
-   紫色用 Twikoo 那套写死的 rgba 值，和它自带的 green/blue/yellow/red 保持一致。
-   名单外的评论不会有任何标签 —— 脚本匹配不到就直接不加元素。 */
-.twikoo-wrap .tk-tag-purple {
-  background-color: rgba(150, 105, 225, 0.13);
-  border: 1px solid rgba(150, 105, 225, 0.5);
-  border-radius: 2px;
-  color: #9669e1;
-}
-.twikoo-wrap .tk-tag-grey {
-  background-color: var(--color-background-secondary-hover);
-  border: 1px solid var(--color-border-primary);
-  border-radius: 2px;
-  color: var(--color-text-secondary);
-}
-/* 头衔紧跟昵称：Twikoo 自己的标签前面有一个空格文本节点，我们插入的元素没有，
-   实测那个空格 = 4px，这里用 margin 补上，视觉上「昵称 头衔 站长」才连成一串。 */
-.twikoo-wrap .tk-custom-title { margin-left: 4px; }
 </style>
 
 <!-- hexo injector head_end start -->
@@ -499,9 +475,9 @@ body[data-color-scheme='dark'] {
     
     <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%A0%94%E7%A9%B6/" class="category">人工智能研究<span class="count">1</span></a>
     
-    <a href="/categories/%E9%97%B2%E8%81%8A-%E6%9D%82%E8%B0%88/" class="category">闲聊/杂谈<span class="count">5</span></a>
-    
     <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%86%E5%8F%B2/" class="category">计算机历史<span class="count">2</span></a>
+    
+    <a href="/categories/%E9%97%B2%E8%81%8A-%E6%9D%82%E8%B0%88/" class="category">闲聊/杂谈<span class="count">5</span></a>
     
     <a href="/categories/%E3%80%8C%E6%B5%81%E5%93%8D%E3%80%8D%E7%89%B9%E5%88%AB%E7%AD%96%E5%88%92/" class="category">「流响」特别策划<span class="count">1</span></a>
     
