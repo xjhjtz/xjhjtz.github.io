@@ -141,6 +141,8 @@
 <script src="/js/head.js"></script>
 
   <script defer src="https://cloud.umami.is/script.js" data-website-id="71fc8321-74fa-474d-beda-1c0be570eec4"></script>
+<!-- Fancybox v6.1.15 灯箱（正文图片放大/切换）；锁定版本号，经 JSDMirror 国内加速 -->
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/@fancyapps/ui@6.1.15/dist/fancybox/fancybox.css">
 <script>
 /* Twikoo 头像「链式兜底」= 自建图床 → QQ 头像 → 静态兜底图。
    为什么需要：静态图床（GitHub + jsdmirror）不认 Gravatar 的 ?d= 兜底参数，文件不存在即 404 裂图；
@@ -382,6 +384,31 @@ body[data-color-scheme='dark'] {
   margin-top: 12px;
 }
 .twikoo-wrap .tk-turnstile { align-items: flex-end; }
+
+/* ================= Fancybox 灯箱（正文图片放大/切换，v6.1.15）=================
+   灯箱本身用深色视觉（看图的通用做法），这里只把「品牌色」和「毛玻璃」接到主题变量上，
+   主题变量定义在 body[data-color-scheme] 上，所以亮/暗/跟随系统三种状态自动全对，零 JS。
+   变量默认值见 fancybox.css 的 .fancybox__container 块，这里只覆盖需要改的。 */
+.fancybox__container {
+  --f-progressbar-color: var(--color-background-accent);
+  --f-spinner-color-2: var(--color-background-accent);
+  --f-button-bg: rgba(54, 54, 54, 0.55);
+  --f-arrow-bg: rgba(54, 54, 54, 0.5);
+  --f-thumb-border-radius: var(--radius-small);
+  overscroll-behavior: contain;   /* 灯箱内滚轮不再带着页面滚 */
+  animation: none;                /* 避免与主题 Lenis 平滑滚动打架 */
+}
+.f-button { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.fancybox__container .f-caption {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 12px 16px;
+}
+.fancybox__thumbs { padding-bottom: 10px; }
+/* 正文图片可点提示 */
+#main-content .content img[data-lb-index] { cursor: zoom-in; }
+#main-content .content a:has(img[data-lb-index]) { border-bottom: 0; }
 </style>
 
 <!-- hexo injector head_end start -->
@@ -494,9 +521,9 @@ body[data-color-scheme='dark'] {
     <p class="tags">
       <i class="bi bi-tags icon"></i>
       
-      <a href="/tags/Blogging/" class="tag">#Blogging</a>
-      
       <a href="/tags/Markdown/" class="tag">#Markdown</a>
+      
+      <a href="/tags/Blogging/" class="tag">#Blogging</a>
       
     </p>
     
@@ -557,6 +584,8 @@ body[data-color-scheme='dark'] {
         <a href="/about" class="item">About</a>
         
         <a href="/friends" class="item">Friends</a>
+        
+        <a href="/guestbook" class="item">留言板</a>
         
         <a href="/rss" class="item">RSS</a>
         
@@ -627,7 +656,187 @@ body[data-color-scheme='dark'] {
 
     
 
-    <script>
+    <!--
+  正文图片灯箱（Fancybox v6.1.15，经 JSDMirror 加速）。
+  行为：点击正文任意图片 → 全屏查看；**同一篇文章的全部图片是一组**，可用左右箭头/键盘 ←→
+        一路翻完整篇；滚轮与双指缩放、拖拽平移；底部缩略图条；底部显示 alt 图注（Esc/点背景关闭）。
+  分组：GROUP_MODE = 'page'（缺省）= 一篇文章的所有正文图算一组，文章文件不用做任何改动；
+        改成 'local' 则恢复「只在一个小容器（figure/.photo-grid/.carousel…）内切换」的老行为。
+  自动排除：评论区头像/表情包（.twikoo-wrap）、已链接到非图片页面的图片、带 no-lightbox 类或
+            祖先 data-no-lightbox 的图片、插件注入的第三方图片。
+  要关闭某张图：给它加 class="no-lightbox"，或给外层容器加 data-no-lightbox。
+  加新图直接写 markdown 即可，零额外语法。
+-->
+<script src="https://cdn.jsdmirror.com/npm/@fancyapps/ui@6.1.15/dist/fancybox/fancybox.umd.js"></script>
+<script>
+(function () {
+  if (!window.Fancybox) { console.warn('[lightbox] Fancybox 未加载，灯箱已跳过'); return; }
+
+  var EXT = /\.(?:jpe?g|png|gif|webp|avif|bmp|svg)(?:[?#].*)?$/i;
+  // 中文界面：键名取自 zh_CN.umd.js（fancybox 用 {{KEY}} 占位，缺键回落到英文）
+  var L10N = {
+    NEXT: '下一张', PREV: '上一张', CLOSE: '关闭', GOTO: '跳转到下一张',
+    ZOOM_IN: '放大', ZOOM_OUT: '缩小', TOGGLE_FULL: '实际尺寸', ITERATE_ZOOM: '切换缩放级别',
+    TOGGLE_FS: '切换全屏', TOGGLE_FULLSCREEN: '切换全屏模式',
+    TOGGLE_THUMBS: '缩略图', TOGGLE_AUTOPLAY: '切换幻灯片播放',
+    MOVE_UP: '向上移动', MOVE_DOWN: '向下移动', MOVE_LEFT: '向左移动', MOVE_RIGHT: '向右移动',
+    ROTATE_CW: '顺时针旋转', ROTATE_CCW: '逆时针旋转', FLIP_X: '水平翻转', FLIP_Y: '垂直翻转',
+    RESET: '重置', DOWNLOAD: '下载',
+    IMAGE_ERROR: '该图片无法加载，请稍后再试。', ERROR: '出了点问题，请稍后再试。',
+    ELEMENT_NOT_FOUND: '未找到内容', MODAL: '按 Esc 键关闭'
+  };
+
+  // 灯箱打开时冻结页面滚动：主题的 Lenis 平滑滚动挂在 root 元素上，
+  // 灯箱里滚轮缩放会顺手把背后的页面滚走（关掉灯箱发现位置变了）。
+  // ⚠️ 两个坑都踩过：
+  //   ① capture 阶段 stopPropagation 会把事件"截断在捕获路径上"，连图片自己的监听都收不到 → 缩放失效；
+  //      必须用【冒泡阶段】的 document 监听：图片(Panzoom)先收到 → 缩放正常，再到 document 被截断 → Lenis/页面收不到。
+  //   ② 不能用 preventDefault 代替（缺省监听会把事件标记为已取消，Panzoom 会跳过缩放）。
+  function freezeScroll(on) {
+    document.removeEventListener('wheel', blockScroll);
+    document.removeEventListener('touchmove', blockScroll);
+    if (!on) return;
+    if (!document.querySelector('.fancybox__container')) return;   // 没有活着的实例
+    document.addEventListener('wheel', blockScroll, { passive: false });
+    document.addEventListener('touchmove', blockScroll, { passive: false });
+  }
+  function blockScroll(e) {
+    if (!document.querySelector('.fancybox__container')) return;   // 灯箱已关：放行
+    for (var el = e.target; el && el !== document.body; el = el.parentElement) {
+      if (el.scrollHeight > el.clientHeight + 2 || el.scrollWidth > el.clientWidth + 2) {
+        var ov = getComputedStyle(el).overflow;
+        if (/auto|scroll/.test(ov) && !el.classList.contains('fancybox__carousel')) return;  // 灯箱内部可滚区域放行
+      }
+    }
+    e.stopPropagation();
+    if (e.type === 'touchmove') e.preventDefault();
+  }
+
+  // markdown 里写空的 ![]() 时 Hexo 产出 <img src="/"> —— 浏览器把它解析成站点根地址，
+  // 于是成了一个"指向首页/本页的伪图片"（src 非空、data: 规则也拦不住），必须单独判掉，
+  // 否则同一篇文章的组里会多出一张永远加载失败的空图。
+  function isPageUrl(img) {
+    var s = (img.currentSrc || img.src || '').split('#')[0].split('?')[0];
+    if (!s || s.indexOf('//') < 0) return /^\/(?!\/)/.test(s);   // 相对路径：以 "/" 开头的当伪图片
+    return s === location.href.split('#')[0].split('?')[0] || s === location.origin + '/';
+  }
+
+  function isLightboxable(img) {
+    var src = img.getAttribute('src') || '';
+    if (!src || /^data:/.test(src)) return false;                 // 占位/内联图不接管
+    if (isPageUrl(img)) return false;                             // 空 ![]() 之类的伪图片
+    if (img.closest('.twikoo-wrap, .fancybox__container')) return false;  // 评论头像、表情包
+    if (img.matches('.no-lightbox, [data-no-lightbox]')) return false;
+    if (img.closest('[data-no-lightbox]')) return false;
+    var a = img.closest('a');
+    if (a) {                                                      // 已被包在链接里
+      var href = a.getAttribute('href') || '';
+      if (href && !(EXT.test(href) || /^data:image\//.test(href))) return false;  // 链到别处 → 尊重原链接
+    }
+    return true;
+  }
+
+  function captionOf(img) {
+    // 单图 <figure> 优先用 <figcaption>；多图 figure 的图注无法确定归属，仍用各自 alt
+    var fig = img.closest('figure');
+    var cap = fig && fig.querySelectorAll('img').length === 1 ? fig.querySelector('figcaption') : null;
+    var text = (cap ? cap.textContent : '') || img.getAttribute('alt') || '';
+    return text.replace(/\s+/g, ' ').trim().slice(0, 200);
+  }
+
+  function root() {
+    var el = document.querySelector('#main-content > * > .content');
+    return el || document.querySelector('#main-content .content');
+  }
+
+  // 分组：**一篇文章（一个页面）的全部正文图片 = 一个组** —— 灯箱里可以一路 ←→ 翻完整篇。
+  // 用户 2026-09-26 明确要求「单个文章内所有图都是一组，并且不要改动文章文件」，所以这里不再看
+  // figure/.photo-grid 之类的结构（那种"就近成组"的写法会让远图各自成组，翻不过去）。
+  // 需要恢复"只在同一个小容器内切换"时，把 GROUP_MODE 改成 'local' 即可（见 SKILL.md）。
+  var GROUP_MODE = 'page';
+  var groups = [];          // [[img, ...]]  组序号 → 图片
+  var indexOfImg = new WeakMap();   // 仅 'local' 模式用：分组元素（DOM 对象）→ 组序号
+  var groupOfImg = new WeakMap();   // 图片 → 组序号
+  var found = 0, n = 0;
+
+  function localGroupOf(img) {   // 'local' 模式：显式容器优先，否则往上找最近的「多图祖先」（≤3 层）
+    var explicit = img.closest('figure, [data-lightbox-group], .photo-grid, .gallery, .carousel, [data-gallery]');
+    if (explicit && explicit.querySelectorAll('img').length > 1) return explicit;
+    var el = img.parentElement;
+    for (var up = 0; el && up < 3; up++, el = el.parentElement) {
+      if (el === document.body || el.classList.contains('content')) break;
+      if (el.querySelectorAll('img').length > 1) return el;
+    }
+    return img;
+  }
+
+  (function collect() {
+    var el = root();
+    if (!el) return;
+    if (GROUP_MODE === 'page') groups.push([]);   // 全篇一组：只用一个组
+    Array.prototype.forEach.call(el.querySelectorAll('img'), function (img) {
+      if (!isLightboxable(img)) return;
+      var gi = 0;                                   // 'page' 模式：一律第 0 组
+      if (GROUP_MODE !== 'page') {                  // 'local' 模式：按容器分组
+        // ⚠️ WeakMap 的键必须是对象（DOM 元素）；早期版本在这里塞了字符串 'page'，
+        //    直接 TypeError: Invalid value used as weak map key，整段脚本挂掉、一张图都不接管
+        var key = localGroupOf(img);
+        gi = indexOfImg.has(key) ? indexOfImg.get(key) : -1;
+        if (gi < 0) { gi = groups.length; groups.push([]); indexOfImg.set(key, gi); }
+      }
+      groups[gi].push(img);
+      groupOfImg.set(img, gi);
+      img.dataset.lbIndex = n++;
+      found++;
+    });
+  })();
+
+  // 一次性事件委托：后加的图片（如动态渲染）也能用。
+  // 不给图片加 tabindex：正文几十张图会让纯键盘 Tab 变得很长，键盘操作交给灯箱自身（←→ / Esc / 工具条按钮）
+  var bound = false;
+  function bind() {
+    if (bound || !found) return;
+    bound = true;
+    var el = root();
+    el.addEventListener('click', function (e) {
+      var img = e.target && e.target.closest ? e.target.closest('img[data-lb-index]') : null;
+      if (img) open(img);
+    });
+  }
+
+  function open(img) {
+    var gi = groupOfImg.has(img) ? groupOfImg.get(img) : 0;
+    var group = groups[gi] || [img];
+    // 注意：Thumbs / Toolbar 是「顶层」插件选项，不能塞进 Carousel 里（塞进去会被忽略）
+    // 这里不用 Fancybox 的 fromNodes 推导（它从 DOM 读 data-* 属性），自己拼最可靠
+    Fancybox.show(group.map(function (im) {
+      var s = { src: im.currentSrc || im.src,
+                thumbSrc: im.currentSrc || im.src,
+                alt: im.getAttribute('alt') || '' };
+      var c = captionOf(im);
+      if (c) s.caption = c;
+      return s;
+    }), {
+      lang: 'zh-CN',
+      l10n: L10N,
+      theme: 'dark',
+      hideScrollbar: true,
+      closeExisting: true,
+      startIndex: group.indexOf(img),   // 从点的那张开始（传对象数组时库不会替你定位）
+      Thumbs: { showOnStart: true },
+      Carousel: { Toolbar: { absolute: true } },
+      on: {
+        ready: function () { freezeScroll(true); },
+        close: function () { freezeScroll(false); }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+})();
+</script>
+<script>
 // Hide TOC on about page
 //if (window.location.pathname.startsWith('/about/')) {
   //document.querySelector('.toc')?.parentElement?.remove();
