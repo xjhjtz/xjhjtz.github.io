@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   
-  <title>Friends - Xjhjtzac的Blog</title>
+  <title>贡献热力图 - Xjhjtzac的Blog</title>
   
     <link rel="shortcut icon" href="/favicon.png">
   
@@ -13,16 +13,15 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content=".friends-grid {   display: grid;   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));   gap: 14px;   margin: 24px 0; }  .friends-grid .friend-card {   position: relative;   display: flex;">
+  <meta name="description" content="下面这段就是全部用法 —— 往任意文章里粘这段 HTML 即可，不用写标签、不用引 CSS&#x2F;JS（scripts&#x2F;github-activity-assets.js 检测到 data-gha 会自动挂资源）。                       正在获取 GitHub 贡献数据…">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Friends">
-<meta property="og:url" content="https://xjhjtz.github.io/friends/index.html">
+<meta property="og:title" content="贡献热力图">
+<meta property="og:url" content="https://xjhjtz.github.io/activity/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content=".friends-grid {   display: grid;   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));   gap: 14px;   margin: 24px 0; }  .friends-grid .friend-card {   position: relative;   display: flex;">
+<meta property="og:description" content="下面这段就是全部用法 —— 往任意文章里粘这段 HTML 即可，不用写标签、不用引 CSS&#x2F;JS（scripts&#x2F;github-activity-assets.js 检测到 data-gha 会自动挂资源）。                       正在获取 GitHub 贡献数据…">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
-<meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-17T14:36:46.708Z">
+<meta property="article:published_time" content="2025-12-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-30T08:14:46.960Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -31,7 +30,6 @@
 <meta property="article:tag" content="计算机">
 <meta property="article:tag" content="铁路">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
 
   <script>window.ThemeCupertino = {}</script>
 
@@ -423,6 +421,7 @@ body[data-color-scheme='dark'] {
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
 <!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Xjhjtzac的Blog" type="application/atom+xml">
 <link rel="alternate" href="/rss2.xml" title="Xjhjtzac的Blog" type="application/rss+xml">
+<link rel="stylesheet" href="/css/github-activity.css">
 </head>
 
   <body
@@ -494,230 +493,70 @@ body[data-color-scheme='dark'] {
       
 <article class="post">
   
-  <div class="cover">
-    <img src="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg" alt="" class="cover-img" data-pagefind-meta="image[src], image_alt[alt]" />
-  </div>
-  
   <div class="meta">
     
 
     
-    <time class="date" datetime="2026-02-12T00:00:00+08:00">
-      February 12, 2026
-    </time>
-    
 
-    <h1 class="title" data-pagefind-meta="title">Friends</h1>
+    <h1 class="title" data-pagefind-meta="title">贡献热力图</h1>
   </div>
 
   <div class="content">
-    <style>
-.friends-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 14px;
-  margin: 24px 0;
-}
-
-.friends-grid .friend-card {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: var(--radius-m, 12px);
-  overflow: hidden;
-  text-decoration: none !important;
-  color: inherit;
-
-  /* 浅色模式：带一点灰调的卡片底色 + 更明显的边框和阴影 */
-  background: var(--card-background, #fafafa);
-  border: 1px solid var(--card-border-color, rgba(0, 0, 0, .12));
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, .06),
-    0 4px 12px rgba(0, 0, 0, .05);
-
-  transition: transform .28s cubic-bezier(.22, .61, .36, 1),
-              box-shadow .28s, border-color .28s, background .28s;
-}
-
-.friends-grid .friend-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--primary-color, #49b1f5), #8e6bff);
-  transform: scaleY(0);
-  transition: transform .3s;
-}
-
-.friends-grid .friend-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--primary-color, rgba(73, 177, 245, .5));
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, .06),
-    0 10px 24px rgba(0, 0, 0, .12);
-}
-
-.friends-grid .friend-card:hover::before {
-  transform: scaleY(1);
-}
-
-.friends-grid .friend-avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  margin: 0;
-  vertical-align: middle;
-  background: rgba(0, 0, 0, .06);
-  transition: transform .3s;
-}
-
-.friends-grid .friend-card:hover .friend-avatar {
-  transform: rotate(-8deg) scale(1.08);
-}
-
-.friends-grid .friend-info {
-  min-width: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.friends-grid .friend-name {
-  display: block;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.friends-grid .friend-desc {
-  display: -webkit-box;
-  margin-top: 2px;
-  font-size: 12.5px;
-  line-height: 1.5;
-  opacity: .62;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.friends-grid .friend-url {
-  display: block;
-  margin-top: 4px;
-  font-size: 11.5px;
-  opacity: .45;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 深色模式 */
-@media (prefers-color-scheme: dark) {
-  .friends-grid .friend-card {
-    background: var(--card-background, rgba(255, 255, 255, .045));
-    border-color: var(--card-border-color, rgba(255, 255, 255, .1));
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
-  }
-  .friends-grid .friend-card:hover {
-    box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
-  }
-}
-</style>
-
-<h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
-<ul>
-<li>邮箱: <a href="mailto:&#104;&#x69;&#x5f;&#x78;&#106;&#104;&#106;&#x74;&#x7a;&#97;&#x63;&#64;&#x31;&#x36;&#x33;&#46;&#99;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
-<li>本页评论区</li>
-</ul>
-<p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">网站名称：xjhjtzac的Blog</span><br><span class="line">网站链接：https:<span class="regexp">//</span>xjhjtz.github.io</span><br><span class="line">网站描述：待到山花烂漫时</span><br><span class="line">网站头像（可选）：https:<span class="regexp">//</span>cdn.jsdmirror.com<span class="regexp">/gh/</span>xjhjtz<span class="regexp">/xjhjtzac-photos-bed@main/</span>avatar.webp</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="友友们-≧▽≦"><a href="#友友们-≧▽≦" class="headerlink" title="友友们 (&#x2F;≧▽≦)&#x2F;"></a>友友们 (&#x2F;≧▽≦)&#x2F;</h2><div class="container">
-
-<div class="friends-grid">
-
-<a class="friend-card" href="https://5ime.cn" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://cdn.jsdelivr.net/gh/5ime/img/avatar.jpg" alt="I Am I" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">I Am I</span>
-    <span class="friend-desc">永远相信美好的事情即将发生</span>
-    <span class="friend-url">5ime.cn</span>
-  </span>
-</a>
-
-<a class="friend-card" href="https://kasuie.cc" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://kasuie.cc/avatar.webp" alt="KASUIEの次元" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">KASUIEの次元</span>
-    <span class="friend-desc">喜欢温柔的人</span>
-    <span class="friend-url">kasuie.cc</span>
-  </span>
-</a>
-
-<a class="friend-card" href="https://2x.nz" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://q2.qlogo.cn/headimg_dl?dst_uin=2726730791&spec=100" alt="二叉树树" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">二叉树树</span>
-    <span class="friend-desc">Protect What You love.</span>
-    <span class="friend-url">2x.nz</span>
-  </span>
-</a>
-
-<a class="friend-card" href="https://www.hsuyeung.com" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://www.hsuyeung.com/img/avatar.jpg" alt="Hsu Yeung 的博客" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">Hsu Yeung 的博客</span>
-    <span class="friend-desc">前天看到了小兔，昨天是小鹿，今天是你。</span>
-    <span class="friend-url">www.hsuyeung.com</span>
-  </span>
-</a>
-
-<a class="friend-card" href="https://www.qingfengnb.cn" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://img.qingfengnb.cn/LightPicture/2025/07/bec6eb9625656d60.jpg" alt="轻风blog" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">轻风blog</span>
-    <span class="friend-desc">茫茫人海，多么幸运才能遇见你！</span>
-    <span class="friend-url">www.qingfengnb.cn</span>
-  </span>
-</a>
-
-<a class="friend-card" href="https://yourlai.com" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://cdn.cdn.yourlai.icu/img/logo/ava.png" alt="Yourlai Blog" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">Yourlai Blog</span>
-    <span class="friend-desc">无bug 是理想，调设备是日常</span>
-    <span class="friend-url">yourlai.com</span>
-  </span>
-</a>
-
-<a class="friend-card" href="https://xxtsoft.top" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://xxtsoft.top/favicon.ico" alt="xxtsoft" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">xxtsoft</span>
-    <span class="friend-desc">原 BSOD-MEMZ 的小站</span>
-    <span class="friend-url">xxtsoft.top</span>
-  </span>
-</a>
-
-<a class="friend-card" href="https://wxweb.xyz" target="_blank" rel="noopener">
-  <img class="friend-avatar" src="https://pic.wxweb.xyz/pic/main.jpg" alt="鑫辰伴我行" loading="lazy">
-  <span class="friend-info">
-    <span class="friend-name">鑫辰伴我行</span>
-    <span class="friend-desc">活着就是为了折腾！</span>
-    <span class="friend-url">wxweb.xyz</span>
-  </span>
-</a>
-
+    <p>下面这段就是全部用法 —— 往任意文章里粘这段 HTML 即可，不用写标签、不用引 CSS&#x2F;JS<br>（<code>scripts/github-activity-assets.js</code> 检测到 <code>data-gha</code> 会自动挂资源）。</p>
+<!-- ↓↓↓ 从这一行开始复制 ↓↓↓ -->
+<div class="container">
+<section class="github-activity" data-gha
+         data-gha-username="xjhjtz" data-gha-year="2026"
+         data-gha-color-scheme="green" data-gha-state="loading" aria-busy="true">
+  <!-- 卡片外壳：圆角 + 1px 描边 + 内边距（整块卡片；骨架屏也在卡内，避免"先裸后卡"跳动） -->
+  <div class="gha-card">
+  <div class="gha-skeleton" data-gha-skeleton aria-hidden="true">
+    <div class="gha-skeleton__bar"></div><div class="gha-skeleton__grid"></div>
+  </div>
+  <p class="gha-placeholder" data-gha-placeholder>正在获取 GitHub 贡献数据…</p>
+  <div class="gha-body" data-gha-body>
+    <p class="gha-summary" data-gha-summary></p>
+    <div class="gha-scroll" data-gha-scroll tabindex="0" role="group"
+         aria-label="贡献热力图，可横向滚动">
+      <div class="gha-canvas">
+        <div class="gha-months" data-gha-months aria-hidden="true"></div>
+        <div class="gha-grid-row">
+          <div class="gha-daylabels" aria-hidden="true">
+            <span class="gha-daylabel"></span><span class="gha-daylabel">Mon</span>
+            <span class="gha-daylabel"></span><span class="gha-daylabel">Wed</span>
+            <span class="gha-daylabel"></span><span class="gha-daylabel">Fri</span>
+            <span class="gha-daylabel"></span>
+          </div>
+          <div class="gha-grid" data-gha-grid role="img"></div>
+        </div>
+        <div class="gha-legend" aria-hidden="true">
+          <span>Less</span>
+          <i class="gha-cell gha-cell--legend" data-gha-level="0"></i>
+          <i class="gha-cell gha-cell--legend" data-gha-level="1"></i>
+          <i class="gha-cell gha-cell--legend" data-gha-level="2"></i>
+          <i class="gha-cell gha-cell--legend" data-gha-level="3"></i>
+          <i class="gha-cell gha-cell--legend" data-gha-level="4"></i>
+          <span>More</span>
+        </div>
+      </div>
+    </div>
+    <p class="gha-verdict" data-gha-verdict></p>
+  </div>
+  </div><!-- /.gha-card -->
+  <div class="gha-error" data-gha-error>
+    <p class="gha-error__text" data-gha-error-text>贡献数据加载失败。</p>
+    <button type="button" class="gha-retry" data-gha-retry>重试</button>
+  </div>
+  <p class="gha-sr" role="status" data-gha-live></p>
+</section>
 </div>
+<!-- ↑↑↑ 复制到这一行 ↑↑↑ -->
 
-</div>
+<p>只改 <code>data-gha-*</code> 属性就能换效果：<code>data-gha-username</code>（必填）、<code>data-gha-year</code>、<br><code>data-gha-color-scheme</code>（green &#x2F; blue &#x2F; purple &#x2F; orange）、<code>data-gha-api</code>（自定义数据源，支持 <code>{user}</code> &#x2F; <code>{year}</code>）。</p>
+<blockquote>
+<p>数据由 <a target="_blank" rel="noopener" href="https://github-contributions-api.jogruber.de/">github-contributions-api</a> 在浏览器端实时获取。<br>组件移植自 Elements 注册表 <a target="_blank" rel="noopener" href="https://tryelements.dev/docs/github/github-activity-calendar"><code>@elements/github-activity-calendar</code></a>（MIT © 2025 Crafter Station）。</p>
+</blockquote>
+
   </div>
 
   
@@ -733,22 +572,6 @@ body[data-color-scheme='dark'] {
     <a class="next"></a>
     <a class="prev"></a>
   </div>
-
-  
-    <div class="container comments-section">
-  <h2 class="comments-heading">评论</h2>
-  <div class="twikoo-wrap">
-    <div id="tcomment"></div>
-  </div>
-  <script src="https://cdn.jsdmirror.com/npm/twikoo@1.7.22/dist/twikoo.min.js"></script>
-  <script>
-    twikoo.init({
-      envId: 'https://xjhjtzacpl.netlify.app/.netlify/functions/twikoo',
-      el: '#tcomment',
-      lang: 'zh-CN',
-    });
-  </script>
-</div>
 
   
 </article>
@@ -1040,5 +863,6 @@ body[data-color-scheme='dark'] {
 })();
 </script>
 
-  </body>
+  <script defer src="/js/github-activity.js"></script>
+</body>
 </html>

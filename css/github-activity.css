@@ -1,0 +1,526 @@
+/*!
+ * 贡献热力图样式 · GitHub Activity Calendar
+ * ---------------------------------------------------------------------------
+ * 移植自 Elements 注册表组件 @elements/github-activity-calendar
+ *   上游文档：https://tryelements.dev/docs/github/github-activity-calendar
+ *   源码仓库：https://github.com/crafter-station/elements
+ *            registry/default/blocks/github/github-activity-calendar/components/elements/github-activity-calendar.tsx
+ *   MIT License · Copyright (c) 2025 Crafter Station
+ *
+ * 移植说明（Tailwind → 原生 CSS 的对应关系）：
+ *   flex flex-col gap-2            → .github-activity { display:flex; flex-direction:column; gap:8px }
+ *   text-sm text-muted-foreground  → .gha-summary        (14px + --color-text-secondary)
+ *   font-medium text-foreground    → .gha-summary b      (500 + --color-text-primary)
+ *   inline-flex flex-col gap-1     → .gha-canvas         (gap:4px)
+ *   overflow-x-auto                → .gha-scroll
+ *   w-[10px] h-[10px] rounded-sm   → .gha-cell           (10×10 + --radius-tiny)
+ *   gap-[3px]                      → --gha-gap: 3px
+ *   h-[108px] w-full bg-muted animate-pulse → .gha-skeleton（原组件加载态）
+ *   text-[10px] text-muted-foreground       → .gha-months / .gha-daylabels / .gha-legend
+ *
+ * 配色取自原组件 LEVEL_COLORS（green / blue / purple / orange × light / dark 五级），
+ * 色值 = Tailwind 默认调色板（*-100/200/400/500/600/700/900）的精确 hex。
+ * 亮暗切换：本主题的 CSS 只认 body[data-color-scheme='light'|'dark'|'auto']，
+ * 因此选择器用 :where() 保持 0 权重跟随主题，而不是自己写 JS 判断。
+ *
+ * 所有规则都限定在 .github-activity 命名空间内（gha- 前缀），不会影响 Cupertino 主题现有样式。
+ */
+
+/* ==========================================================================
+   1. 令牌：尺寸 / 配色 / 主题变量
+   ========================================================================== */
+.github-activity {
+  /* 尺寸（与原组件完全一致） */
+  --gha-cell: 10px;
+  --gha-gap: 3px;
+  --gha-cell-radius: 3px;   /* 格子圆角方块（10px 格子取 3px；5px 就成正圆了）；卡片才是直角无边框 */
+
+  /* 五级配色，默认 green（原组件 colorScheme 默认值） */
+  --gha-l0: #f5f5f5; /* neutral-100 */
+  --gha-l1: #bbf7d0; /* green-200   */
+  --gha-l2: #4ade80; /* green-400   */
+  --gha-l3: #22c55e; /* green-500   */
+  --gha-l4: #16a34a; /* green-600   */
+
+  /* 跟随主题的语义色（主题变量定义在 body 上，这里逐级引用） */
+  --gha-text: var(--color-text-primary, #333);
+  --gha-muted: var(--color-text-secondary, #666);
+  --gha-surface: var(--color-background-secondary, #fff);
+  --gha-line: var(--color-border-primary, #88888822);
+  /* 卡片底：暗色下 --color-background-secondary(#181818) 与页面底(#101010) 太接近，
+     用一个 L 通道微调派生（lightness +6%）而不是写死颜色 —— 亮/暗/跟随系统全自动。
+     直角、无边框（用户要求：不要圆角边框，只保留底板与内边距分隔） */
+  --gha-card: var(--color-background-secondary, #fff);
+
+  /* 外层只做占位与间距，卡片视觉放在 .gha-card 上 */
+  display: block;
+  margin: 32px 0;
+  font-family: var(--font-sans-serif);
+  font-feature-settings: var(--font-sans-serif-feature-settings);
+  line-height: 1.4;
+}
+
+@supports (color: color-mix(in oklab, red, blue)) {
+  .github-activity {
+    --gha-card: color-mix(
+      in oklab,
+      var(--color-background-secondary, #fff) 92%,
+      var(--color-text-primary, #333) 8%
+    );
+  }
+}
+
+/* 卡片底板：直角、无边框（用户 2026-09-30 明确要求"不要圆角边框"），
+   只保留一块底色 + 内边距，把热力图和正文分开 */
+.github-activity .gha-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--gha-card);
+  box-sizing: border-box;
+}
+
+/* 四套配色（亮色档） */
+.github-activity[data-gha-color-scheme='blue'] {
+  --gha-l1: #bfdbfe; /* blue-200 */
+  --gha-l2: #60a5fa; /* blue-400 */
+  --gha-l3: #3b82f6; /* blue-500 */
+  --gha-l4: #2563eb; /* blue-600 */
+}
+.github-activity[data-gha-color-scheme='purple'] {
+  --gha-l1: #e9d5ff; /* purple-200 */
+  --gha-l2: #c084fc; /* purple-400 */
+  --gha-l3: #a855f7; /* purple-500 */
+  --gha-l4: #9333ea; /* purple-600 */
+}
+.github-activity[data-gha-color-scheme='orange'] {
+  --gha-l1: #fed7aa; /* orange-200 */
+  --gha-l2: #fb923c; /* orange-400 */
+  --gha-l3: #f97316; /* orange-500 */
+  --gha-l4: #ea580c; /* orange-600 */
+}
+
+/* 暗色档：按主题的两种暗色触发条件各写一份（:where 保证 0 权重，仍可被上方亮色档覆盖顺序正确） */
+:where(body[data-color-scheme='dark']) .github-activity {
+  --gha-l0: #262626; /* neutral-800 */
+}
+:where(body[data-color-scheme='dark']) .github-activity[data-gha-color-scheme='green'] {
+  --gha-l1: #14532d; --gha-l2: #15803d; --gha-l3: #22c55e; --gha-l4: #4ade80;
+}
+:where(body[data-color-scheme='dark']) .github-activity[data-gha-color-scheme='blue'] {
+  --gha-l1: #1e3a8a; --gha-l2: #1d4ed8; --gha-l3: #3b82f6; --gha-l4: #60a5fa;
+}
+:where(body[data-color-scheme='dark']) .github-activity[data-gha-color-scheme='purple'] {
+  --gha-l1: #581c87; --gha-l2: #7e22ce; --gha-l3: #a855f7; --gha-l4: #c084fc;
+}
+:where(body[data-color-scheme='dark']) .github-activity[data-gha-color-scheme='orange'] {
+  --gha-l1: #7c2d12; --gha-l2: #c2410c; --gha-l3: #f97316; --gha-l4: #fb923c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :where(body[data-color-scheme='auto']) .github-activity {
+    --gha-l0: #262626;
+  }
+  :where(body[data-color-scheme='auto']) .github-activity[data-gha-color-scheme='green'] {
+    --gha-l1: #14532d; --gha-l2: #15803d; --gha-l3: #22c55e; --gha-l4: #4ade80;
+  }
+  :where(body[data-color-scheme='auto']) .github-activity[data-gha-color-scheme='blue'] {
+    --gha-l1: #1e3a8a; --gha-l2: #1d4ed8; --gha-l3: #3b82f6; --gha-l4: #60a5fa;
+  }
+  :where(body[data-color-scheme='auto']) .github-activity[data-gha-color-scheme='purple'] {
+    --gha-l1: #581c87; --gha-l2: #7e22ce; --gha-l3: #a855f7; --gha-l4: #c084fc;
+  }
+  :where(body[data-color-scheme='auto']) .github-activity[data-gha-color-scheme='orange'] {
+    --gha-l1: #7c2d12; --gha-l2: #c2410c; --gha-l3: #f97316; --gha-l4: #fb923c;
+  }
+}
+
+/* ==========================================================================
+   2. 状态机：loading / ready / error / empty
+   ========================================================================== */
+.github-activity .gha-skeleton,
+.github-activity .gha-placeholder,
+.github-activity .gha-body,
+.github-activity .gha-error {
+  display: none;
+}
+
+/* 兜底：本组件的状态规则是组合选择器（优先级 0,3,0），会盖过 [hidden]（0,1,0）。
+   万一有人在标签上补了 hidden，这里保证它仍然真的隐藏。 */
+.github-activity [hidden] {
+  display: none !important;
+}
+
+.github-activity[data-gha-state='loading'] .gha-skeleton,
+.github-activity[data-gha-state='loading'] .gha-placeholder {
+  display: block;
+}
+.github-activity[data-gha-state='ready'] .gha-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.github-activity[data-gha-state='error'] .gha-error {
+  display: flex;
+}
+/* empty：数据取回但整年 0 贡献 —— 显示网格并附一句说明 */
+.github-activity[data-gha-state='empty'] .gha-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.github-activity[data-gha-state='empty'] .gha-grid {
+  opacity: 0.55;
+}
+
+/* ==========================================================================
+   3. 骨架屏（原组件 h-[108px] w-full bg-muted rounded animate-pulse）
+   ========================================================================== */
+.github-activity .gha-skeleton {
+  height: 108px;
+  width: 100%;
+  border-radius: 0;   /* 骨架屏也是直角（只保留日格的小圆角） */
+  background-color: var(--color-background-secondary-hover, #f2f2f2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 微光扫过（原生 CSS 动画，不用 JS） */
+.github-activity .gha-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--gha-text) 8%, transparent) 45%,
+    transparent 90%
+  );
+  transform: translateX(-100%);
+  animation: gha-shimmer 1.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 内层网格轮廓：让骨架形状预示最终热力图（尺寸与真实网格对齐，加载完成不跳动） */
+.github-activity .gha-skeleton__bar {
+  position: absolute;
+  inset: 12px 14px auto 14px;
+  height: 10px;
+  border-radius: 0;
+  background: color-mix(in oklab, var(--gha-text) 6%, transparent);
+}
+.github-activity .gha-skeleton__grid {
+  position: absolute;
+  inset: 34px 14px 12px 44px;
+  background-image: radial-gradient(
+    circle at 5px 5px,
+    color-mix(in oklab, var(--gha-text) 9%, transparent) 4px,
+    transparent 4.5px
+  );
+  background-size: 13px 13px;
+}
+
+@keyframes gha-shimmer {
+  0% { transform: translateX(-100%); }
+  55% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+.github-activity .gha-placeholder {
+  margin: 0;
+  font-size: 12px;
+  color: var(--gha-muted);
+}
+
+/* 尊重「减少动态效果」偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .github-activity .gha-skeleton::after {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   4. 标题 / 汇总行
+   ========================================================================== */
+.github-activity .gha-heading {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gha-text);
+}
+.github-activity .gha-subheading {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gha-muted);
+}
+.github-activity .gha-summary {
+  margin: 0;
+  font-size: 14px; /* text-sm */
+  color: var(--gha-muted);
+}
+.github-activity .gha-summary b {
+  font-weight: 500; /* font-medium */
+  color: var(--gha-text);
+}
+
+/* ==========================================================================
+   5. 热力图主体
+   ========================================================================== */
+.github-activity .gha-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+  /* 细滚动条，避免在卡片里显得笨重 */
+  scrollbar-width: thin;
+}
+.github-activity .gha-scroll:focus-visible {
+  outline: 2px solid var(--color-background-accent, #0071e3);
+  outline-offset: 4px;
+  border-radius: var(--radius-small, 8px);
+}
+
+.github-activity .gha-canvas {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px; /* 原组件 gap-1 */
+  /* 关键：父级是 align-items: stretch 的 flex 列，不加这行 canvas 会被拉伸到
+     scroll 容器宽度，月份行跟着变宽 → 月份标签被推到看不见的地方、滚动区虚增。
+     贴合内容宽度才是原组件 inline-flex 的行为。 */
+  width: -moz-max-content;
+  width: max-content;
+  min-width: -moz-min-content;
+  min-width: min-content;
+}
+
+/* 月份标签行：原组件用 ml-8(text) + absolute + marginLeft=col*13 定位。
+   这里改用与热力图同宽的网格轨道 —— 每个标签占据它所属的那一列，
+   靠 grid-column 定位而不是 margin（inline margin 会破坏 max-content 内在宽度计算，
+   曾把整行撑成 3900px，导致 7 月之后的月份被推出视野）。 */
+.github-activity .gha-months {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 13px; /* 10px 格子 + 3px 间距，与热力图列距一致 */
+  gap: 0;
+  height: 12px;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--gha-muted);
+  overflow: hidden;
+}
+.github-activity .gha-months span {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+/* 左侧星期标签 + 网格 */
+.github-activity .gha-grid-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+.github-activity .gha-daylabels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gha-gap);
+  padding-right: 4px;
+  width: 28px; /* 原组件文字宽度 + pr-1，整体与月份行左侧缩进对齐 */
+  flex: 0 0 28px;
+  font-size: 10px;
+  color: var(--gha-muted);
+  text-align: right;
+  box-sizing: content-box;
+}
+.github-activity .gha-daylabel {
+  height: var(--gha-cell);
+  line-height: var(--gha-cell);
+}
+
+/* 网格：7 行 × N 列，行优先自动换列（DOM 顺序 = 一周 7 天，与原组件嵌套循环等价） */
+.github-activity .gha-grid {
+  display: grid;
+  grid-template-rows: repeat(7, var(--gha-cell));
+  grid-auto-flow: column;
+  grid-auto-columns: var(--gha-cell);
+  gap: var(--gha-gap);
+}
+
+/* ==========================================================================
+   6. 日格 + 颜色等级
+   ========================================================================== */
+.github-activity .gha-cell {
+  display: block;
+  width: var(--gha-cell);
+  height: var(--gha-cell);
+  /* 参考图的格子是明显的软圆角，不是原组件的 rounded-sm(4px)。
+     固定 5px（边长的 50% 上限）—— 不跟 --radius-tiny 走，因为 squircle 开关会把它放大到 10px，
+     那样 10px 的格子会变成圆点。 */
+  border-radius: var(--gha-cell-radius);
+  background-color: var(--gha-l0);
+  /* 悬停放大用 transform（不改布局，避免整行抖动） */
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+/* placeholder（补齐首尾周的空白格）：完全透明 */
+.github-activity .gha-cell--empty {
+  background-color: transparent;
+}
+
+.github-activity .gha-cell[data-gha-level='0'] { background-color: var(--gha-l0); }
+.github-activity .gha-cell[data-gha-level='1'] { background-color: var(--gha-l1); }
+.github-activity .gha-cell[data-gha-level='2'] { background-color: var(--gha-l2); }
+.github-activity .gha-cell[data-gha-level='3'] { background-color: var(--gha-l3); }
+.github-activity .gha-cell[data-gha-level='4'] { background-color: var(--gha-l4); }
+
+/* 悬停：原组件只有浏览器原生 title 提示；这里加一层视觉反馈（轻微放大 + 描边） */
+.github-activity .gha-cell--day:hover {
+  transform: scale(1.45);
+  box-shadow: 0 0 0 1.5px var(--gha-surface), 0 0 0 3px color-mix(in oklab, var(--gha-text) 35%, transparent);
+  position: relative;
+  z-index: 3;
+}
+.github-activity .gha-cell--day:focus-visible {
+  outline: 2px solid var(--color-background-accent, #0071e3);
+  outline-offset: 1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .github-activity .gha-cell--day:hover { transform: none; }
+}
+
+/* ==========================================================================
+   7. 图例
+   ========================================================================== */
+.github-activity .gha-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--gha-muted);
+}
+.github-activity .gha-cell--legend {
+  transition: none;
+}
+
+/* ==========================================================================
+   8. 悬停提示（自绘，替代原生 title；原生 title 颜色不可控且亮暗不跟随）
+   ========================================================================== */
+.github-activity .gha-tip {
+  position: fixed;
+  z-index: 2147483000;
+  padding: 5px 9px;
+  border-radius: var(--radius-small, 8px);
+  background-color: var(--color-background-secondary, #fff);
+  color: var(--color-text-primary, #333);
+  border: 1px solid var(--gha-line);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 18%);
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -100%) translateY(-8px);
+  transition: opacity 90ms ease;
+  max-width: 80vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.github-activity .gha-tip.is-visible {
+  opacity: 1;
+}
+/* 网格第一行上方放不下时翻到格子下方（JS 加 .is-below） */
+.github-activity .gha-tip.is-below {
+  transform: translate(-50%, 0);
+}
+.github-activity .gha-tip b {
+  font-weight: 600;
+  color: var(--color-text-primary, #333);
+}
+
+/* ==========================================================================
+   9. 失败态 / 空态文案 / 无障碍
+   ========================================================================== */
+/* 失败态 / 重试：同样直角无边框（用户要求整个组件不要圆角边框） */
+.github-activity .gha-error {
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--gha-surface);
+  font-size: 13px;
+  color: var(--gha-muted);
+}
+.github-activity .gha-error__text {
+  margin: 0;
+}
+.github-activity .gha-retry {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 0;
+  background-color: var(--color-background-secondary-hover, #f7f7f7);
+  color: var(--gha-text);
+  font: inherit;
+  font-size: 13px;
+  padding: 5px 14px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.github-activity .gha-retry:hover {
+  background-color: var(--color-background-accent-lite, #e4efff);
+}
+.github-activity .gha-retry:focus-visible {
+  outline: 2px solid var(--color-background-accent, #0071e3);
+  outline-offset: 2px;
+}
+
+.github-activity .gha-verdict {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--gha-muted);
+}
+
+.github-activity .gha-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   10. 移动端
+   ========================================================================== */
+@media (max-width: 480px) {
+  /* 卡片内边距更窄，给网格多留 24px 可视宽度 */
+  .github-activity {
+    margin: 24px 0;
+  }
+  .github-activity .gha-heading {
+    font-size: 18px;
+  }
+  /* 窄屏隐藏星期标签，横向滚动空间全给网格（原组件靠 overflow-x-auto 直接裁掉） */
+  .github-activity .gha-daylabels {
+    display: none;
+  }
+  .github-activity .gha-months {
+    margin-left: 0;
+  }
+  /* 触屏没有 hover：取消放大，但保留可点击聚焦 */
+  .github-activity .gha-cell--day:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
