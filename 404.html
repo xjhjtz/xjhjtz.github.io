@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>404 Not Found - Xjhjtzac的Blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="页面不见了＞﹏＜       #main-content &gt; * &gt; .meta .title {     font-family: &quot;Playfair Display&quot;, &quot;Noto Serif SC&quot;, serif;     font-optical-sizing: auto;     font-weight: 500;     font-style: normal;   }   .post">
+<meta property="og:type" content="website">
+<meta property="og:title" content="404 Not Found">
+<meta property="og:url" content="https://xjhjtz.github.io/404.html">
+<meta property="og:site_name" content="Xjhjtzac的Blog">
+<meta property="og:description" content="页面不见了＞﹏＜       #main-content &gt; * &gt; .meta .title {     font-family: &quot;Playfair Display&quot;, &quot;Noto Serif SC&quot;, serif;     font-optical-sizing: auto;     font-weight: 500;     font-style: normal;   }   .post">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-30T09:17:10.999Z">
+<meta property="article:modified_time" content="2026-09-30T09:17:10.999Z">
+<meta property="article:author" content="xjhjtzac">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="OI">
+<meta property="article:tag" content="blog">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="铁路">
+<meta name="twitter:card" content="summary">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="71fc8321-74fa-474d-beda-1c0be570eec4"></script>
+<!-- Fancybox v6.1.15 灯箱（正文图片放大/切换）；锁定版本号，经 JSDMirror 国内加速 -->
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/@fancyapps/ui@6.1.15/dist/fancybox/fancybox.css">
+<script>
+/* Twikoo 头像「链式兜底」= 自建图床 → QQ 头像 → 静态兜底图。
+   为什么需要：静态图床（GitHub + jsdmirror）不认 Gravatar 的 ?d= 兜底参数，文件不存在即 404 裂图；
+   CSS 无法回退加载失败的图片，只能在捕获阶段接住 img 的 error 事件重写 src（error 不冒泡，但捕获阶段能拿到）。
+   只处理 .tk-avatar-img（评论列表头像 + 提交框头像），表情包/正文图片一律不碰。三级：
+   ① 自建图床命中就结束（国区直连，最快）。
+   ② 能从失败的头像 URL（带 nk=<QQ号>）或评论昵称（纯 QQ 号，Twikoo 前端也这样认）里拿到 QQ 号
+      → 取 QQ 头像 https://thirdqq.qlogo.cn/g?b=sdk&nk=<QQ号>&s=140（已有 nk= 的说明该域名挂了 → 换 q1.qlogo.cn）
+      （Twikoo 服务端也在做同一件事，但它用的 aq.qq.com 接口已下线，见 skill 记录，故这里补一层）
+   ③ 都不是 → 静态兜底图 = 后台 DEFAULT_GRAVATAR（改兜底图时这里同步改）。
+   注：曾用 weavatar 做第二级、曾用 gh-proxy 取 GitHub 头像，均已按用户要求移除。 */
+(function () {
+  var DEFAULT_AVATAR = 'https://a1.boltp.com/2026/09/11/6aa3fe1a4fbb6.jpeg';
+  function qqNumber(img) {
+    var m = /[?&]nk=([0-9]{5,11})/.exec(img.src);          // 头像 URL 自带 QQ 号
+    if (m) return m[1];
+    var box = img.closest('.tk-comment') || img.closest('.tk-submit');
+    if (!box) return '';
+    var el = box.querySelector('.tk-nick'), nick = el ? el.textContent.trim() : '';
+    if (!nick) { var inp = box.querySelector('.tk-meta-input input'); if (inp) nick = (inp.value || '').trim(); }
+    return /^[1-9][0-9]{4,10}$/.test(nick) ? nick : '';     // 昵称本身就是 QQ 号（纯 5-11 位数字、首位非 0）
+  }
+  document.addEventListener('error', function (e) {
+    var img = e.target;
+    if (!img || img.tagName !== 'IMG' || !img.classList || !img.classList.contains('tk-avatar-img')) return;
+    var stage = img.dataset.tkStage || '0';
+    if (stage === '0') {
+      var qq = qqNumber(img);
+      if (qq) {
+        img.dataset.tkStage = '1';
+        img.src = /[?&]nk=/.test(img.src)
+          ? 'https://q1.qlogo.cn/g?b=qq&nk=' + qq + '&s=140'          // 已是 QQ 头像 → 换备用域名重试
+          : 'https://thirdqq.qlogo.cn/g?b=sdk&nk=' + qq + '&s=140';   // 昵称是 QQ 号 → 取 QQ 头像
+        return;
+      }
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    } else if (stage === '1') {
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    }
+  }, true);
+})();
+</script>
+<style>
+/* 长 URL（如参考文献裸链接）在窄屏可断行，防止横向溢出撑破导航栏 */
+.post .content a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+/* 剧透/模糊条（移植自 MrWillCom 博客）：文章里写 <span class="spoiler">文字</span>，
+   默认模糊遮挡，悬停显示。原版 CSS 来自 MrWillCom/MrWillCom.github.io 文章内联 style */
+.spoiler {
+  filter: blur(5px);
+  opacity: 0.6;
+  transition-property: filter, opacity;
+  transition-duration: 0.15s;
+}
+.spoiler:hover {
+  filter: none;
+  opacity: 1;
+}
+/* 文章"最后更新于"提示（scripts/updated-date.js 自动注入，仅单篇文章末尾显示） */
+.post-updated {
+  margin: 2.5em 0 0;
+  font-size: 0.85em;
+  opacity: 0.55;
+  text-align: center;
+}
+/* 触摸设备（hover:none + pointer:coarse = 纯触摸手机/平板）禁用导航毛玻璃动画：
+   6 层全屏 blur(1→36px)+高度 0.6s 动画同时跑，移动端 GPU 每帧重采样会掉帧（"抽一下"）。
+   渐变效果保留（打开时 blur(36px) 静态生效），仅去掉 transition 动画。
+   用输入设备判定而非视口宽度：桌面窗口缩窄不受影响，iPad/折叠屏触摸设备同样命中。
+   指针设备（鼠标/触控板，hover:hover）不受影响，保持完整动画 */
+@media (hover: none) and (pointer: coarse) {
+  .nav-mask > div {
+    transition: none !important;
+  }
+}
+/* ================= Twikoo 评论区（移植 blog.liushen.fun/posts/b9d10ed/ 的 twikoo 美化）=================
+   与原版的差异（都是必要的适配，不是随意改）：
+   · 原版写死颜色、依赖 [data-theme="light|dark"] 和 Butterfly 的 --card-box-shadow/--btn-bg；
+     这里全部换成 Cupertino 的主题变量 + 圆角 token，于是亮 / 暗 / 跟随系统三种状态自动切换，且不需要任何 JS。
+   · 阴影做卡片层次（亮色）／1px 描边（暗色）——沿用原作者思路，只是换成本主题的颜色；
+     四个阴影/边框值抽成变量，免得每条规则写两遍亮暗。
+   · 所有选择器加 .twikoo-wrap 前缀（comments_section 里的包裹层）：Twikoo 是运行时才把自身样式注入
+     <head>、排在本文之后，同优先级会被它盖过去，必须提高优先级（Vue 只替换 #tcomment 本身，包裹层不会没）。
+   · 补了 box-sizing: border-box：本主题没有全局 border-box，.tk-expand 是 width:100% + padding，
+     不补会横向溢出（窄屏会撑出滚动条）。 */
+/* 注意：token 必须定义在 body 上（不能放 :root）——主题的 --color-* 变量定义在 body[data-color-scheme]，
+   放 :root 的话 var() 链在根层解析不到，亮色下的 hover 会直接失效。 */
+body {
+  --twikoo-shadow-card: 0 8px 24px #0000000f;
+  --twikoo-shadow-card-hover: 0 8px 24px #0002;
+  --twikoo-shadow-chip: 0 2px 8px #0000000d;
+  --twikoo-border: 1px solid transparent;
+  --twikoo-expand-hover-bg: var(--color-background-secondary-hover);
+  --twikoo-expand-hover-fg: inherit;
+}
+body[data-color-scheme='dark'] {
+  --twikoo-shadow-card: none;
+  --twikoo-shadow-card-hover: none;
+  --twikoo-shadow-chip: none;
+  --twikoo-border: 1px solid var(--color-border-primary);
+  --twikoo-expand-hover-bg: var(--color-background-accent);
+  --twikoo-expand-hover-fg: var(--color-background-accent-contrast);
+}
+@media (prefers-color-scheme: dark) {
+  body[data-color-scheme='auto'] {
+    --twikoo-shadow-card: none;
+    --twikoo-shadow-card-hover: none;
+    --twikoo-shadow-chip: none;
+    --twikoo-border: 1px solid var(--color-border-primary);
+    --twikoo-expand-hover-bg: var(--color-background-accent);
+    --twikoo-expand-hover-fg: var(--color-background-accent-contrast);
+  }
+}
+
+/* 1. 提交框：工具行与输入区贴齐
+   （参考站原本还有一条「隐藏评论者头像」= .tk-submit .tk-avatar.tk-has-avatar { display: none }，
+   已按用户要求去掉：那条会把主提交框里"你自己的头像"一起藏掉，只留空位。） */
+.twikoo-wrap .tk-submit .tk-row.actions { margin-left: 0; margin-bottom: 0; }
+.twikoo-wrap .tk-submit .tk-col .tk-meta-input { margin-bottom: 16px; }
+
+/* 2. 输入区圆角（与主题搜索框一致） */
+.twikoo-wrap .tk-meta-input input { border-top-right-radius: var(--radius-medium); border-bottom-right-radius: var(--radius-medium); }
+.twikoo-wrap .tk-meta-input div { border-top-left-radius: var(--radius-medium); border-bottom-left-radius: var(--radius-medium); }
+.twikoo-wrap .tk-input.el-textarea textarea { border-radius: var(--radius-medium); min-height: 150px !important; height: auto; }
+
+/* 3. 按钮：固定高度（修掉 element-ui 高度偶发失效）+ 圆角 */
+.twikoo-wrap .tk-row.actions button.el-button { height: 32px; border-radius: var(--radius-small); }
+
+/* 4. 卡片化：顶层评论 + 提交框（悬浮时阴影加深） */
+.twikoo-wrap .tk-comments-container > .tk-comment,
+.twikoo-wrap .tk-comments .tk-submit {
+  box-sizing: border-box;
+  padding: 20px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-radius: var(--radius-medium);
+  background: var(--color-background-secondary);
+  border: var(--twikoo-border);
+  box-shadow: var(--twikoo-shadow-card);
+  transition: 0.3s;
+}
+.twikoo-wrap .tk-comments-container > .tk-comment:hover,
+.twikoo-wrap .tk-comments .tk-submit:hover {
+  box-shadow: var(--twikoo-shadow-card-hover);
+}
+
+/* 5. 设备 / 浏览器 / 地区 标签做成小卡片 */
+.twikoo-wrap .tk-extra {
+  box-sizing: border-box;
+  border-radius: var(--radius-small);
+  background: var(--color-background-secondary);
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+  border: var(--twikoo-border);
+  box-shadow: var(--twikoo-shadow-chip);
+  transition: 0.3s;
+}
+
+/* 6. 展开 / 加载更多 条 */
+.twikoo-wrap .tk-expand {
+  box-sizing: border-box;
+  border-radius: var(--radius-small);
+  background: var(--color-background-secondary);
+  border: var(--twikoo-border);
+  box-shadow: var(--twikoo-shadow-chip);
+  transition: 0.3s;
+}
+.twikoo-wrap .tk-expand:hover {
+  background-color: var(--twikoo-expand-hover-bg);
+  color: var(--twikoo-expand-hover-fg);
+  box-shadow: var(--twikoo-shadow-card-hover);
+}
+.twikoo-wrap .tk-expand:active { background-color: var(--color-background-primary-active); }
+
+/* 7. 评论里的图片不要撑破卡片 */
+.twikoo-wrap .tk-content img { max-width: 100%; height: auto; }
+
+/* 8. 窄屏收敛：≤570px 隐藏设备信息，≤420px 隐藏预览按钮 */
+@media screen and (max-width: 570px) { .twikoo-wrap .tk-extras { display: none; } }
+@media screen and (max-width: 420px) { .twikoo-wrap .tk-row.actions button.tk-preview { display: none; } }
+
+/* 9. 补齐 Twikoo 自己写死的浅色（其余靠 currentColor 自动跟随） */
+.twikoo-wrap .OwO .OwO-body {
+  color: var(--color-text-primary);
+  background-color: var(--color-background-secondary);
+}
+.twikoo-wrap .tk-lightbox-image {
+  background: var(--color-background-secondary-hover);
+}
+
+/* 10. 与上下篇区域拉开距离 + 区块标题
+   实测：.post-prev-next 的 margin 全是 0，所以之前评论区是贴着它站的（间距 0px）。
+   补 64px —— 与主题里「关于这篇文章 → 上下篇」的 64px 节奏一致（相邻 margin 会折叠，最终就是 64px）。
+   标题排版对齐主题 .about h2：24px / 700 / 下边距 16px。 */
+.comments-section { margin-top: 64px; }
+.comments-heading {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+/* 11. 超椭圆圆角（跟随主题 squircle 开关）
+   主题的做法：utilities_partial.scss 的 corner-squircle mixin —— @container style(--config-corner-squircle: true)
+   + @supports (corner-shape: squircle)，命中后把 --radius-* 放大到 10/20/30/40 并加 corner-shape。
+   但那个 mixin 只挂在主题自己的组件上，外部组件（Twikoo）拿不到，所以这里复刻一份：把半径 token 放大，
+   并与主题一致地加上 corner-shape。实测本机浏览器里 .corner-squircle / htc-callout 都是
+   corner-shape: superellipse(2) + 30px，机制可用。
+   注意 corner-shape 不继承，必须逐个元素给 —— 用通配最省，且它只影响本来就有 border-radius 的元素。 */
+@supports (corner-shape: squircle) {
+  @container document-body style(--config-corner-squircle: true) {
+    .twikoo-wrap {
+      --radius-tiny: 10px;
+      --radius-small: 20px;
+      --radius-medium: 30px;
+      --radius-large: 40px;
+    }
+    .twikoo-wrap,
+    .twikoo-wrap * {
+      corner-shape: squircle;
+    }
+  }
+}
+/* 12. 人机验证（Turnstile）摆位修正
+   Twikoo 默认把它锚在工具行上、absolute 到下方 75px（.tk-turnstile-container
+   { position: absolute; right: 0; bottom: -75px }），实测其底边正好落进下面
+   「N 条评论」那一行里（overlapTitle: true），卡片化之后更是直接挂到卡片外面。
+   改成：工具行允许换行，验证码独占一行并右对齐 —— 于是它落在卡片内部，不压任何东西。
+   （不用验证码时 v-show 会写内联 display:none，内联样式优先级高于这里的 display:flex，不会留空行） */
+.twikoo-wrap .tk-submit .tk-row.actions { flex-wrap: wrap; }
+.twikoo-wrap .tk-turnstile-container {
+  position: static;
+  right: auto;
+  bottom: auto;
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.twikoo-wrap .tk-turnstile { align-items: flex-end; }
+
+/* ================= Fancybox 灯箱（正文图片放大/切换，v6.1.15）=================
+   灯箱本身用深色视觉（看图的通用做法），这里只把「品牌色」和「毛玻璃」接到主题变量上，
+   主题变量定义在 body[data-color-scheme] 上，所以亮/暗/跟随系统三种状态自动全对，零 JS。
+   变量默认值见 fancybox.css 的 .fancybox__container 块，这里只覆盖需要改的。 */
+.fancybox__container {
+  --f-progressbar-color: var(--color-background-accent);
+  --f-spinner-color-2: var(--color-background-accent);
+  --f-button-bg: rgba(54, 54, 54, 0.55);
+  --f-arrow-bg: rgba(54, 54, 54, 0.5);
+  --f-thumb-border-radius: var(--radius-small);
+  overscroll-behavior: contain;   /* 灯箱内滚轮不再带着页面滚 */
+  animation: none;                /* 避免与主题 Lenis 平滑滚动打架 */
+}
+.f-button { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.fancybox__container .f-caption {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 12px 16px;
+}
+.fancybox__thumbs { padding-bottom: 10px; }
+/* 正文图片可点提示 */
+#main-content .content img[data-lb-index] { cursor: zoom-in; }
+#main-content .content a:has(img[data-lb-index]) { border-bottom: 0; }
+</style>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.47/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Xjhjtzac的Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Xjhjtzac的Blog" type="application/rss+xml">
+</head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="3"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="true"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<div class="nav-mask">
+  
+  <div style="--sharp: 1"></div>
+  
+  <div style="--sharp: 2"></div>
+  
+  <div style="--sharp: 3"></div>
+  
+  <div style="--sharp: 4"></div>
+  
+  <div style="--sharp: 5"></div>
+  
+  <div style="--sharp: 6"></div>
+  
+</div>
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Xjhjtzac</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" href="/archives" style="--index: 1">Archives</a>
+      
+      <a class="nav-item" href="/categories" style="--index: 2">Categories</a>
+      
+      <a class="nav-item" href="/log" style="--index: 3">Log</a>
+      
+      <a class="nav-item" href="/about" style="--index: 4">About</a>
+      
+      <a class="nav-item" href="/friends" style="--index: 5">Friends</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 6"><i class="bi bi-search"></i></a>
+      
+      <a class="nav-item is-icon" target="_blank" rel="noopener" href="https://github.com/xjhjtz" style="--index: 7"><i class="bi bi-github"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content" data-pagefind-body>
+      
+<article class="post">
+  
+  <div class="meta">
+    
+
+    
+    <time class="date" datetime="2026-09-30T17:17:10+08:00">
+      September 30, 2026
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">404 Not Found</h1>
+  </div>
+
+  <div class="content">
+    <div class="text-center"><strong>页面不见了＞﹏＜</strong></div>
+
+<link rel="stylesheet" href="https://fonts.font.im/css2?family=Playfair+Display:wght@500&family=Noto+Serif+SC:wght@500&text=404 Not Found AnnouncingTheVernalFortnightly&display=swap">
+
+<style>
+  #main-content > * > .meta .title {
+    font-family: "Playfair Display", "Noto Serif SC", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+  .post > .cover { display: none; }
+  #main-content > * > .meta { text-align: center; }
+</style>
+  </div>
+
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    <a class="next"></a>
+    <a class="prev"></a>
+  </div>
+
+  
+</article>
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">Blog</h2>
+        
+        <a href="/" class="item">Home</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/log" class="item">Logs</a>
+        
+        <a href="/tags" class="item">Tags</a>
+        
+        <a href="/categories" class="item">Categories</a>
+        
+        <a href="/about" class="item">About</a>
+        
+        <a href="/friends" class="item">Friends</a>
+        
+        <a href="/rss" class="item">RSS</a>
+        
+        <a href="/thanks" class="item">Thanks</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">Get in touch.</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/xjhjtz" class="item">GitHub</a>
+        
+        <a href="mailto:hi_xjhjtzac@163.com" class="item">Email</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/1448526422" class="item">Bilibili</a>
+        
+        <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/1361689" class="item">Lougu</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">Trinkets</h2>
+        
+        <a target="_blank" rel="noopener" href="https://cloud.umami.is/analytics/us/share/g6cJvu4XEy6GhY3x" class="item">统计</a>
+        
+        <a href="/journal" class="item">Journal</a>
+        
+        <a href="/daily-yiyan" class="item">每日一言</a>
+        
+        <a href="/chouxiang-art" class="item">「抽象」艺术走廊</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 xjhjtzac<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    <br>
+    <span class="footer-extra-description">本网站已运行 <b id="site-runtime-days">0</b> 天。</span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    <!--
+  正文图片灯箱（Fancybox v6.1.15，经 JSDMirror 加速）。
+  行为：点击正文任意图片 → 全屏查看；**同一篇文章的全部图片是一组**，可用左右箭头/键盘 ←→
+        一路翻完整篇；滚轮与双指缩放、拖拽平移；底部缩略图条；底部显示 alt 图注（Esc/点背景关闭）。
+  分组：GROUP_MODE = 'page'（缺省）= 一篇文章的所有正文图算一组，文章文件不用做任何改动；
+        改成 'local' 则恢复「只在一个小容器（figure/.photo-grid/.carousel…）内切换」的老行为。
+  自动排除：评论区头像/表情包（.twikoo-wrap）、已链接到非图片页面的图片、带 no-lightbox 类或
+            祖先 data-no-lightbox 的图片、插件注入的第三方图片。
+  要关闭某张图：给它加 class="no-lightbox"，或给外层容器加 data-no-lightbox。
+  加新图直接写 markdown 即可，零额外语法。
+-->
+<script src="https://cdn.jsdmirror.com/npm/@fancyapps/ui@6.1.15/dist/fancybox/fancybox.umd.js"></script>
+<script>
+(function () {
+  if (!window.Fancybox) { console.warn('[lightbox] Fancybox 未加载，灯箱已跳过'); return; }
+
+  var EXT = /\.(?:jpe?g|png|gif|webp|avif|bmp|svg)(?:[?#].*)?$/i;
+  // 中文界面：键名取自 zh_CN.umd.js（fancybox 用 {{KEY}} 占位，缺键回落到英文）
+  var L10N = {
+    NEXT: '下一张', PREV: '上一张', CLOSE: '关闭', GOTO: '跳转到下一张',
+    ZOOM_IN: '放大', ZOOM_OUT: '缩小', TOGGLE_FULL: '实际尺寸', ITERATE_ZOOM: '切换缩放级别',
+    TOGGLE_FS: '切换全屏', TOGGLE_FULLSCREEN: '切换全屏模式',
+    TOGGLE_THUMBS: '缩略图', TOGGLE_AUTOPLAY: '切换幻灯片播放',
+    MOVE_UP: '向上移动', MOVE_DOWN: '向下移动', MOVE_LEFT: '向左移动', MOVE_RIGHT: '向右移动',
+    ROTATE_CW: '顺时针旋转', ROTATE_CCW: '逆时针旋转', FLIP_X: '水平翻转', FLIP_Y: '垂直翻转',
+    RESET: '重置', DOWNLOAD: '下载',
+    IMAGE_ERROR: '该图片无法加载，请稍后再试。', ERROR: '出了点问题，请稍后再试。',
+    ELEMENT_NOT_FOUND: '未找到内容', MODAL: '按 Esc 键关闭'
+  };
+
+  // 灯箱打开时冻结页面滚动：主题的 Lenis 平滑滚动挂在 root 元素上，
+  // 灯箱里滚轮缩放会顺手把背后的页面滚走（关掉灯箱发现位置变了）。
+  // ⚠️ 两个坑都踩过：
+  //   ① capture 阶段 stopPropagation 会把事件"截断在捕获路径上"，连图片自己的监听都收不到 → 缩放失效；
+  //      必须用【冒泡阶段】的 document 监听：图片(Panzoom)先收到 → 缩放正常，再到 document 被截断 → Lenis/页面收不到。
+  //   ② 不能用 preventDefault 代替（缺省监听会把事件标记为已取消，Panzoom 会跳过缩放）。
+  function freezeScroll(on) {
+    document.removeEventListener('wheel', blockScroll);
+    document.removeEventListener('touchmove', blockScroll);
+    if (!on) return;
+    if (!document.querySelector('.fancybox__container')) return;   // 没有活着的实例
+    document.addEventListener('wheel', blockScroll, { passive: false });
+    document.addEventListener('touchmove', blockScroll, { passive: false });
+  }
+  function blockScroll(e) {
+    if (!document.querySelector('.fancybox__container')) return;   // 灯箱已关：放行
+    for (var el = e.target; el && el !== document.body; el = el.parentElement) {
+      if (el.scrollHeight > el.clientHeight + 2 || el.scrollWidth > el.clientWidth + 2) {
+        var ov = getComputedStyle(el).overflow;
+        if (/auto|scroll/.test(ov) && !el.classList.contains('fancybox__carousel')) return;  // 灯箱内部可滚区域放行
+      }
+    }
+    e.stopPropagation();
+    if (e.type === 'touchmove') e.preventDefault();
+  }
+
+  // markdown 里写空的 ![]() 时 Hexo 产出 <img src="/"> —— 浏览器把它解析成站点根地址，
+  // 于是成了一个"指向首页/本页的伪图片"（src 非空、data: 规则也拦不住），必须单独判掉，
+  // 否则同一篇文章的组里会多出一张永远加载失败的空图。
+  function isPageUrl(img) {
+    var s = (img.currentSrc || img.src || '').split('#')[0].split('?')[0];
+    if (!s || s.indexOf('//') < 0) return /^\/(?!\/)/.test(s);   // 相对路径：以 "/" 开头的当伪图片
+    return s === location.href.split('#')[0].split('?')[0] || s === location.origin + '/';
+  }
+
+  function isLightboxable(img) {
+    var src = img.getAttribute('src') || '';
+    if (!src || /^data:/.test(src)) return false;                 // 占位/内联图不接管
+    if (isPageUrl(img)) return false;                             // 空 ![]() 之类的伪图片
+    if (img.closest('.twikoo-wrap, .fancybox__container')) return false;  // 评论头像、表情包
+    if (img.matches('.no-lightbox, [data-no-lightbox]')) return false;
+    if (img.closest('[data-no-lightbox]')) return false;
+    var a = img.closest('a');
+    if (a) {                                                      // 已被包在链接里
+      var href = a.getAttribute('href') || '';
+      if (href && !(EXT.test(href) || /^data:image\//.test(href))) return false;  // 链到别处 → 尊重原链接
+    }
+    return true;
+  }
+
+  function captionOf(img) {
+    // 单图 <figure> 优先用 <figcaption>；多图 figure 的图注无法确定归属，仍用各自 alt
+    var fig = img.closest('figure');
+    var cap = fig && fig.querySelectorAll('img').length === 1 ? fig.querySelector('figcaption') : null;
+    var text = (cap ? cap.textContent : '') || img.getAttribute('alt') || '';
+    return text.replace(/\s+/g, ' ').trim().slice(0, 200);
+  }
+
+  function root() {
+    var el = document.querySelector('#main-content > * > .content');
+    return el || document.querySelector('#main-content .content');
+  }
+
+  // 分组：**一篇文章（一个页面）的全部正文图片 = 一个组** —— 灯箱里可以一路 ←→ 翻完整篇。
+  // 用户 2026-09-26 明确要求「单个文章内所有图都是一组，并且不要改动文章文件」，所以这里不再看
+  // figure/.photo-grid 之类的结构（那种"就近成组"的写法会让远图各自成组，翻不过去）。
+  // 需要恢复"只在同一个小容器内切换"时，把 GROUP_MODE 改成 'local' 即可（见 SKILL.md）。
+  var GROUP_MODE = 'page';
+  var groups = [];          // [[img, ...]]  组序号 → 图片
+  var indexOfImg = new WeakMap();   // 仅 'local' 模式用：分组元素（DOM 对象）→ 组序号
+  var groupOfImg = new WeakMap();   // 图片 → 组序号
+  var found = 0, n = 0;
+
+  function localGroupOf(img) {   // 'local' 模式：显式容器优先，否则往上找最近的「多图祖先」（≤3 层）
+    var explicit = img.closest('figure, [data-lightbox-group], .photo-grid, .gallery, .carousel, [data-gallery]');
+    if (explicit && explicit.querySelectorAll('img').length > 1) return explicit;
+    var el = img.parentElement;
+    for (var up = 0; el && up < 3; up++, el = el.parentElement) {
+      if (el === document.body || el.classList.contains('content')) break;
+      if (el.querySelectorAll('img').length > 1) return el;
+    }
+    return img;
+  }
+
+  (function collect() {
+    var el = root();
+    if (!el) return;
+    if (GROUP_MODE === 'page') groups.push([]);   // 全篇一组：只用一个组
+    Array.prototype.forEach.call(el.querySelectorAll('img'), function (img) {
+      if (!isLightboxable(img)) return;
+      var gi = 0;                                   // 'page' 模式：一律第 0 组
+      if (GROUP_MODE !== 'page') {                  // 'local' 模式：按容器分组
+        // ⚠️ WeakMap 的键必须是对象（DOM 元素）；早期版本在这里塞了字符串 'page'，
+        //    直接 TypeError: Invalid value used as weak map key，整段脚本挂掉、一张图都不接管
+        var key = localGroupOf(img);
+        gi = indexOfImg.has(key) ? indexOfImg.get(key) : -1;
+        if (gi < 0) { gi = groups.length; groups.push([]); indexOfImg.set(key, gi); }
+      }
+      groups[gi].push(img);
+      groupOfImg.set(img, gi);
+      img.dataset.lbIndex = n++;
+      found++;
+    });
+  })();
+
+  // 一次性事件委托：后加的图片（如动态渲染）也能用。
+  // 不给图片加 tabindex：正文几十张图会让纯键盘 Tab 变得很长，键盘操作交给灯箱自身（←→ / Esc / 工具条按钮）
+  var bound = false;
+  function bind() {
+    if (bound || !found) return;
+    bound = true;
+    var el = root();
+    el.addEventListener('click', function (e) {
+      var img = e.target && e.target.closest ? e.target.closest('img[data-lb-index]') : null;
+      if (img) open(img);
+    });
+  }
+
+  function open(img) {
+    var gi = groupOfImg.has(img) ? groupOfImg.get(img) : 0;
+    var group = groups[gi] || [img];
+    // 注意：Thumbs / Toolbar 是「顶层」插件选项，不能塞进 Carousel 里（塞进去会被忽略）
+    // 这里不用 Fancybox 的 fromNodes 推导（它从 DOM 读 data-* 属性），自己拼最可靠
+    Fancybox.show(group.map(function (im) {
+      var s = { src: im.currentSrc || im.src,
+                thumbSrc: im.currentSrc || im.src,
+                alt: im.getAttribute('alt') || '' };
+      var c = captionOf(im);
+      if (c) s.caption = c;
+      return s;
+    }), {
+      lang: 'zh-CN',
+      l10n: L10N,
+      theme: 'dark',
+      hideScrollbar: true,
+      closeExisting: true,
+      startIndex: group.indexOf(img),   // 从点的那张开始（传对象数组时库不会替你定位）
+      Thumbs: { showOnStart: true },
+      Carousel: { Toolbar: { absolute: true } },
+      on: {
+        ready: function () { freezeScroll(true); },
+        close: function () { freezeScroll(false); }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+})();
+</script>
+<script>
+// Hide TOC on about page
+//if (window.location.pathname.startsWith('/about/')) {
+  //document.querySelector('.toc')?.parentElement?.remove();
+//}
+// 页脚运行天数（建站日 2026-02-12，改 START 即可）
+(function () {
+  var START = new Date('2026-02-12T00:00:00+08:00');
+  var el = document.getElementById('site-runtime-days');
+  if (el) el.textContent = Math.floor((Date.now() - START) / 864e5) + 1; // +1: 2/12 作为第 1 天
+})();
+</script>
+
+  </body>
+</html>
