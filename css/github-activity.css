@@ -13,15 +13,17 @@
  *   font-medium text-foreground    → .gha-summary b      (500 + --color-text-primary)
  *   inline-flex flex-col gap-1     → .gha-canvas         (gap:4px)
  *   overflow-x-auto                → .gha-scroll
- *   w-[10px] h-[10px] rounded-sm   → .gha-cell           (10×10 + --radius-tiny)
+ *   w-[10px] h-[10px] rounded-sm   → .gha-cell           (10×10 + --gha-cell-radius)
  *   gap-[3px]                      → --gha-gap: 3px
  *   h-[108px] w-full bg-muted animate-pulse → .gha-skeleton（原组件加载态）
  *   text-[10px] text-muted-foreground       → .gha-months / .gha-daylabels / .gha-legend
  *
- * 配色取自原组件 LEVEL_COLORS（green / blue / purple / orange × light / dark 五级），
- * 色值 = Tailwind 默认调色板（*-100/200/400/500/600/700/900）的精确 hex。
- * 亮暗切换：本主题的 CSS 只认 body[data-color-scheme='light'|'dark'|'auto']，
- * 因此选择器用 :where() 保持 0 权重跟随主题，而不是自己写 JS 判断。
+ * 视觉规格（用户 2026-09-30 逐轮敲定，别自己改回去）：
+ *   卡片 .gha-card  = 直角、无边框，只有底色 + 24px 内边距
+ *   日格 .gha-cell  = 3px 圆角方块（10px 格子；5px 就成正圆了）
+ *   配色取自原组件 LEVEL_COLORS（green / blue / purple / orange × light / dark 五级），
+ *   色值 = Tailwind 默认调色板（*-100/200/400/500/600/700/900）的精确 hex。
+ *   亮暗切换用 body[data-color-scheme] + :where() 保持 0 权重跟随主题，不写 JS 判断。
  *
  * 所有规则都限定在 .github-activity 命名空间内（gha- 前缀），不会影响 Cupertino 主题现有样式。
  */
@@ -33,7 +35,7 @@
   /* 尺寸（与原组件完全一致） */
   --gha-cell: 10px;
   --gha-gap: 3px;
-  --gha-cell-radius: 3px;   /* 格子圆角方块（10px 格子取 3px；5px 就成正圆了）；卡片才是直角无边框 */
+  --gha-cell-radius: 3px;   /* 格子圆角方块（10px 格子取 3px；5px 就成正圆了） */
 
   /* 五级配色，默认 green（原组件 colorScheme 默认值） */
   --gha-l0: #f5f5f5; /* neutral-100 */
@@ -356,7 +358,7 @@
   width: var(--gha-cell);
   height: var(--gha-cell);
   /* 参考图的格子是明显的软圆角，不是原组件的 rounded-sm(4px)。
-     固定 5px（边长的 50% 上限）—— 不跟 --radius-tiny 走，因为 squircle 开关会把它放大到 10px，
+     固定 3px（边长的 50% 上限）—— 不跟 --radius-tiny 走，因为 squircle 开关会把它放大到 10px，
      那样 10px 的格子会变成圆点。 */
   border-radius: var(--gha-cell-radius);
   background-color: var(--gha-l0);

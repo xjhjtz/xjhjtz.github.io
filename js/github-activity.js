@@ -36,7 +36,7 @@
  *   无 React / Motion / Tailwind 运行时依赖；仅用 fetch + DOM + CSS。
  *
  * 数据契约：{ date: 'YYYY-MM-DD', count: number, level: 0..4 }
- * 默认数据源（可被 data-gha-api 覆盖）：https://github-contributions-api.jogruber.de/v4/
+ * 数据源（可被 data-gha-api 覆盖）：https://github-contributions-api.jogruber.de/v4/
  *   多数据源回退：按 "|" 分隔依次尝试，前一个失败或返回空则试下一个。
  */
 
@@ -46,7 +46,6 @@
   var DEFAULT_API =
     'https://github-contributions-api.jogruber.de/v4/|https://github-contributions-api.deno.dev/';
   var REQUEST_TIMEOUT = 12000;
-  var WEEK_START = 0; // 0 = 周日（原组件行为）
   var WEEKDAYS_ZH = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 
   /* ------------------------------------------------------------------ *
