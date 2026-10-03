@@ -225,119 +225,387 @@
     transition: none !important;
   }
 }
-/* ================= Twikoo 评论区（移植 blog.liushen.fun/posts/b9d10ed/ 的 twikoo 美化）=================
-   与原版的差异（都是必要的适配，不是随意改）：
-   · 原版写死颜色、依赖 [data-theme="light|dark"] 和 Butterfly 的 --card-box-shadow/--btn-bg；
-     这里全部换成 Cupertino 的主题变量 + 圆角 token，于是亮 / 暗 / 跟随系统三种状态自动切换，且不需要任何 JS。
-   · 阴影做卡片层次（亮色）／1px 描边（暗色）——沿用原作者思路，只是换成本主题的颜色；
-     四个阴影/边框值抽成变量，免得每条规则写两遍亮暗。
-   · 所有选择器加 .twikoo-wrap 前缀（comments_section 里的包裹层）：Twikoo 是运行时才把自身样式注入
-     <head>、排在本文之后，同优先级会被它盖过去，必须提高优先级（Vue 只替换 #tcomment 本身，包裹层不会没）。
-   · 补了 box-sizing: border-box：本主题没有全局 border-box，.tk-expand 是 width:100% + padding，
-     不补会横向溢出（窄屏会撑出滚动条）。 */
-/* 注意：token 必须定义在 body 上（不能放 :root）——主题的 --color-* 变量定义在 body[data-color-scheme]，
-   放 :root 的话 var() 链在根层解析不到，亮色下的 hover 会直接失效。 */
+/* ================= Twikoo 评论区（Waline 风格皮肤，适配 Twikoo 2.0.12 DOM）=================
+   2026-10 重写：Twikoo 2.0 换掉了整套内部类名（element-ui 的 .el-* → tk- 前缀 BEM：
+   .tk-input/.tk-button/.tk-main/...），1.7.22 时代的美化全部失配，外观塌成 2.0 默认样式。
+   本块按 Waline 官方样式（@waline/client@3.16.0 的 waline.css）逐条映射到 2.0.12 真实 DOM：
+   · 白色面板 + 细边框 + 虚线分隔 —— Waline 不用卡片阴影（--waline-box-shadow: none）
+   · 圆形头像：主楼 3.25rem / 嵌套与回复框 2.25rem（--waline-avatar-size 体系，≤720px 收小）
+   · 提交面板：meta 行在顶部 + 2px 虚线分隔 + 无边框编辑器（focus 变浅灰底）
+   · 按钮 = .wl-btn（8px 圆角幽灵钮）/ .primary（强调色实心，禁用变灰）
+   · 嵌套回复 = .wl-quote（虚线左边界）；评论之间 = 1px 虚线分隔（最后一条不加）
+   配色（用户已确认）：不用 Waline 原版绿 #27ae60，全部接 Cupertino 主题变量 —— 结构同 Waline、
+   颜色随博客（强调色 #0071e3 系），亮/暗/跟随系统自动，零 JS。
+   用户已确认的偏离：提交框保留访客头像（Waline 原版没有）；隐藏 2.0 新增的「搜索评论」行
+   （Waline 没有搜索；要恢复删掉 .tk-comments-search 那条 display:none 即可）。
+   ⚠️ Twikoo 的样式是运行时才注入 <head>、排在本文件之后 —— 覆盖规则的优先级必须严格高于
+      Twikoo 的 .twikoo .xxx（0,2,0），所以一律 .twikoo-wrap 前缀 + 至少 3 个类；只有头像
+      尺寸对不过优先级（它有 0,5,0 的复合选择器），用 !important 压（仅 2 条，见下）。
+   ⚠️ token 必须定义在 body 上（不能放 :root）——主题的 --color-* 定义在 body[data-color-scheme]，
+      放 :root 的 var() 链解析不到。全部 token 引用主题变量 → 暗色自动翻转，无需重复声明。 */
 body {
-  --twikoo-shadow-card: 0 8px 24px #0000000f;
-  --twikoo-shadow-card-hover: 0 8px 24px #0002;
-  --twikoo-shadow-chip: 0 2px 8px #0000000d;
-  --twikoo-border: 1px solid transparent;
-  --twikoo-expand-hover-bg: var(--color-background-secondary-hover);
-  --twikoo-expand-hover-fg: inherit;
+  /* Waline token → 主题变量映射（--wl-* 对应 waline.css 的 --waline-*） */
+  --wl-theme-color: var(--color-background-accent);        /* Waline 绿 → 博客强调色（填充用） */
+  --wl-active-color: var(--color-background-accent-hover);
+  --wl-link-color: var(--color-text-accent);               /* 文字用强调色：暗色自动变亮蓝 #69b9ff */
+  --wl-color: var(--color-text-primary);                   /* #444 → #333 / 暗 #ddd */
+  --wl-dark-grey: var(--color-text-secondary);
+  --wl-light-grey: var(--color-text-tertiary);             /* #999 */
+  --wl-bg: var(--color-background-secondary);              /* 面板底：白 / 暗 #181818 */
+  --wl-bg-light: var(--color-background-secondary-hover);  /* #f8f8f8 → #f7f7f7 / #202020 */
+  --wl-bg-hover: var(--color-background-secondary-hover);
+  --wl-info-color: var(--color-text-tertiary);
+  /* Waline 的 #ddd 边框：32% 灰半透明 —— 亮色≈#d6d6d6、暗色≈#393939，两态都可见 */
+  --wl-border-color: color-mix(in oklab, var(--color-text-tertiary) 32%, transparent);
+  /* 头像尺寸体系（!important 压过 Twikoo 写死的 2.5rem/1.6rem） */
+  --wl-avatar-size: 3.25rem;
+  --wl-avatar-m-size: 2.25rem;
 }
-body[data-color-scheme='dark'] {
-  --twikoo-shadow-card: none;
-  --twikoo-shadow-card-hover: none;
-  --twikoo-shadow-chip: none;
-  --twikoo-border: 1px solid var(--color-border-primary);
-  --twikoo-expand-hover-bg: var(--color-background-accent);
-  --twikoo-expand-hover-fg: var(--color-background-accent-contrast);
+@media (max-width: 720px) {
+  body { --wl-avatar-size: var(--wl-avatar-m-size); }   /* Waline ≤720px 用小头像 */
 }
-@media (prefers-color-scheme: dark) {
-  body[data-color-scheme='auto'] {
-    --twikoo-shadow-card: none;
-    --twikoo-shadow-card-hover: none;
-    --twikoo-shadow-chip: none;
-    --twikoo-border: 1px solid var(--color-border-primary);
-    --twikoo-expand-hover-bg: var(--color-background-accent);
-    --twikoo-expand-hover-fg: var(--color-background-accent-contrast);
+
+.twikoo-wrap {
+  color: var(--wl-color);
+  line-height: 1.75;   /* Waline 全局行高 */
+}
+
+/* ---------- 提交面板（= Waline .wl-panel：白底 + 细边框 + .75em 圆角，无阴影）---------- */
+.twikoo-wrap .tk-comments .tk-submit {
+  background: var(--wl-bg);
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.75em;
+  padding: 0.75em 1em 1em;
+  margin: 1.5em 0;
+  box-shadow: none;
+}
+/* 嵌套回复框（点「回复」后出现的面板）：小一号 */
+.twikoo-wrap .tk-comment .tk-submit {
+  padding: 0.5em 0.75em;
+  margin: 0.75em 0 0;
+}
+/* 提交框头像（用户要求保留；圆形 + Waline 尺寸） */
+.twikoo-wrap .tk-avatar.tk-avatar {
+  width: var(--wl-avatar-size) !important;
+  height: var(--wl-avatar-size) !important;
+  border-radius: 50% !important;
+  margin-right: 0.75em;
+  background: var(--wl-bg-light);
+}
+.twikoo-wrap .tk-replies .tk-avatar.tk-avatar,
+.twikoo-wrap .tk-comment .tk-submit .tk-avatar.tk-avatar {
+  width: var(--wl-avatar-m-size) !important;
+  height: var(--wl-avatar-m-size) !important;
+}
+.twikoo-wrap .tk-avatar .tk-avatar-img {
+  width: 100%;
+  height: 100% !important;
+  line-height: normal;
+}
+
+/* ---------- meta 行（= Waline .wl-header：标签 + 透明输入框，底部 2px 虚线）---------- */
+.twikoo-wrap .tk-submit .tk-meta-input {
+  display: flex;
+  padding: 0 0.25em;
+  border-bottom: 2px dashed var(--wl-border-color);
+  margin-bottom: 0;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input {
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input-group__prepend {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  height: auto;
+  min-width: 2.5em;
+  justify-content: center;
+  padding: 0.75em 0.5em 0.75em 0;
+  color: var(--wl-color);
+  font-size: 0.75em;
+  line-height: 1.5;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input__inner {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  height: auto;
+  padding: 0.5em 0.5em 0.5em 0;
+  font-size: 0.75em;
+  line-height: 1.75;
+  transition: all 0.25s ease;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input__inner:focus {
+  background: var(--wl-bg-light);
+  border: 0;
+}
+/* Twikoo 在 ≤767px 把 meta 行竖排 —— 竖排时改用 Waline 的逐项虚线分隔 */
+@media screen and (max-width: 767px) {
+  .twikoo-wrap .tk-submit .tk-meta-input { flex-direction: column; border-bottom: 0; }
+  .twikoo-wrap .tk-submit .tk-meta-input .tk-input { width: auto; }
+  .twikoo-wrap .tk-submit .tk-meta-input .tk-input:not(:last-child) {
+    border-bottom: 2px dashed var(--wl-border-color);
   }
 }
 
-/* 1. 提交框：工具行与输入区贴齐
-   （参考站原本还有一条「隐藏评论者头像」= .tk-submit .tk-avatar.tk-has-avatar { display: none }，
-   已按用户要求去掉：那条会把主提交框里"你自己的头像"一起藏掉，只留空位。） */
-.twikoo-wrap .tk-submit .tk-row.actions { margin-left: 0; margin-bottom: 0; }
-.twikoo-wrap .tk-submit .tk-col .tk-meta-input { margin-bottom: 16px; }
+/* ---------- 编辑器（= Waline .wl-editor：无边框透明，focus 变浅灰底）---------- */
+.twikoo-wrap .tk-submit .tk-textarea .tk-input__inner {
+  background: transparent;
+  border: 0;
+  border-radius: 0.5em;
+  height: auto;
+  min-height: 8.75em;
+  margin: 0.75em 0 0.25em;
+  padding: 0.75em 0.5em;
+  font-size: 0.875em;
+  line-height: 1.75;
+  resize: vertical;
+  transition: all 0.25s ease;
+}
+.twikoo-wrap .tk-submit .tk-textarea .tk-input__inner:focus {
+  background: var(--wl-bg-light);
+  border: 0;
+}
+.twikoo-wrap .tk-submit .tk-textarea .tk-input__count {
+  color: var(--wl-info-color);
+  font-size: 0.75em;
+}
 
-/* 2. 输入区圆角（与主题搜索框一致） */
-.twikoo-wrap .tk-meta-input input { border-top-right-radius: var(--radius-medium); border-bottom-right-radius: var(--radius-medium); }
-.twikoo-wrap .tk-meta-input div { border-top-left-radius: var(--radius-medium); border-bottom-left-radius: var(--radius-medium); }
-.twikoo-wrap .tk-input.el-textarea textarea { border-radius: var(--radius-medium); min-height: 150px !important; height: auto; }
+/* ---------- 工具行与按钮（= Waline .wl-footer / .wl-btn）---------- */
+.twikoo-wrap .tk-submit .tk-row.actions { margin: 0.5em 0 0 4rem; }  /* 3.25rem 头像 + .75em 间距 */
+.twikoo-wrap .tk-comment .tk-submit .tk-row.actions { margin-left: 3rem; }
+@media (max-width: 720px) {
+  .twikoo-wrap .tk-submit .tk-row.actions { margin-left: 3rem; }
+}
+.twikoo-wrap .tk-submit .tk-submit-action-icon { color: var(--wl-color); }
+.twikoo-wrap .tk-submit .tk-submit-action-icon:hover { color: var(--wl-link-color); opacity: 1; }
+.twikoo-wrap .tk-submit .tk-submit-action-icon.__markdown { color: var(--wl-color); }
+.twikoo-wrap .tk-submit .tk-submit-action-icon.__markdown:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-row.actions .tk-button:not(.tk-button--primary) {
+  min-width: 2.5em;
+  padding: 0.5em 1em;
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.5em;
+  background: transparent;
+  color: var(--wl-color);
+  font-weight: 400;
+  font-size: 0.75em;
+  line-height: 1.5;
+  transition: all 0.4s;
+}
+.twikoo-wrap .tk-row.actions .tk-button:not(.tk-button--primary):not(.is-disabled):hover,
+.twikoo-wrap .tk-row.actions .tk-button:not(.tk-button--primary):not(.is-disabled):focus {
+  border-color: var(--wl-link-color);
+  background: transparent;
+  color: var(--wl-link-color);
+}
+/* primary 实心按钮：作用域全评论区（发送/搜索/…），双类提特异度压过 Twikoo 的 .twikoo .tk-button--primary */
+.twikoo-wrap .tk-button--primary.tk-button--primary {
+  border-color: var(--wl-theme-color);
+  background: var(--wl-theme-color);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-button--primary.tk-button--primary:not(.is-disabled):hover,
+.twikoo-wrap .tk-button--primary.tk-button--primary:not(.is-disabled):focus {
+  border-color: var(--wl-active-color);
+  background: var(--wl-active-color);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-button--primary.tk-button--primary:not(.is-disabled):active {
+  border-color: var(--color-background-accent-active);
+  background: var(--color-background-accent-active);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-button--primary.tk-button--primary.is-disabled {
+  opacity: 1;
+  border-color: var(--wl-border-color);
+  background: var(--wl-bg-light);
+  color: var(--wl-light-grey);
+}
 
-/* 3. 按钮：固定高度（修掉 element-ui 高度偶发失效）+ 圆角 */
-.twikoo-wrap .tk-row.actions button.el-button { height: 32px; border-radius: var(--radius-small); }
+/* ---------- 预览容器（= Waline .wl-preview：无框，虚线隔开）---------- */
+.twikoo-wrap .tk-comments .tk-preview-container {
+  border: 0;
+  border-top: 2px dashed var(--wl-border-color);
+  border-radius: 0;
+  margin-left: 0;
+  padding: 0.75em 0.5em 0.25em;
+  background: transparent;
+}
 
-/* 4. 卡片化：顶层评论 + 提交框（悬浮时阴影加深） */
-.twikoo-wrap .tk-comments-container > .tk-comment,
-.twikoo-wrap .tk-comments .tk-submit {
-  box-sizing: border-box;
-  padding: 20px;
+/* ---------- 评论区头部：排序 / 搜索 / 设置图标 ---------- */
+.twikoo-wrap .tk-comments .tk-sort-item {
+  color: var(--wl-light-grey);
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comments .tk-sort-item.__active,
+.twikoo-wrap .tk-comments .tk-sort-item:focus {
+  color: var(--wl-link-color);
+}
+.twikoo-wrap .tk-comments .tk-icon.__comments { color: var(--wl-light-grey); }
+.twikoo-wrap .tk-comments .tk-icon.__comments:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-comments .tk-icon.__comments.__active {
+  color: var(--color-background-accent-contrast);
+  background: var(--wl-theme-color);
+  box-shadow: 0 0 0 0.2rem var(--wl-theme-color);
+}
+/* 「搜索评论」行是 Twikoo 2.0 新增的，Waline 没有搜索 —— 整行隐藏（要恢复删掉这条即可） */
+.twikoo-wrap .tk-comments-search { display: none; }
+
+/* ---------- 评论列表（= Waline .wl-card-item/.wl-card：扁平 + 虚线分隔，不是卡片）---------- */
+.twikoo-wrap .tk-comments-container > .tk-comment {
+  padding: 0.5em;
   margin-top: 0;
-  margin-bottom: 20px;
-  border-radius: var(--radius-medium);
-  background: var(--color-background-secondary);
-  border: var(--twikoo-border);
-  box-shadow: var(--twikoo-shadow-card);
-  transition: 0.3s;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
-.twikoo-wrap .tk-comments-container > .tk-comment:hover,
-.twikoo-wrap .tk-comments .tk-submit:hover {
-  box-shadow: var(--twikoo-shadow-card-hover);
+.twikoo-wrap .tk-comments-container > .tk-comment > .tk-main {
+  border-bottom: 1px dashed var(--wl-border-color);
+  padding-top: 0.25em;
+  padding-bottom: 0.75em;
+}
+.twikoo-wrap .tk-comments-container > .tk-comment:last-child > .tk-main { border-bottom: 0; }
+
+/* 昵称 / 时间 / 徽标（= .wl-nick/.wl-time/.wl-badge） */
+.twikoo-wrap .tk-comment .tk-meta .tk-nick {
+  color: var(--wl-color);
+  font-size: 0.875em;
+  font-weight: 700;
+}
+.twikoo-wrap .tk-comment a.tk-nick-link:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-comment .tk-meta .tk-time {
+  color: var(--wl-light-grey);
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comment .tk-tag {
+  background: transparent;
+  border-radius: 4px;
+  padding: 0 0.3em;
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comment [class*='tk-tag-'] {
+  background: transparent;
+  border-color: currentColor;
 }
 
-/* 5. 设备 / 浏览器 / 地区 标签做成小卡片 */
-.twikoo-wrap .tk-extra {
-  box-sizing: border-box;
-  border-radius: var(--radius-small);
-  background: var(--color-background-secondary);
-  padding: 0.4rem;
-  margin-bottom: 1rem;
-  border: var(--twikoo-border);
-  box-shadow: var(--twikoo-shadow-chip);
-  transition: 0.3s;
+/* 操作按钮（赞/踩/回复 = .wl-reply/.wl-like：灰 → 强调色 hover） */
+.twikoo-wrap .tk-comment .tk-action .tk-action-link { color: var(--wl-color); }
+.twikoo-wrap .tk-comment .tk-action .tk-action-link:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-comment .tk-action .tk-action-icon { color: inherit; }
+.twikoo-wrap .tk-comment .tk-action .tk-action-count {
+  color: var(--wl-light-grey);
+  font-size: 0.75em;
+  height: auto;
+  line-height: inherit;
 }
 
-/* 6. 展开 / 加载更多 条 */
-.twikoo-wrap .tk-expand {
-  box-sizing: border-box;
-  border-radius: var(--radius-small);
-  background: var(--color-background-secondary);
-  border: var(--twikoo-border);
-  box-shadow: var(--twikoo-shadow-chip);
-  transition: 0.3s;
+/* 正文（= .wl-content：0.875em / 行高 2） */
+.twikoo-wrap .tk-comment .tk-content {
+  font-size: 0.875em;
+  line-height: 2;
+  margin-top: 0.625em;
+  color: var(--wl-color);
 }
-.twikoo-wrap .tk-expand:hover {
-  background-color: var(--twikoo-expand-hover-bg);
-  color: var(--twikoo-expand-hover-fg);
-  box-shadow: var(--twikoo-shadow-card-hover);
+.twikoo-wrap .tk-content p { margin: 0.25em 0; }
+.twikoo-wrap .tk-content a { color: var(--wl-link-color); overflow-wrap: anywhere; }
+.twikoo-wrap .tk-content a:hover { color: var(--wl-active-color); }
+.twikoo-wrap .tk-content blockquote {
+  margin: 0.5em 0;
+  padding: 0.25em 0 0.25em 1em;
+  border-inline-start: 4px solid var(--wl-border-color);
+  color: var(--wl-dark-grey);
 }
-.twikoo-wrap .tk-expand:active { background-color: var(--color-background-primary-active); }
+.twikoo-wrap .tk-content code {
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  background: var(--wl-bg-light);
+  font-size: 85%;
+}
+.twikoo-wrap .tk-content pre {
+  padding: 10px;
+  border-radius: 6px;
+  background: #282c34;
+}
 
-/* 7. 评论里的图片不要撑破卡片 */
+/* 设备 / 浏览器 / 地区（= .wl-meta 小圆角灰片，无边框无阴影） */
+.twikoo-wrap .tk-comment .tk-extras {
+  color: var(--wl-info-color);
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comment .tk-extra {
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+  padding: 2px 6px;
+  border-radius: 0.25em;
+  background: var(--wl-bg-light);
+  color: var(--wl-info-color);
+}
+
+/* 嵌套回复（= .wl-quote：虚线左边界） */
+.twikoo-wrap .tk-comment .tk-replies {
+  margin-top: 0.5em;
+  padding-inline-start: 0.75em;
+  border-inline-start: 1px dashed var(--wl-border-color);
+}
+
+/* 展开 / 加载更多（= Waline 居中幽灵按钮，不再是通栏色条） */
+.twikoo-wrap .tk-comments .tk-expand {
+  display: block;
+  width: auto;
+  margin: 1em auto;
+  padding: 0.5em 1em;
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.5em;
+  background: transparent;
+  color: var(--wl-color);
+  font-size: 0.75em;
+  line-height: 1.5;
+  transition: all 0.4s;
+}
+.twikoo-wrap .tk-comments .tk-expand:hover {
+  border-color: var(--wl-link-color);
+  background: transparent;
+  color: var(--wl-link-color);
+}
+.twikoo-wrap .tk-comments .tk-expand:active { background: var(--wl-bg-light); }
+
+/* 分页 / 空状态 / 页脚 */
+.twikoo-wrap .tk-pagination .tk-pagination-pager { color: var(--wl-color); }
+.twikoo-wrap .tk-pagination .tk-pagination-pager.__current {
+  border-radius: 0.25em;
+  background: var(--wl-theme-color);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-comments .tk-comments-no {
+  padding: 1.25em 0;
+  color: var(--wl-light-grey);
+}
+.twikoo-wrap div.tk-footer { color: var(--wl-light-grey); }
+.twikoo-wrap .tk-footer a { color: var(--wl-light-grey); }
+.twikoo-wrap .tk-footer a:hover { color: var(--wl-link-color); }
+
+/* ---------- 评论里的图片不要撑破布局 ---------- */
 .twikoo-wrap .tk-content img { max-width: 100%; height: auto; }
 
-/* 8. 窄屏收敛：≤570px 隐藏设备信息，≤420px 隐藏预览按钮 */
+/* ---------- 窄屏收敛：≤570px 隐藏设备信息，≤420px 隐藏预览按钮 ---------- */
 @media screen and (max-width: 570px) { .twikoo-wrap .tk-extras { display: none; } }
 @media screen and (max-width: 420px) { .twikoo-wrap .tk-row.actions button.tk-preview { display: none; } }
 
-/* 9. 补齐 Twikoo 自己写死的浅色（其余靠 currentColor 自动跟随） */
+/* ---------- 表情弹层（= Waline .wl-emoji-popup：面板同色 + 6px 圆角）---------- */
 .twikoo-wrap .OwO .OwO-body {
-  color: var(--color-text-primary);
-  background-color: var(--color-background-secondary);
+  color: var(--wl-color);
+  background-color: var(--wl-bg);
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.375em;
+}
+.twikoo-wrap .OwO .OwO-items .OwO-item:hover {
+  background-color: var(--wl-bg-hover);
+  box-shadow: none;
 }
 .twikoo-wrap .tk-lightbox-image {
-  background: var(--color-background-secondary-hover);
+  background: var(--wl-bg-light);
 }
 
 /* 10. 与上下篇区域拉开距离 + 区块标题
@@ -352,20 +620,11 @@ body[data-color-scheme='dark'] {
 }
 
 /* 11. 超椭圆圆角（跟随主题 squircle 开关）
-   主题的做法：utilities_partial.scss 的 corner-squircle mixin —— @container style(--config-corner-squircle: true)
-   + @supports (corner-shape: squircle)，命中后把 --radius-* 放大到 10/20/30/40 并加 corner-shape。
-   但那个 mixin 只挂在主题自己的组件上，外部组件（Twikoo）拿不到，所以这里复刻一份：把半径 token 放大，
-   并与主题一致地加上 corner-shape。实测本机浏览器里 .corner-squircle / htc-callout 都是
-   corner-shape: superellipse(2) + 30px，机制可用。
-   注意 corner-shape 不继承，必须逐个元素给 —— 用通配最省，且它只影响本来就有 border-radius 的元素。 */
+   主题的 corner-squircle mixin 只挂在自己组件上；这里只复刻 corner-shape 部分。
+   （皮肤的全部圆角都是 em 字面量，不再依赖 --radius-* token，所以不用再放大 token。
+   注意 corner-shape 不继承，必须逐个元素给 —— 用通配最省，且它只影响本来就有 border-radius 的元素。） */
 @supports (corner-shape: squircle) {
   @container document-body style(--config-corner-squircle: true) {
-    .twikoo-wrap {
-      --radius-tiny: 10px;
-      --radius-small: 20px;
-      --radius-medium: 30px;
-      --radius-large: 40px;
-    }
     .twikoo-wrap,
     .twikoo-wrap * {
       corner-shape: squircle;
@@ -579,9 +838,9 @@ body[data-color-scheme='dark'] {
     <p class="tags">
       <i class="bi bi-tags icon"></i>
       
-      <a href="/tags/Github/" class="tag">#Github</a>
-      
       <a href="/tags/Blogging/" class="tag">#Blogging</a>
+      
+      <a href="/tags/Github/" class="tag">#Github</a>
       
     </p>
     
@@ -614,7 +873,7 @@ body[data-color-scheme='dark'] {
   <div class="twikoo-wrap">
     <div id="tcomment"></div>
   </div>
-  <script src="https://cdn.jsdmirror.com/npm/twikoo@1.7.22/dist/twikoo.min.js"></script>
+  <script src="https://cdn.jsdmirror.com/npm/twikoo@2.0.12/dist/twikoo.min.js"></script>
   <script>
     twikoo.init({
       envId: 'https://xjhjtzacpl.netlify.app/.netlify/functions/twikoo',
