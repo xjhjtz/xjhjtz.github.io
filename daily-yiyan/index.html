@@ -650,6 +650,204 @@ body {
 }
 .twikoo-wrap .tk-turnstile { align-items: flex-end; }
 
+/* ================= 代码块「复制」按钮（多行块专属）=================
+   按钮由 body.ending 的脚本按需插入 figure.highlight 内部（不写在 HTML/CSS 里，
+   所以代码块本身零改动、升级主题也不丢）。
+   定位说明：figure.highlight 有 overflow-x:auto（横向滚动容器），
+   所以按钮必须 (1) 放在容器内部、(2) 用 top/right 定位 —— 用 bottom 的话，
+   块比视口高时会被推到底部之外，横向滚动时也会跟着漂。
+   左内边距 104px：给按钮让位，同时让代码跟上方正文左对齐（主题原本就是这个值）。 */
+#main-content .content figure.highlight {
+  position: relative;
+  /* ★ 必须显式接管横向滚动：实测长单行代码下 figure.highlight 的 overflow-x
+     计算值是 visible（不是主题 post.scss 里写的 auto），于是内容直接溢出、
+     压到右上角按钮下面。显式写 auto 后长行在块内滚动，不再压按钮。 */
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+/* 左右各留 104px：左边是主题原有的正文对齐值，右边给按钮让位 ——
+   这样横向滚到底时，代码末字符停在按钮左侧，不会钻到按钮下面。 */
+#main-content .content figure.highlight td.code {
+  padding-left: 104px;
+  padding-right: 104px;
+}
+
+#main-content .content .code-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* ★ 不能用 gap：label 是用 max-width:0 折叠的（保留过渡链路），
+     它仍然是 flex item，gap 会照常占位 → 空态下图标右侧多出 5px，
+     按钮变成长方形且图标偏左不居中（实测 39×30、左10/右15）。
+     改用 label 的 margin-left 过渡，折叠时归零，空态即正方形 34×30。 */
+  gap: 0;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in oklab, var(--color-text-primary) 14%, transparent);
+  border-radius: 8px;
+  background-color: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans-serif);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  /* 显隐动效：淡入 + 轻微上浮 + 缩放归位（Apple 的「浮现」手感） */
+  opacity: 0;
+  transform: translateY(-3px) scale(0.94);
+  transition:
+    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+#main-content .content figure.highlight:hover .code-copy,
+#main-content .content .code-copy:focus-visible,
+#main-content .content .code-copy.is-copied {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+/* 键盘聚焦时给一条明确描边（可访问性） */
+#main-content .content .code-copy:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-text-accent) 28%, transparent);
+}
+
+#main-content .content .code-copy:hover {
+  color: var(--color-text-primary);
+  border-color: color-mix(in oklab, var(--color-text-primary) 28%, transparent);
+  background-color: var(--color-background-secondary-hover, var(--color-background-secondary));
+  outline: none;
+}
+#main-content .content .code-copy:active { transform: scale(0.95); }
+
+/* ---- 复制成功：图标对调动画 + 勾选回弹 + 文案滑入 ---- */
+#main-content .content .code-copy .code-copy__icon {
+  position: relative;
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+}
+#main-content .content .code-copy .bi {
+  font-size: 14px;
+  line-height: 1;
+  transition: opacity 0.2s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 默认：剪贴板可见，对勾缩到看不见 */
+#main-content .content .code-copy .bi-check2 {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.4) rotate(-14deg);
+}
+#main-content .content .code-copy.is-copied .bi-clipboard {
+  opacity: 0;
+  transform: scale(0.55) translateY(3px);
+}
+#main-content .content .code-copy.is-copied .bi-check2 {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+#main-content .content .code-copy.is-copied {
+  color: var(--color-text-accent);
+  border-color: color-mix(in oklab, var(--color-text-accent) 42%, transparent);
+  background-color: color-mix(in oklab, var(--color-text-accent) 9%, var(--color-background-secondary));
+  animation: cc-pop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 一次极轻的回弹，提示「已生效」，不喧哗 */
+@keyframes cc-pop {
+  0% { transform: scale(1); }
+  38% { transform: scale(1.075); }
+  100% { transform: scale(1); }
+}
+
+/* 「Copied」文案：滑入 + 淡入，宽度自然撑开（不用 display 切换，否则没法过渡）。
+   margin-left 与 max-width 同步过渡：折叠时两者都归零 → 空态是正圆角方块、图标居中；
+   展开时才有 5px 间距。 */
+#main-content .content .code-copy .code-copy__label {
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transform: translateX(-4px);
+  transition:
+    max-width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    margin-left 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.22s ease,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#main-content .content .code-copy.is-copied .code-copy__label,
+#main-content .content .code-copy.is-failed .code-copy__label {
+  max-width: 72px;
+  margin-left: 5px;
+  opacity: 1;
+  transform: translateX(0);
+}
+/* 失败态：红色描边，其余动效同上 */
+#main-content .content .code-copy.is-failed {
+  color: #e5484d;
+  border-color: color-mix(in oklab, #e5484d 45%, transparent);
+}
+/* 触屏没有 hover：常显按钮，否则点不到。
+   ★ 必须同时把 transform 归位 —— 默认态是 translateY(-3px) scale(0.94)，
+   只改 opacity 会让按钮一直停在偏移+缩小的状态。 */
+@media (hover: none) {
+  #main-content .content .code-copy {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* 窄屏藏文案只留图标，避免盖住代码。
+   用 max-width:0 而不是 display:none —— 保留过渡链路，
+   否则宽屏↔窄屏切换、以及「Copied」那一下会被硬切掉。 */
+@media (max-width: 640px) {
+  #main-content .content figure.highlight td.code { padding-left: 64px; padding-right: 64px; }
+  #main-content .content .code-copy .code-copy__label,
+  #main-content .content .code-copy.is-copied .code-copy__label,
+  #main-content .content .code-copy.is-failed .code-copy__label { max-width: 0; }
+}
+/* 打印时按钮无意义 */
+@media print {
+  #main-content .content .code-copy { display: none !important; }
+}
+/* 系统开了「减弱动态效果」：只保留透明度/颜色变化，去掉位移、缩放与回弹 */
+@media (prefers-reduced-motion: reduce) {
+  #main-content .content .code-copy,
+  #main-content .content .code-copy .bi,
+  #main-content .content .code-copy .code-copy__label {
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+      max-width 0.2s ease, margin-left 0.2s ease;
+  }
+  #main-content .content .code-copy { transform: none; }
+  #main-content .content figure.highlight:hover .code-copy,
+  #main-content .content .code-copy:focus-visible,
+  #main-content .content .code-copy.is-copied { transform: none; }
+  #main-content .content .code-copy:active { transform: none; }
+  #main-content .content .code-copy.is-copied { animation: none; }
+  #main-content .content .code-copy .bi-clipboard,
+  #main-content .content .code-copy .bi-check2 {
+    transition: opacity 0.15s ease;
+    transform: none;
+  }
+  #main-content .content .code-copy .bi-check2 { opacity: 0; }
+  #main-content .content .code-copy.is-copied .bi-clipboard { opacity: 0; transform: none; }
+  #main-content .content .code-copy.is-copied .bi-check2 { opacity: 1; transform: none; }
+  #main-content .content .code-copy .code-copy__label { transform: none; }
+  #main-content .content .code-copy.is-copied .code-copy__label,
+  #main-content .content .code-copy.is-failed .code-copy__label { transform: none; }
+}
+
 /* ================= Fancybox 灯箱（正文图片放大/切换，v6.1.15）=================
    灯箱本身用深色视觉（看图的通用做法），这里只把「品牌色」和「毛玻璃」接到主题变量上，
    主题变量定义在 body[data-color-scheme] 上，所以亮/暗/跟随系统三种状态自动全对，零 JS。
@@ -1085,6 +1283,123 @@ body {
   var START = new Date('2026-02-12T00:00:00+08:00');
   var el = document.getElementById('site-runtime-days');
   if (el) el.textContent = Math.floor((Date.now() - START) / 864e5) + 1; // +1: 2/12 作为第 1 天
+})();
+</script>
+<script>
+/* 代码块「复制」按钮 —— 围栏代码块全都有（单行、多行都加），行内代码不加。
+   ★ 判据：figure.highlight 里存在 td.code 就加。不要用行数判断 ——
+   站点开了 line_number:true，单行块同样渲染成 td.gutter + td.code 两栏结构，
+   行数判据（< 2 跳过）会把单行块漏掉。用户 2026-10-08 明确要求单行块也要按钮。
+   ★ 取文按 .line 逐行 join('\n')，不能 querySelector('pre')：
+   td.gutter 里的行号 <pre> 排在前面，会读成 "1"。
+   也不能直接把 td.code 的 textContent 当结果 —— 代码里出现 <td>/<code> 这类
+   Markdown 行内标签时会被浏览器解析成真元素、从文本里消失（按 .line 取也一样会丢），
+   属已知边角，遇真代码含此类标签需另用 textContent 原样提取方案。 */
+(function () {
+  var CLS = 'code-copy';
+  var RESET_MS = 1600;
+
+  function codeLines(fig) {
+    var code = fig.querySelector('td.code');
+    return code ? code.querySelectorAll('.line') : [];
+  }
+
+  function blockText(fig) {
+    var lines = codeLines(fig);
+    if (lines.length) {
+      var out = [];
+      for (var i = 0; i < lines.length; i++) out.push(lines[i].textContent);
+      return out.join('\n');
+    }
+    var code = fig.querySelector('td.code');
+    var pre = code && code.querySelector('pre');
+    return pre ? pre.textContent : '';
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function writeClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(
+        function () { return true; },
+        function () { return fallbackCopy(text); }
+      );
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+
+  function mark(btn, state, label) {
+    btn.classList.remove('is-copied', 'is-failed');
+    if (state) btn.classList.add(state);
+    btn.querySelector('.code-copy__label').textContent = label;
+    clearTimeout(btn._t);
+    if (state) {
+      btn._t = setTimeout(function () {
+        btn.classList.remove('is-copied', 'is-failed');
+        btn.querySelector('.code-copy__label').textContent = '';
+        // 图标对调完全由 CSS 状态类驱动（.is-copied .bi-clipboard / .bi-check2），
+        // 这里不用再换 class，否则会跟 CSS 的过渡打架。
+      }, RESET_MS);
+    }
+  }
+
+  function makeButton() {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = CLS;
+    btn.setAttribute('aria-label', '复制代码');
+    btn.title = '复制代码';
+    // 两个图标都放进去，靠 CSS 交叉淡入淡出 + 回弹切换（单一 DOM，动画才连得上）
+    var wrap = document.createElement('span');
+    wrap.className = 'code-copy__icon';
+    wrap.setAttribute('aria-hidden', 'true');
+    var clip = document.createElement('i');
+    clip.className = 'bi bi-clipboard';
+    var tick = document.createElement('i');
+    tick.className = 'bi bi-check2';
+    wrap.appendChild(clip);
+    wrap.appendChild(tick);
+    var label = document.createElement('span');
+    label.className = 'code-copy__label';
+    btn.appendChild(wrap);
+    btn.appendChild(label);
+    return btn;
+  }
+
+  function init() {
+    var figs = document.querySelectorAll('#main-content .content figure.highlight');
+    for (var i = 0; i < figs.length; i++) {
+      var fig = figs[i];
+      if (fig.querySelector('.' + CLS)) continue;   // 只插一次
+      if (!fig.querySelector('td.code')) continue;   // 异常结构兜底（正常块都有）
+      var btn = makeButton();
+      fig.appendChild(btn);
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var self = this;
+        var text = blockText(self.parentNode);
+        writeClipboard(text).then(function (ok) {
+          // 图标切换 + 回弹 + 文案滑入全部由 CSS 状态类驱动
+          mark(self, ok ? 'is-copied' : 'is-failed', ok ? 'Copied' : '复制失败');
+        });
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 </script>
 

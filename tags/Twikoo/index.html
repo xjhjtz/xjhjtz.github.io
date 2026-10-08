@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>#Twikoo - Xjhjtzac的Blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="凭栏静听潇潇雨，故国人民有所思。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Xjhjtzac的Blog">
+<meta property="og:url" content="https://xjhjtz.github.io/tags/Twikoo/index.html">
+<meta property="og:site_name" content="Xjhjtzac的Blog">
+<meta property="og:description" content="凭栏静听潇潇雨，故国人民有所思。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="xjhjtzac">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="OI">
+<meta property="article:tag" content="blog">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="铁路">
+<meta name="twitter:card" content="summary">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/archive.css">
+
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="71fc8321-74fa-474d-beda-1c0be570eec4"></script>
+<!-- Fancybox v6.1.15 灯箱（正文图片放大/切换）；锁定版本号，经 JSDMirror 国内加速 -->
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/@fancyapps/ui@6.1.15/dist/fancybox/fancybox.css">
+<script>
+/* Twikoo 头像「链式兜底」= 自建图床 → QQ 头像 → 静态兜底图。
+   为什么需要：静态图床（GitHub + jsdmirror）不认 Gravatar 的 ?d= 兜底参数，文件不存在即 404 裂图；
+   CSS 无法回退加载失败的图片，只能在捕获阶段接住 img 的 error 事件重写 src（error 不冒泡，但捕获阶段能拿到）。
+   只处理 .tk-avatar-img（评论列表头像 + 提交框头像），表情包/正文图片一律不碰。三级：
+   ① 自建图床命中就结束（国区直连，最快）。
+   ② 能从失败的头像 URL（带 nk=<QQ号>）或评论昵称（纯 QQ 号，Twikoo 前端也这样认）里拿到 QQ 号
+      → 取 QQ 头像 https://thirdqq.qlogo.cn/g?b=sdk&nk=<QQ号>&s=140（已有 nk= 的说明该域名挂了 → 换 q1.qlogo.cn）
+      （Twikoo 服务端也在做同一件事，但它用的 aq.qq.com 接口已下线，见 skill 记录，故这里补一层）
+   ③ 都不是 → 静态兜底图 = 后台 DEFAULT_GRAVATAR（改兜底图时这里同步改）。
+   注：曾用 weavatar 做第二级、曾用 gh-proxy 取 GitHub 头像，均已按用户要求移除。 */
+(function () {
+  var DEFAULT_AVATAR = 'https://a1.boltp.com/2026/09/11/6aa3fe1a4fbb6.jpeg';
+  function qqNumber(img) {
+    var m = /[?&]nk=([0-9]{5,11})/.exec(img.src);          // 头像 URL 自带 QQ 号
+    if (m) return m[1];
+    var box = img.closest('.tk-comment') || img.closest('.tk-submit');
+    if (!box) return '';
+    var el = box.querySelector('.tk-nick'), nick = el ? el.textContent.trim() : '';
+    if (!nick) { var inp = box.querySelector('.tk-meta-input input'); if (inp) nick = (inp.value || '').trim(); }
+    return /^[1-9][0-9]{4,10}$/.test(nick) ? nick : '';     // 昵称本身就是 QQ 号（纯 5-11 位数字、首位非 0）
+  }
+  document.addEventListener('error', function (e) {
+    var img = e.target;
+    if (!img || img.tagName !== 'IMG' || !img.classList || !img.classList.contains('tk-avatar-img')) return;
+    var stage = img.dataset.tkStage || '0';
+    if (stage === '0') {
+      var qq = qqNumber(img);
+      if (qq) {
+        img.dataset.tkStage = '1';
+        img.src = /[?&]nk=/.test(img.src)
+          ? 'https://q1.qlogo.cn/g?b=qq&nk=' + qq + '&s=140'          // 已是 QQ 头像 → 换备用域名重试
+          : 'https://thirdqq.qlogo.cn/g?b=sdk&nk=' + qq + '&s=140';   // 昵称是 QQ 号 → 取 QQ 头像
+        return;
+      }
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    } else if (stage === '1') {
+      img.dataset.tkStage = '2'; img.src = DEFAULT_AVATAR;
+    }
+  }, true);
+})();
+</script>
+<style>
+/* 长 URL（如参考文献裸链接）在窄屏可断行，防止横向溢出撑破导航栏 */
+.post .content a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+/* 剧透/模糊条（移植自 MrWillCom 博客）：文章里写 <span class="spoiler">文字</span>，
+   默认模糊遮挡，悬停显示。原版 CSS 来自 MrWillCom/MrWillCom.github.io 文章内联 style */
+.spoiler {
+  filter: blur(5px);
+  opacity: 0.6;
+  transition-property: filter, opacity;
+  transition-duration: 0.15s;
+}
+.spoiler:hover {
+  filter: none;
+  opacity: 1;
+}
+/* 文章"最后更新于"提示（scripts/updated-date.js 自动注入，仅单篇文章末尾显示） */
+.post-updated {
+  margin: 2.5em 0 0;
+  font-size: 0.85em;
+  opacity: 0.55;
+  text-align: center;
+}
+/* 触摸设备（hover:none + pointer:coarse = 纯触摸手机/平板）禁用导航毛玻璃动画：
+   6 层全屏 blur(1→36px)+高度 0.6s 动画同时跑，移动端 GPU 每帧重采样会掉帧（"抽一下"）。
+   渐变效果保留（打开时 blur(36px) 静态生效），仅去掉 transition 动画。
+   用输入设备判定而非视口宽度：桌面窗口缩窄不受影响，iPad/折叠屏触摸设备同样命中。
+   指针设备（鼠标/触控板，hover:hover）不受影响，保持完整动画 */
+@media (hover: none) and (pointer: coarse) {
+  .nav-mask > div {
+    transition: none !important;
+  }
+}
+/* ================= Twikoo 评论区（Waline 风格皮肤，适配 Twikoo 2.0.12 DOM）=================
+   2026-10 重写：Twikoo 2.0 换掉了整套内部类名（element-ui 的 .el-* → tk- 前缀 BEM：
+   .tk-input/.tk-button/.tk-main/...），1.7.22 时代的美化全部失配，外观塌成 2.0 默认样式。
+   本块按 Waline 官方样式（@waline/client@3.16.0 的 waline.css）逐条映射到 2.0.12 真实 DOM：
+   · 白色面板 + 细边框 + 虚线分隔 —— Waline 不用卡片阴影（--waline-box-shadow: none）
+   · 圆形头像：主楼 3.25rem / 嵌套与回复框 2.25rem（--waline-avatar-size 体系，≤720px 收小）
+   · 提交面板：meta 行在顶部 + 2px 虚线分隔 + 无边框编辑器（focus 变浅灰底）
+   · 按钮 = .wl-btn（8px 圆角幽灵钮）/ .primary（强调色实心，禁用变灰）
+   · 嵌套回复 = .wl-quote（虚线左边界）；评论之间 = 1px 虚线分隔（最后一条不加）
+   配色（用户已确认）：不用 Waline 原版绿 #27ae60，全部接 Cupertino 主题变量 —— 结构同 Waline、
+   颜色随博客（强调色 #0071e3 系），亮/暗/跟随系统自动，零 JS。
+   用户已确认的偏离：提交框保留访客头像（Waline 原版没有）；隐藏 2.0 新增的「搜索评论」行
+   （Waline 没有搜索；要恢复删掉 .tk-comments-search 那条 display:none 即可）。
+   ⚠️ Twikoo 的样式是运行时才注入 <head>、排在本文件之后 —— 覆盖规则的优先级必须严格高于
+      Twikoo 的 .twikoo .xxx（0,2,0），所以一律 .twikoo-wrap 前缀 + 至少 3 个类；只有头像
+      尺寸对不过优先级（它有 0,5,0 的复合选择器），用 !important 压（仅 2 条，见下）。
+   ⚠️ token 必须定义在 body 上（不能放 :root）——主题的 --color-* 定义在 body[data-color-scheme]，
+      放 :root 的 var() 链解析不到。全部 token 引用主题变量 → 暗色自动翻转，无需重复声明。 */
+body {
+  /* Waline token → 主题变量映射（--wl-* 对应 waline.css 的 --waline-*） */
+  --wl-theme-color: var(--color-background-accent);        /* Waline 绿 → 博客强调色（填充用） */
+  --wl-active-color: var(--color-background-accent-hover);
+  --wl-link-color: var(--color-text-accent);               /* 文字用强调色：暗色自动变亮蓝 #69b9ff */
+  --wl-color: var(--color-text-primary);                   /* #444 → #333 / 暗 #ddd */
+  --wl-dark-grey: var(--color-text-secondary);
+  --wl-light-grey: var(--color-text-tertiary);             /* #999 */
+  --wl-bg: var(--color-background-secondary);              /* 面板底：白 / 暗 #181818 */
+  --wl-bg-light: var(--color-background-secondary-hover);  /* #f8f8f8 → #f7f7f7 / #202020 */
+  --wl-bg-hover: var(--color-background-secondary-hover);
+  --wl-info-color: var(--color-text-tertiary);
+  /* Waline 的 #ddd 边框：32% 灰半透明 —— 亮色≈#d6d6d6、暗色≈#393939，两态都可见 */
+  --wl-border-color: color-mix(in oklab, var(--color-text-tertiary) 32%, transparent);
+  /* 头像尺寸体系（!important 压过 Twikoo 写死的 2.5rem/1.6rem） */
+  --wl-avatar-size: 3.25rem;
+  --wl-avatar-m-size: 2.25rem;
+}
+@media (max-width: 720px) {
+  body { --wl-avatar-size: var(--wl-avatar-m-size); }   /* Waline ≤720px 用小头像 */
+}
+
+.twikoo-wrap {
+  color: var(--wl-color);
+  line-height: 1.75;   /* Waline 全局行高 */
+}
+
+/* ---------- 提交面板（= Waline .wl-panel：白底 + 细边框 + .75em 圆角，无阴影）---------- */
+.twikoo-wrap .tk-comments .tk-submit {
+  background: var(--wl-bg);
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.75em;
+  padding: 0.75em 1em 1em;
+  margin: 1.5em 0;
+  box-shadow: none;
+}
+/* 嵌套回复框（点「回复」后出现的面板）：小一号 */
+.twikoo-wrap .tk-comment .tk-submit {
+  padding: 0.5em 0.75em;
+  margin: 0.75em 0 0;
+}
+/* 提交框头像（用户要求保留；圆形 + Waline 尺寸） */
+.twikoo-wrap .tk-avatar.tk-avatar {
+  width: var(--wl-avatar-size) !important;
+  height: var(--wl-avatar-size) !important;
+  border-radius: 50% !important;
+  margin-right: 0.75em;
+  background: var(--wl-bg-light);
+}
+.twikoo-wrap .tk-replies .tk-avatar.tk-avatar,
+.twikoo-wrap .tk-comment .tk-submit .tk-avatar.tk-avatar {
+  width: var(--wl-avatar-m-size) !important;
+  height: var(--wl-avatar-m-size) !important;
+}
+.twikoo-wrap .tk-avatar .tk-avatar-img {
+  width: 100%;
+  height: 100% !important;
+  line-height: normal;
+}
+
+/* ---------- meta 行（= Waline .wl-header：标签 + 透明输入框，底部 2px 虚线）---------- */
+.twikoo-wrap .tk-submit .tk-meta-input {
+  display: flex;
+  padding: 0 0.25em;
+  border-bottom: 2px dashed var(--wl-border-color);
+  margin-bottom: 0;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input {
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input-group__prepend {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  height: auto;
+  min-width: 2.5em;
+  justify-content: center;
+  padding: 0.75em 0.5em 0.75em 0;
+  color: var(--wl-color);
+  font-size: 0.75em;
+  line-height: 1.5;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input__inner {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  height: auto;
+  padding: 0.5em 0.5em 0.5em 0;
+  font-size: 0.75em;
+  line-height: 1.75;
+  transition: all 0.25s ease;
+}
+.twikoo-wrap .tk-submit .tk-meta-input .tk-input__inner:focus {
+  background: var(--wl-bg-light);
+  border: 0;
+}
+/* Twikoo 在 ≤767px 把 meta 行竖排 —— 竖排时改用 Waline 的逐项虚线分隔 */
+@media screen and (max-width: 767px) {
+  .twikoo-wrap .tk-submit .tk-meta-input { flex-direction: column; border-bottom: 0; }
+  .twikoo-wrap .tk-submit .tk-meta-input .tk-input { width: auto; }
+  .twikoo-wrap .tk-submit .tk-meta-input .tk-input:not(:last-child) {
+    border-bottom: 2px dashed var(--wl-border-color);
+  }
+}
+
+/* ---------- 编辑器（= Waline .wl-editor：无边框透明，focus 变浅灰底）---------- */
+.twikoo-wrap .tk-submit .tk-textarea .tk-input__inner {
+  background: transparent;
+  border: 0;
+  border-radius: 0.5em;
+  height: auto;
+  min-height: 8.75em;
+  margin: 0.75em 0 0.25em;
+  padding: 0.75em 0.5em;
+  font-size: 0.875em;
+  line-height: 1.75;
+  resize: vertical;
+  transition: all 0.25s ease;
+}
+.twikoo-wrap .tk-submit .tk-textarea .tk-input__inner:focus {
+  background: var(--wl-bg-light);
+  border: 0;
+}
+.twikoo-wrap .tk-submit .tk-textarea .tk-input__count {
+  color: var(--wl-info-color);
+  font-size: 0.75em;
+}
+
+/* ---------- 工具行与按钮（= Waline .wl-footer / .wl-btn）---------- */
+.twikoo-wrap .tk-submit .tk-row.actions { margin: 0.5em 0 0 4rem; }  /* 3.25rem 头像 + .75em 间距 */
+.twikoo-wrap .tk-comment .tk-submit .tk-row.actions { margin-left: 3rem; }
+@media (max-width: 720px) {
+  .twikoo-wrap .tk-submit .tk-row.actions { margin-left: 3rem; }
+}
+.twikoo-wrap .tk-submit .tk-submit-action-icon { color: var(--wl-color); }
+.twikoo-wrap .tk-submit .tk-submit-action-icon:hover { color: var(--wl-link-color); opacity: 1; }
+.twikoo-wrap .tk-submit .tk-submit-action-icon.__markdown { color: var(--wl-color); }
+.twikoo-wrap .tk-submit .tk-submit-action-icon.__markdown:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-row.actions .tk-button:not(.tk-button--primary) {
+  min-width: 2.5em;
+  padding: 0.5em 1em;
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.5em;
+  background: transparent;
+  color: var(--wl-color);
+  font-weight: 400;
+  font-size: 0.75em;
+  line-height: 1.5;
+  transition: all 0.4s;
+}
+.twikoo-wrap .tk-row.actions .tk-button:not(.tk-button--primary):not(.is-disabled):hover,
+.twikoo-wrap .tk-row.actions .tk-button:not(.tk-button--primary):not(.is-disabled):focus {
+  border-color: var(--wl-link-color);
+  background: transparent;
+  color: var(--wl-link-color);
+}
+/* primary 实心按钮：作用域全评论区（发送/搜索/…），双类提特异度压过 Twikoo 的 .twikoo .tk-button--primary */
+.twikoo-wrap .tk-button--primary.tk-button--primary {
+  border-color: var(--wl-theme-color);
+  background: var(--wl-theme-color);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-button--primary.tk-button--primary:not(.is-disabled):hover,
+.twikoo-wrap .tk-button--primary.tk-button--primary:not(.is-disabled):focus {
+  border-color: var(--wl-active-color);
+  background: var(--wl-active-color);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-button--primary.tk-button--primary:not(.is-disabled):active {
+  border-color: var(--color-background-accent-active);
+  background: var(--color-background-accent-active);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-button--primary.tk-button--primary.is-disabled {
+  opacity: 1;
+  border-color: var(--wl-border-color);
+  background: var(--wl-bg-light);
+  color: var(--wl-light-grey);
+}
+
+/* ---------- 预览容器（= Waline .wl-preview：无框，虚线隔开）---------- */
+.twikoo-wrap .tk-comments .tk-preview-container {
+  border: 0;
+  border-top: 2px dashed var(--wl-border-color);
+  border-radius: 0;
+  margin-left: 0;
+  padding: 0.75em 0.5em 0.25em;
+  background: transparent;
+}
+
+/* ---------- 评论区头部：排序 / 搜索 / 设置图标 ---------- */
+.twikoo-wrap .tk-comments .tk-sort-item {
+  color: var(--wl-light-grey);
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comments .tk-sort-item.__active,
+.twikoo-wrap .tk-comments .tk-sort-item:focus {
+  color: var(--wl-link-color);
+}
+.twikoo-wrap .tk-comments .tk-icon.__comments { color: var(--wl-light-grey); }
+.twikoo-wrap .tk-comments .tk-icon.__comments:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-comments .tk-icon.__comments.__active {
+  color: var(--color-background-accent-contrast);
+  background: var(--wl-theme-color);
+  box-shadow: 0 0 0 0.2rem var(--wl-theme-color);
+}
+/* 「搜索评论」行是 Twikoo 2.0 新增的，Waline 没有搜索 —— 整行隐藏（要恢复删掉这条即可） */
+.twikoo-wrap .tk-comments-search { display: none; }
+
+/* ---------- 评论列表（= Waline .wl-card-item/.wl-card：扁平 + 虚线分隔，不是卡片）---------- */
+.twikoo-wrap .tk-comments-container > .tk-comment {
+  padding: 0.5em;
+  margin-top: 0;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.twikoo-wrap .tk-comments-container > .tk-comment > .tk-main {
+  border-bottom: 1px dashed var(--wl-border-color);
+  padding-top: 0.25em;
+  padding-bottom: 0.75em;
+}
+.twikoo-wrap .tk-comments-container > .tk-comment:last-child > .tk-main { border-bottom: 0; }
+
+/* 昵称 / 时间 / 徽标（= .wl-nick/.wl-time/.wl-badge） */
+.twikoo-wrap .tk-comment .tk-meta .tk-nick {
+  color: var(--wl-color);
+  font-size: 0.875em;
+  font-weight: 700;
+}
+.twikoo-wrap .tk-comment a.tk-nick-link:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-comment .tk-meta .tk-time {
+  color: var(--wl-light-grey);
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comment .tk-tag {
+  background: transparent;
+  border-radius: 4px;
+  padding: 0 0.3em;
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comment [class*='tk-tag-'] {
+  background: transparent;
+  border-color: currentColor;
+}
+
+/* 操作按钮（赞/踩/回复 = .wl-reply/.wl-like：灰 → 强调色 hover） */
+.twikoo-wrap .tk-comment .tk-action .tk-action-link { color: var(--wl-color); }
+.twikoo-wrap .tk-comment .tk-action .tk-action-link:hover { color: var(--wl-link-color); }
+.twikoo-wrap .tk-comment .tk-action .tk-action-icon { color: inherit; }
+.twikoo-wrap .tk-comment .tk-action .tk-action-count {
+  color: var(--wl-light-grey);
+  font-size: 0.75em;
+  height: auto;
+  line-height: inherit;
+}
+
+/* 正文（= .wl-content：0.875em / 行高 2） */
+.twikoo-wrap .tk-comment .tk-content {
+  font-size: 0.875em;
+  line-height: 2;
+  margin-top: 0.625em;
+  color: var(--wl-color);
+}
+.twikoo-wrap .tk-content p { margin: 0.25em 0; }
+.twikoo-wrap .tk-content a { color: var(--wl-link-color); overflow-wrap: anywhere; }
+.twikoo-wrap .tk-content a:hover { color: var(--wl-active-color); }
+.twikoo-wrap .tk-content blockquote {
+  margin: 0.5em 0;
+  padding: 0.25em 0 0.25em 1em;
+  border-inline-start: 4px solid var(--wl-border-color);
+  color: var(--wl-dark-grey);
+}
+.twikoo-wrap .tk-content code {
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  background: var(--wl-bg-light);
+  font-size: 85%;
+}
+.twikoo-wrap .tk-content pre {
+  padding: 10px;
+  border-radius: 6px;
+  background: #282c34;
+}
+
+/* 设备 / 浏览器 / 地区（= .wl-meta 小圆角灰片，无边框无阴影） */
+.twikoo-wrap .tk-comment .tk-extras {
+  color: var(--wl-info-color);
+  font-size: 0.75em;
+}
+.twikoo-wrap .tk-comment .tk-extra {
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+  padding: 2px 6px;
+  border-radius: 0.25em;
+  background: var(--wl-bg-light);
+  color: var(--wl-info-color);
+}
+
+/* 嵌套回复（= .wl-quote：虚线左边界） */
+.twikoo-wrap .tk-comment .tk-replies {
+  margin-top: 0.5em;
+  padding-inline-start: 0.75em;
+  border-inline-start: 1px dashed var(--wl-border-color);
+}
+
+/* 展开 / 加载更多（= Waline 居中幽灵按钮，不再是通栏色条） */
+.twikoo-wrap .tk-comments .tk-expand {
+  display: block;
+  width: auto;
+  margin: 1em auto;
+  padding: 0.5em 1em;
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.5em;
+  background: transparent;
+  color: var(--wl-color);
+  font-size: 0.75em;
+  line-height: 1.5;
+  transition: all 0.4s;
+}
+.twikoo-wrap .tk-comments .tk-expand:hover {
+  border-color: var(--wl-link-color);
+  background: transparent;
+  color: var(--wl-link-color);
+}
+.twikoo-wrap .tk-comments .tk-expand:active { background: var(--wl-bg-light); }
+
+/* 分页 / 空状态 / 页脚 */
+.twikoo-wrap .tk-pagination .tk-pagination-pager { color: var(--wl-color); }
+.twikoo-wrap .tk-pagination .tk-pagination-pager.__current {
+  border-radius: 0.25em;
+  background: var(--wl-theme-color);
+  color: var(--color-background-accent-contrast);
+}
+.twikoo-wrap .tk-comments .tk-comments-no {
+  padding: 1.25em 0;
+  color: var(--wl-light-grey);
+}
+.twikoo-wrap div.tk-footer { color: var(--wl-light-grey); }
+.twikoo-wrap .tk-footer a { color: var(--wl-light-grey); }
+.twikoo-wrap .tk-footer a:hover { color: var(--wl-link-color); }
+
+/* ---------- 评论里的图片不要撑破布局 ---------- */
+.twikoo-wrap .tk-content img { max-width: 100%; height: auto; }
+
+/* ---------- 窄屏收敛：≤570px 隐藏设备信息，≤420px 隐藏预览按钮 ---------- */
+@media screen and (max-width: 570px) { .twikoo-wrap .tk-extras { display: none; } }
+@media screen and (max-width: 420px) { .twikoo-wrap .tk-row.actions button.tk-preview { display: none; } }
+
+/* ---------- 表情弹层（= Waline .wl-emoji-popup：面板同色 + 6px 圆角）---------- */
+.twikoo-wrap .OwO .OwO-body {
+  color: var(--wl-color);
+  background-color: var(--wl-bg);
+  border: 1px solid var(--wl-border-color);
+  border-radius: 0.375em;
+}
+.twikoo-wrap .OwO .OwO-items .OwO-item:hover {
+  background-color: var(--wl-bg-hover);
+  box-shadow: none;
+}
+.twikoo-wrap .tk-lightbox-image {
+  background: var(--wl-bg-light);
+}
+
+/* 10. 与上下篇区域拉开距离 + 区块标题
+   实测：.post-prev-next 的 margin 全是 0，所以之前评论区是贴着它站的（间距 0px）。
+   补 64px —— 与主题里「关于这篇文章 → 上下篇」的 64px 节奏一致（相邻 margin 会折叠，最终就是 64px）。
+   标题排版对齐主题 .about h2：24px / 700 / 下边距 16px。 */
+.comments-section { margin-top: 64px; }
+.comments-heading {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+/* 11. 超椭圆圆角（跟随主题 squircle 开关）
+   主题的 corner-squircle mixin 只挂在自己组件上；这里只复刻 corner-shape 部分。
+   （皮肤的全部圆角都是 em 字面量，不再依赖 --radius-* token，所以不用再放大 token。
+   注意 corner-shape 不继承，必须逐个元素给 —— 用通配最省，且它只影响本来就有 border-radius 的元素。） */
+@supports (corner-shape: squircle) {
+  @container document-body style(--config-corner-squircle: true) {
+    .twikoo-wrap,
+    .twikoo-wrap * {
+      corner-shape: squircle;
+    }
+  }
+}
+/* 12. 人机验证（Turnstile）摆位修正
+   Twikoo 默认把它锚在工具行上、absolute 到下方 75px（.tk-turnstile-container
+   { position: absolute; right: 0; bottom: -75px }），实测其底边正好落进下面
+   「N 条评论」那一行里（overlapTitle: true），卡片化之后更是直接挂到卡片外面。
+   改成：工具行允许换行，验证码独占一行并右对齐 —— 于是它落在卡片内部，不压任何东西。
+   （不用验证码时 v-show 会写内联 display:none，内联样式优先级高于这里的 display:flex，不会留空行） */
+.twikoo-wrap .tk-submit .tk-row.actions { flex-wrap: wrap; }
+.twikoo-wrap .tk-turnstile-container {
+  position: static;
+  right: auto;
+  bottom: auto;
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.twikoo-wrap .tk-turnstile { align-items: flex-end; }
+
+/* ================= 代码块「复制」按钮（多行块专属）=================
+   按钮由 body.ending 的脚本按需插入 figure.highlight 内部（不写在 HTML/CSS 里，
+   所以代码块本身零改动、升级主题也不丢）。
+   定位说明：figure.highlight 有 overflow-x:auto（横向滚动容器），
+   所以按钮必须 (1) 放在容器内部、(2) 用 top/right 定位 —— 用 bottom 的话，
+   块比视口高时会被推到底部之外，横向滚动时也会跟着漂。
+   左内边距 104px：给按钮让位，同时让代码跟上方正文左对齐（主题原本就是这个值）。 */
+#main-content .content figure.highlight {
+  position: relative;
+  /* ★ 必须显式接管横向滚动：实测长单行代码下 figure.highlight 的 overflow-x
+     计算值是 visible（不是主题 post.scss 里写的 auto），于是内容直接溢出、
+     压到右上角按钮下面。显式写 auto 后长行在块内滚动，不再压按钮。 */
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+/* 左右各留 104px：左边是主题原有的正文对齐值，右边给按钮让位 ——
+   这样横向滚到底时，代码末字符停在按钮左侧，不会钻到按钮下面。 */
+#main-content .content figure.highlight td.code {
+  padding-left: 104px;
+  padding-right: 104px;
+}
+
+#main-content .content .code-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* ★ 不能用 gap：label 是用 max-width:0 折叠的（保留过渡链路），
+     它仍然是 flex item，gap 会照常占位 → 空态下图标右侧多出 5px，
+     按钮变成长方形且图标偏左不居中（实测 39×30、左10/右15）。
+     改用 label 的 margin-left 过渡，折叠时归零，空态即正方形 34×30。 */
+  gap: 0;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in oklab, var(--color-text-primary) 14%, transparent);
+  border-radius: 8px;
+  background-color: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans-serif);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  /* 显隐动效：淡入 + 轻微上浮 + 缩放归位（Apple 的「浮现」手感） */
+  opacity: 0;
+  transform: translateY(-3px) scale(0.94);
+  transition:
+    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+#main-content .content figure.highlight:hover .code-copy,
+#main-content .content .code-copy:focus-visible,
+#main-content .content .code-copy.is-copied {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+/* 键盘聚焦时给一条明确描边（可访问性） */
+#main-content .content .code-copy:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-text-accent) 28%, transparent);
+}
+
+#main-content .content .code-copy:hover {
+  color: var(--color-text-primary);
+  border-color: color-mix(in oklab, var(--color-text-primary) 28%, transparent);
+  background-color: var(--color-background-secondary-hover, var(--color-background-secondary));
+  outline: none;
+}
+#main-content .content .code-copy:active { transform: scale(0.95); }
+
+/* ---- 复制成功：图标对调动画 + 勾选回弹 + 文案滑入 ---- */
+#main-content .content .code-copy .code-copy__icon {
+  position: relative;
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+}
+#main-content .content .code-copy .bi {
+  font-size: 14px;
+  line-height: 1;
+  transition: opacity 0.2s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 默认：剪贴板可见，对勾缩到看不见 */
+#main-content .content .code-copy .bi-check2 {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.4) rotate(-14deg);
+}
+#main-content .content .code-copy.is-copied .bi-clipboard {
+  opacity: 0;
+  transform: scale(0.55) translateY(3px);
+}
+#main-content .content .code-copy.is-copied .bi-check2 {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+#main-content .content .code-copy.is-copied {
+  color: var(--color-text-accent);
+  border-color: color-mix(in oklab, var(--color-text-accent) 42%, transparent);
+  background-color: color-mix(in oklab, var(--color-text-accent) 9%, var(--color-background-secondary));
+  animation: cc-pop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 一次极轻的回弹，提示「已生效」，不喧哗 */
+@keyframes cc-pop {
+  0% { transform: scale(1); }
+  38% { transform: scale(1.075); }
+  100% { transform: scale(1); }
+}
+
+/* 「Copied」文案：滑入 + 淡入，宽度自然撑开（不用 display 切换，否则没法过渡）。
+   margin-left 与 max-width 同步过渡：折叠时两者都归零 → 空态是正圆角方块、图标居中；
+   展开时才有 5px 间距。 */
+#main-content .content .code-copy .code-copy__label {
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transform: translateX(-4px);
+  transition:
+    max-width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    margin-left 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.22s ease,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#main-content .content .code-copy.is-copied .code-copy__label,
+#main-content .content .code-copy.is-failed .code-copy__label {
+  max-width: 72px;
+  margin-left: 5px;
+  opacity: 1;
+  transform: translateX(0);
+}
+/* 失败态：红色描边，其余动效同上 */
+#main-content .content .code-copy.is-failed {
+  color: #e5484d;
+  border-color: color-mix(in oklab, #e5484d 45%, transparent);
+}
+/* 触屏没有 hover：常显按钮，否则点不到。
+   ★ 必须同时把 transform 归位 —— 默认态是 translateY(-3px) scale(0.94)，
+   只改 opacity 会让按钮一直停在偏移+缩小的状态。 */
+@media (hover: none) {
+  #main-content .content .code-copy {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* 窄屏藏文案只留图标，避免盖住代码。
+   用 max-width:0 而不是 display:none —— 保留过渡链路，
+   否则宽屏↔窄屏切换、以及「Copied」那一下会被硬切掉。 */
+@media (max-width: 640px) {
+  #main-content .content figure.highlight td.code { padding-left: 64px; padding-right: 64px; }
+  #main-content .content .code-copy .code-copy__label,
+  #main-content .content .code-copy.is-copied .code-copy__label,
+  #main-content .content .code-copy.is-failed .code-copy__label { max-width: 0; }
+}
+/* 打印时按钮无意义 */
+@media print {
+  #main-content .content .code-copy { display: none !important; }
+}
+/* 系统开了「减弱动态效果」：只保留透明度/颜色变化，去掉位移、缩放与回弹 */
+@media (prefers-reduced-motion: reduce) {
+  #main-content .content .code-copy,
+  #main-content .content .code-copy .bi,
+  #main-content .content .code-copy .code-copy__label {
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+      max-width 0.2s ease, margin-left 0.2s ease;
+  }
+  #main-content .content .code-copy { transform: none; }
+  #main-content .content figure.highlight:hover .code-copy,
+  #main-content .content .code-copy:focus-visible,
+  #main-content .content .code-copy.is-copied { transform: none; }
+  #main-content .content .code-copy:active { transform: none; }
+  #main-content .content .code-copy.is-copied { animation: none; }
+  #main-content .content .code-copy .bi-clipboard,
+  #main-content .content .code-copy .bi-check2 {
+    transition: opacity 0.15s ease;
+    transform: none;
+  }
+  #main-content .content .code-copy .bi-check2 { opacity: 0; }
+  #main-content .content .code-copy.is-copied .bi-clipboard { opacity: 0; transform: none; }
+  #main-content .content .code-copy.is-copied .bi-check2 { opacity: 1; transform: none; }
+  #main-content .content .code-copy .code-copy__label { transform: none; }
+  #main-content .content .code-copy.is-copied .code-copy__label,
+  #main-content .content .code-copy.is-failed .code-copy__label { transform: none; }
+}
+
+/* ================= Fancybox 灯箱（正文图片放大/切换，v6.1.15）=================
+   灯箱本身用深色视觉（看图的通用做法），这里只把「品牌色」和「毛玻璃」接到主题变量上，
+   主题变量定义在 body[data-color-scheme] 上，所以亮/暗/跟随系统三种状态自动全对，零 JS。
+   变量默认值见 fancybox.css 的 .fancybox__container 块，这里只覆盖需要改的。 */
+.fancybox__container {
+  --f-progressbar-color: var(--color-background-accent);
+  --f-spinner-color-2: var(--color-background-accent);
+  --f-button-bg: rgba(54, 54, 54, 0.55);
+  --f-arrow-bg: rgba(54, 54, 54, 0.5);
+  --f-thumb-border-radius: var(--radius-small);
+  overscroll-behavior: contain;   /* 灯箱内滚轮不再带着页面滚 */
+  animation: none;                /* 避免与主题 Lenis 平滑滚动打架 */
+}
+.f-button { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.fancybox__container .f-caption {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 12px 16px;
+}
+.fancybox__thumbs { padding-bottom: 10px; }
+/* 正文图片可点提示 */
+#main-content .content img[data-lb-index] { cursor: zoom-in; }
+#main-content .content a:has(img[data-lb-index]) { border-bottom: 0; }
+</style>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.47/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="Xjhjtzac的Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Xjhjtzac的Blog" type="application/rss+xml">
+</head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="3"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="true"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<div class="nav-mask">
+  
+  <div style="--sharp: 1"></div>
+  
+  <div style="--sharp: 2"></div>
+  
+  <div style="--sharp: 3"></div>
+  
+  <div style="--sharp: 4"></div>
+  
+  <div style="--sharp: 5"></div>
+  
+  <div style="--sharp: 6"></div>
+  
+</div>
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Xjhjtzac</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" href="/archives" style="--index: 1">Archives</a>
+      
+      <a class="nav-item" href="/categories" style="--index: 2">Categories</a>
+      
+      <a class="nav-item" href="/log" style="--index: 3">Log</a>
+      
+      <a class="nav-item" href="/about" style="--index: 4">About</a>
+      
+      <a class="nav-item" href="/friends" style="--index: 5">Friends</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 6"><i class="bi bi-search"></i></a>
+      
+      <a class="nav-item is-icon" target="_blank" rel="noopener" href="https://github.com/xjhjtz" style="--index: 7"><i class="bi bi-github"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content">
+      <div>
+  <div class="meta">
+    <div class="date">
+      
+      Tag
+    </div>
+
+    <h1 class="title">
+      
+      #Twikoo
+      
+    </h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="post-list archives">
+  
+  <article class="post-list-item">
+    <a href="/2026/10/08/twikoo-waline/">
+      
+      <div class="cover-img">
+        <img src="https://a1.boltp.com/2026/10/08/6ac7a7f0ee64e.png" alt="">
+      </div>
+      
+      <div class="content">
+        
+        <div class="categories text-uppercase">
+        
+          <span>美化教程</span>
+        
+        </div>
+        
+        <div class="title">
+          Twikoo评论区仿waline样式美化教程
+        </div>
+        
+        <div class="excerpt">
+          
+        </div>
+        
+        
+        <time class="time" datetime="2026-10-08T00:00:00+08:00">
+          October 8, 2026
+        </time>
+        
+      </div>
+    </a>
+  </article>
+  
+</div>
+
+</div>
+
+
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">Blog</h2>
+        
+        <a href="/" class="item">Home</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/log" class="item">Logs</a>
+        
+        <a href="/tags" class="item">Tags</a>
+        
+        <a href="/categories" class="item">Categories</a>
+        
+        <a href="/about" class="item">About</a>
+        
+        <a href="/friends" class="item">Friends</a>
+        
+        <a href="/rss" class="item">RSS</a>
+        
+        <a href="/thanks" class="item">Thanks</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">Get in touch.</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/xjhjtz" class="item">GitHub</a>
+        
+        <a href="mailto:hi_xjhjtzac@163.com" class="item">Email</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/1448526422" class="item">Bilibili</a>
+        
+        <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/1361689" class="item">Lougu</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">Trinkets</h2>
+        
+        <a target="_blank" rel="noopener" href="https://cloud.umami.is/analytics/us/share/g6cJvu4XEy6GhY3x" class="item">统计</a>
+        
+        <a href="/journal" class="item">Journal</a>
+        
+        <a href="/daily-yiyan" class="item">每日一言</a>
+        
+        <a href="/chouxiang-art" class="item">「抽象」艺术走廊</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 xjhjtzac<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    <br>
+    <span class="footer-extra-description">本网站已运行 <b id="site-runtime-days">0</b> 天。</span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    <!--
+  正文图片灯箱（Fancybox v6.1.15，经 JSDMirror 加速）。
+  行为：点击正文任意图片 → 全屏查看；**同一篇文章的全部图片是一组**，可用左右箭头/键盘 ←→
+        一路翻完整篇；滚轮与双指缩放、拖拽平移；底部缩略图条；底部显示 alt 图注（Esc/点背景关闭）。
+  分组：GROUP_MODE = 'page'（缺省）= 一篇文章的所有正文图算一组，文章文件不用做任何改动；
+        改成 'local' 则恢复「只在一个小容器（figure/.photo-grid/.carousel…）内切换」的老行为。
+  自动排除：评论区头像/表情包（.twikoo-wrap）、已链接到非图片页面的图片、带 no-lightbox 类或
+            祖先 data-no-lightbox 的图片、插件注入的第三方图片。
+  要关闭某张图：给它加 class="no-lightbox"，或给外层容器加 data-no-lightbox。
+  加新图直接写 markdown 即可，零额外语法。
+-->
+<script src="https://cdn.jsdmirror.com/npm/@fancyapps/ui@6.1.15/dist/fancybox/fancybox.umd.js"></script>
+<script>
+(function () {
+  if (!window.Fancybox) { console.warn('[lightbox] Fancybox 未加载，灯箱已跳过'); return; }
+
+  var EXT = /\.(?:jpe?g|png|gif|webp|avif|bmp|svg)(?:[?#].*)?$/i;
+  // 中文界面：键名取自 zh_CN.umd.js（fancybox 用 {{KEY}} 占位，缺键回落到英文）
+  var L10N = {
+    NEXT: '下一张', PREV: '上一张', CLOSE: '关闭', GOTO: '跳转到下一张',
+    ZOOM_IN: '放大', ZOOM_OUT: '缩小', TOGGLE_FULL: '实际尺寸', ITERATE_ZOOM: '切换缩放级别',
+    TOGGLE_FS: '切换全屏', TOGGLE_FULLSCREEN: '切换全屏模式',
+    TOGGLE_THUMBS: '缩略图', TOGGLE_AUTOPLAY: '切换幻灯片播放',
+    MOVE_UP: '向上移动', MOVE_DOWN: '向下移动', MOVE_LEFT: '向左移动', MOVE_RIGHT: '向右移动',
+    ROTATE_CW: '顺时针旋转', ROTATE_CCW: '逆时针旋转', FLIP_X: '水平翻转', FLIP_Y: '垂直翻转',
+    RESET: '重置', DOWNLOAD: '下载',
+    IMAGE_ERROR: '该图片无法加载，请稍后再试。', ERROR: '出了点问题，请稍后再试。',
+    ELEMENT_NOT_FOUND: '未找到内容', MODAL: '按 Esc 键关闭'
+  };
+
+  // 灯箱打开时冻结页面滚动：主题的 Lenis 平滑滚动挂在 root 元素上，
+  // 灯箱里滚轮缩放会顺手把背后的页面滚走（关掉灯箱发现位置变了）。
+  // ⚠️ 两个坑都踩过：
+  //   ① capture 阶段 stopPropagation 会把事件"截断在捕获路径上"，连图片自己的监听都收不到 → 缩放失效；
+  //      必须用【冒泡阶段】的 document 监听：图片(Panzoom)先收到 → 缩放正常，再到 document 被截断 → Lenis/页面收不到。
+  //   ② 不能用 preventDefault 代替（缺省监听会把事件标记为已取消，Panzoom 会跳过缩放）。
+  function freezeScroll(on) {
+    document.removeEventListener('wheel', blockScroll);
+    document.removeEventListener('touchmove', blockScroll);
+    if (!on) return;
+    if (!document.querySelector('.fancybox__container')) return;   // 没有活着的实例
+    document.addEventListener('wheel', blockScroll, { passive: false });
+    document.addEventListener('touchmove', blockScroll, { passive: false });
+  }
+  function blockScroll(e) {
+    if (!document.querySelector('.fancybox__container')) return;   // 灯箱已关：放行
+    for (var el = e.target; el && el !== document.body; el = el.parentElement) {
+      if (el.scrollHeight > el.clientHeight + 2 || el.scrollWidth > el.clientWidth + 2) {
+        var ov = getComputedStyle(el).overflow;
+        if (/auto|scroll/.test(ov) && !el.classList.contains('fancybox__carousel')) return;  // 灯箱内部可滚区域放行
+      }
+    }
+    e.stopPropagation();
+    if (e.type === 'touchmove') e.preventDefault();
+  }
+
+  // markdown 里写空的 ![]() 时 Hexo 产出 <img src="/"> —— 浏览器把它解析成站点根地址，
+  // 于是成了一个"指向首页/本页的伪图片"（src 非空、data: 规则也拦不住），必须单独判掉，
+  // 否则同一篇文章的组里会多出一张永远加载失败的空图。
+  function isPageUrl(img) {
+    var s = (img.currentSrc || img.src || '').split('#')[0].split('?')[0];
+    if (!s || s.indexOf('//') < 0) return /^\/(?!\/)/.test(s);   // 相对路径：以 "/" 开头的当伪图片
+    return s === location.href.split('#')[0].split('?')[0] || s === location.origin + '/';
+  }
+
+  function isLightboxable(img) {
+    var src = img.getAttribute('src') || '';
+    if (!src || /^data:/.test(src)) return false;                 // 占位/内联图不接管
+    if (isPageUrl(img)) return false;                             // 空 ![]() 之类的伪图片
+    if (img.closest('.twikoo-wrap, .fancybox__container')) return false;  // 评论头像、表情包
+    if (img.matches('.no-lightbox, [data-no-lightbox]')) return false;
+    if (img.closest('[data-no-lightbox]')) return false;
+    var a = img.closest('a');
+    if (a) {                                                      // 已被包在链接里
+      var href = a.getAttribute('href') || '';
+      if (href && !(EXT.test(href) || /^data:image\//.test(href))) return false;  // 链到别处 → 尊重原链接
+    }
+    return true;
+  }
+
+  function captionOf(img) {
+    // 单图 <figure> 优先用 <figcaption>；多图 figure 的图注无法确定归属，仍用各自 alt
+    var fig = img.closest('figure');
+    var cap = fig && fig.querySelectorAll('img').length === 1 ? fig.querySelector('figcaption') : null;
+    var text = (cap ? cap.textContent : '') || img.getAttribute('alt') || '';
+    return text.replace(/\s+/g, ' ').trim().slice(0, 200);
+  }
+
+  function root() {
+    var el = document.querySelector('#main-content > * > .content');
+    return el || document.querySelector('#main-content .content');
+  }
+
+  // 分组：**一篇文章（一个页面）的全部正文图片 = 一个组** —— 灯箱里可以一路 ←→ 翻完整篇。
+  // 用户 2026-09-26 明确要求「单个文章内所有图都是一组，并且不要改动文章文件」，所以这里不再看
+  // figure/.photo-grid 之类的结构（那种"就近成组"的写法会让远图各自成组，翻不过去）。
+  // 需要恢复"只在同一个小容器内切换"时，把 GROUP_MODE 改成 'local' 即可（见 SKILL.md）。
+  var GROUP_MODE = 'page';
+  var groups = [];          // [[img, ...]]  组序号 → 图片
+  var indexOfImg = new WeakMap();   // 仅 'local' 模式用：分组元素（DOM 对象）→ 组序号
+  var groupOfImg = new WeakMap();   // 图片 → 组序号
+  var found = 0, n = 0;
+
+  function localGroupOf(img) {   // 'local' 模式：显式容器优先，否则往上找最近的「多图祖先」（≤3 层）
+    var explicit = img.closest('figure, [data-lightbox-group], .photo-grid, .gallery, .carousel, [data-gallery]');
+    if (explicit && explicit.querySelectorAll('img').length > 1) return explicit;
+    var el = img.parentElement;
+    for (var up = 0; el && up < 3; up++, el = el.parentElement) {
+      if (el === document.body || el.classList.contains('content')) break;
+      if (el.querySelectorAll('img').length > 1) return el;
+    }
+    return img;
+  }
+
+  (function collect() {
+    var el = root();
+    if (!el) return;
+    if (GROUP_MODE === 'page') groups.push([]);   // 全篇一组：只用一个组
+    Array.prototype.forEach.call(el.querySelectorAll('img'), function (img) {
+      if (!isLightboxable(img)) return;
+      var gi = 0;                                   // 'page' 模式：一律第 0 组
+      if (GROUP_MODE !== 'page') {                  // 'local' 模式：按容器分组
+        // ⚠️ WeakMap 的键必须是对象（DOM 元素）；早期版本在这里塞了字符串 'page'，
+        //    直接 TypeError: Invalid value used as weak map key，整段脚本挂掉、一张图都不接管
+        var key = localGroupOf(img);
+        gi = indexOfImg.has(key) ? indexOfImg.get(key) : -1;
+        if (gi < 0) { gi = groups.length; groups.push([]); indexOfImg.set(key, gi); }
+      }
+      groups[gi].push(img);
+      groupOfImg.set(img, gi);
+      img.dataset.lbIndex = n++;
+      found++;
+    });
+  })();
+
+  // 一次性事件委托：后加的图片（如动态渲染）也能用。
+  // 不给图片加 tabindex：正文几十张图会让纯键盘 Tab 变得很长，键盘操作交给灯箱自身（←→ / Esc / 工具条按钮）
+  var bound = false;
+  function bind() {
+    if (bound || !found) return;
+    bound = true;
+    var el = root();
+    el.addEventListener('click', function (e) {
+      var img = e.target && e.target.closest ? e.target.closest('img[data-lb-index]') : null;
+      if (img) open(img);
+    });
+  }
+
+  function open(img) {
+    var gi = groupOfImg.has(img) ? groupOfImg.get(img) : 0;
+    var group = groups[gi] || [img];
+    // 注意：Thumbs / Toolbar 是「顶层」插件选项，不能塞进 Carousel 里（塞进去会被忽略）
+    // 这里不用 Fancybox 的 fromNodes 推导（它从 DOM 读 data-* 属性），自己拼最可靠
+    Fancybox.show(group.map(function (im) {
+      var s = { src: im.currentSrc || im.src,
+                thumbSrc: im.currentSrc || im.src,
+                alt: im.getAttribute('alt') || '' };
+      var c = captionOf(im);
+      if (c) s.caption = c;
+      return s;
+    }), {
+      lang: 'zh-CN',
+      l10n: L10N,
+      theme: 'dark',
+      hideScrollbar: true,
+      closeExisting: true,
+      startIndex: group.indexOf(img),   // 从点的那张开始（传对象数组时库不会替你定位）
+      Thumbs: { showOnStart: true },
+      Carousel: { Toolbar: { absolute: true } },
+      on: {
+        ready: function () { freezeScroll(true); },
+        close: function () { freezeScroll(false); }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+})();
+</script>
+<script>
+// Hide TOC on about page
+//if (window.location.pathname.startsWith('/about/')) {
+  //document.querySelector('.toc')?.parentElement?.remove();
+//}
+// 页脚运行天数（建站日 2026-02-12，改 START 即可）
+(function () {
+  var START = new Date('2026-02-12T00:00:00+08:00');
+  var el = document.getElementById('site-runtime-days');
+  if (el) el.textContent = Math.floor((Date.now() - START) / 864e5) + 1; // +1: 2/12 作为第 1 天
+})();
+</script>
+<script>
+/* 代码块「复制」按钮 —— 围栏代码块全都有（单行、多行都加），行内代码不加。
+   ★ 判据：figure.highlight 里存在 td.code 就加。不要用行数判断 ——
+   站点开了 line_number:true，单行块同样渲染成 td.gutter + td.code 两栏结构，
+   行数判据（< 2 跳过）会把单行块漏掉。用户 2026-10-08 明确要求单行块也要按钮。
+   ★ 取文按 .line 逐行 join('\n')，不能 querySelector('pre')：
+   td.gutter 里的行号 <pre> 排在前面，会读成 "1"。
+   也不能直接把 td.code 的 textContent 当结果 —— 代码里出现 <td>/<code> 这类
+   Markdown 行内标签时会被浏览器解析成真元素、从文本里消失（按 .line 取也一样会丢），
+   属已知边角，遇真代码含此类标签需另用 textContent 原样提取方案。 */
+(function () {
+  var CLS = 'code-copy';
+  var RESET_MS = 1600;
+
+  function codeLines(fig) {
+    var code = fig.querySelector('td.code');
+    return code ? code.querySelectorAll('.line') : [];
+  }
+
+  function blockText(fig) {
+    var lines = codeLines(fig);
+    if (lines.length) {
+      var out = [];
+      for (var i = 0; i < lines.length; i++) out.push(lines[i].textContent);
+      return out.join('\n');
+    }
+    var code = fig.querySelector('td.code');
+    var pre = code && code.querySelector('pre');
+    return pre ? pre.textContent : '';
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function writeClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(
+        function () { return true; },
+        function () { return fallbackCopy(text); }
+      );
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+
+  function mark(btn, state, label) {
+    btn.classList.remove('is-copied', 'is-failed');
+    if (state) btn.classList.add(state);
+    btn.querySelector('.code-copy__label').textContent = label;
+    clearTimeout(btn._t);
+    if (state) {
+      btn._t = setTimeout(function () {
+        btn.classList.remove('is-copied', 'is-failed');
+        btn.querySelector('.code-copy__label').textContent = '';
+        // 图标对调完全由 CSS 状态类驱动（.is-copied .bi-clipboard / .bi-check2），
+        // 这里不用再换 class，否则会跟 CSS 的过渡打架。
+      }, RESET_MS);
+    }
+  }
+
+  function makeButton() {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = CLS;
+    btn.setAttribute('aria-label', '复制代码');
+    btn.title = '复制代码';
+    // 两个图标都放进去，靠 CSS 交叉淡入淡出 + 回弹切换（单一 DOM，动画才连得上）
+    var wrap = document.createElement('span');
+    wrap.className = 'code-copy__icon';
+    wrap.setAttribute('aria-hidden', 'true');
+    var clip = document.createElement('i');
+    clip.className = 'bi bi-clipboard';
+    var tick = document.createElement('i');
+    tick.className = 'bi bi-check2';
+    wrap.appendChild(clip);
+    wrap.appendChild(tick);
+    var label = document.createElement('span');
+    label.className = 'code-copy__label';
+    btn.appendChild(wrap);
+    btn.appendChild(label);
+    return btn;
+  }
+
+  function init() {
+    var figs = document.querySelectorAll('#main-content .content figure.highlight');
+    for (var i = 0; i < figs.length; i++) {
+      var fig = figs[i];
+      if (fig.querySelector('.' + CLS)) continue;   // 只插一次
+      if (!fig.querySelector('td.code')) continue;   // 异常结构兜底（正常块都有）
+      var btn = makeButton();
+      fig.appendChild(btn);
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var self = this;
+        var text = blockText(self.parentNode);
+        writeClipboard(text).then(function (ok) {
+          // 图标切换 + 回弹 + 文案滑入全部由 CSS 状态类驱动
+          mark(self, ok ? 'is-copied' : 'is-failed', ok ? 'Copied' : '复制失败');
+        });
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+  </body>
+</html>
