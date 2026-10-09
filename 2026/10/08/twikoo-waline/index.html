@@ -22,7 +22,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/10/08/6ac7a7f0ee64e.png">
 <meta property="article:published_time" content="2026-10-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-10-08T14:31:58.239Z">
+<meta property="article:modified_time" content="2026-10-09T10:44:22.305Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="Twikoo">
 <meta property="article:tag" content="Website">
@@ -191,6 +191,18 @@
 <style>
 /* 长 URL（如参考文献裸链接）在窄屏可断行，防止横向溢出撑破导航栏 */
 .post .content a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+/* ★ 行内代码也要能断行（2026-10-08 实测补）：
+   正文里一个 484px 宽的行内 <code>（如
+   `getComputedStyle(document.body).getPropertyValue('--twk-theme')`）
+   在 390px 视口下（正文可用宽仅 358px）不可断 → 把整页撑到 516px，
+   症状是整页可横向拖动、导航栏被推出屏幕。
+   注意 :not(pre) —— 不动代码块里的 <code>（那里靠 overflow-x 滚动，不该折行）。
+   用 .post .content（而非 #main-content）是为了顺带覆盖评论区正文里的行内代码。 */
+.post .content :not(pre) > code,
+.post .content a code {
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -1013,25 +1025,26 @@ body {
 </tbody></table>
 <p>注入位置尽量靠后，body 末尾优于 head。如果只能塞 head，就把选择器再补一层重复类提权，比如 <code>.twikoo .tk-submit</code> → <code>.twikoo .tk-submit.tk-submit</code>。</p>
 <p>Twikoo 2.0 的样式是运行时注入的，会插在你的自定义 CSS 后面。如果样式被盖，优先检查权重和加载顺序。也可以使用 <code>twikoo.nocss.js</code> + 官方 <code>twikoo.css</code>，或干脆不用它的 CSS，这样选择器可以写得简单些。</p>
-<h1 id="验收"><a href="#验收" class="headerlink" title="验收"></a>验收</h1><p>改完样式一定要量计算样式，别靠肉眼。权重被盖、变量没解析出来，这两个失败都是「看起来差不多」的静默失败。</p>
+<h1 id="验收"><a href="#验收" class="headerlink" title="验收"></a>验收</h1><p>改完样式一定一定一定要量计算样式，靠肉眼是不好的。权重被盖、变量没解析出来这种静默失败，肉眼是几乎看不太出来的。</p>
+<p>这里给出console脚本，粘到浏览器 F12 控制台里回车即可打印出各个关键元素的计算样式，和预期值对比。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 粘到控制台即可</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">cs</span> = (<span class="params">sel, props</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(sel); <span class="keyword">if</span> (!el) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">const</span> s = <span class="title function_">getComputedStyle</span>(el); <span class="keyword">return</span> <span class="title class_">Object</span>.<span class="title function_">fromEntries</span>(props.<span class="title function_">map</span>(<span class="function"><span class="params">p</span> =&gt;</span> [p, s[p]]));</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">table</span>(&#123;</span><br><span class="line">  <span class="string">&#x27;面板&#x27;</span>:   <span class="title function_">cs</span>(<span class="string">&#x27;.twikoo .tk-comments .tk-submit&#x27;</span>, [<span class="string">&#x27;backgroundColor&#x27;</span>, <span class="string">&#x27;borderTopWidth&#x27;</span>, <span class="string">&#x27;borderRadius&#x27;</span>, <span class="string">&#x27;boxShadow&#x27;</span>]),</span><br><span class="line">  <span class="string">&#x27;头像&#x27;</span>:   <span class="title function_">cs</span>(<span class="string">&#x27;.twikoo .tk-avatar&#x27;</span>, [<span class="string">&#x27;width&#x27;</span>, <span class="string">&#x27;height&#x27;</span>, <span class="string">&#x27;borderRadius&#x27;</span>]),</span><br><span class="line">  <span class="string">&#x27;输入框&#x27;</span>: <span class="title function_">cs</span>(<span class="string">&#x27;.twikoo .tk-submit .tk-meta-input .tk-input__inner&#x27;</span>, [<span class="string">&#x27;borderTopWidth&#x27;</span>, <span class="string">&#x27;backgroundColor&#x27;</span>]),</span><br><span class="line">  <span class="string">&#x27;编辑器&#x27;</span>: <span class="title function_">cs</span>(<span class="string">&#x27;.twikoo .tk-submit .tk-textarea .tk-input__inner&#x27;</span>, [<span class="string">&#x27;borderTopWidth&#x27;</span>, <span class="string">&#x27;minHeight&#x27;</span>]),</span><br><span class="line">  <span class="string">&#x27;发送钮&#x27;</span>: <span class="title function_">cs</span>(<span class="string">&#x27;.twikoo .tk-row.actions .tk-button--primary&#x27;</span>, [<span class="string">&#x27;backgroundColor&#x27;</span>, <span class="string">&#x27;color&#x27;</span>]),</span><br><span class="line">  <span class="string">&#x27;分隔线&#x27;</span>: <span class="title function_">cs</span>(<span class="string">&#x27;.twikoo .tk-comments-container &gt; .tk-comment &gt; .tk-main&#x27;</span>, [<span class="string">&#x27;borderBottomStyle&#x27;</span>]),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>预期：面板白底 &#x2F; 1px 边框 &#x2F; 12px 圆角 &#x2F; 无阴影；头像 52px 圆形；输入框 0 边框透明；编辑器 <code>min-height</code> ≥ 100px；发送钮接近 <code>rgb(0, 113, 227)</code>；评论之间 <code>dashed</code>。</p>
-<p>如果某一项没生效，按这个顺序查：</p>
-<p><span class="spoiler">这段是ds给的建议</span></p>
+<blockquote>
+<p>  如果某一项没生效，按这个顺序查说不定能解决：</p>
+<p><span class="spoiler">这段是<strong>deepseek</strong>给的建议</span></p>
 <ol>
 <li>F12 选中元素 → Styles 面板，从下往上找划掉的规则；</li>
 <li>盖你的是 <code>.twikoo .xxx</code> → 把你的选择器加长一层；</li>
 <li>盖你的是 0,5,0 那种复合选择器（目前只有头像尺寸）→ 只能 <code>!important</code>；</li>
 <li>什么都没盖但值也不对 → 变量没解析出来，检查 <code>getComputedStyle(document.body).getPropertyValue(&#39;--twk-theme&#39;)</code> 是不是空串。</li>
 </ol>
-<p>我这套皮肤的验收结果很理想，亮色面板 <code>rgb(255,255,255)</code>、暗色面板 <code>rgb(24,24,24)</code>、强调填充 <code>rgb(0,113,227)</code>、暗色下文字强调色 <code>rgb(105,185,255)</code>、390px 移动端无横向溢出。</p>
+</blockquote>
 <p><img src="https://a1.boltp.com/2026/10/08/6ac7a4e726af5.png" alt="理想条件下的输出（暗色模式）"></p>
 <p>图2 理想条件下的输出（暗色模式）</p>
 <h1 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h1><p>到这里，Twikoo 的样式已经设置完成了。</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Twikoo. Twikoo 官方文档：前端部署[EB&#x2F;OL]. [2026-10-08]. <a target="_blank" rel="noopener" href="https://twikoo.js.org/frontend.html">https://twikoo.js.org/frontend.html</a>.<br>[2] Waline. Waline 官方仓库[EB&#x2F;OL]. [2026-10-08]. <a target="_blank" rel="noopener" href="https://github.com/walinejs/waline">https://github.com/walinejs/waline</a>.</p>
 
-<p class="post-updated" data-pagefind-ignore>本文最后更新于 2026-10-08</p>
+<p class="post-updated" data-pagefind-ignore>本文最后更新于 2026-10-09</p>
 
   </div>
 

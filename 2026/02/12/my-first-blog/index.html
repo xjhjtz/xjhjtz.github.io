@@ -191,6 +191,18 @@
   overflow-wrap: anywhere;
   word-break: break-word;
 }
+/* ★ 行内代码也要能断行（2026-10-08 实测补）：
+   正文里一个 484px 宽的行内 <code>（如
+   `getComputedStyle(document.body).getPropertyValue('--twk-theme')`）
+   在 390px 视口下（正文可用宽仅 358px）不可断 → 把整页撑到 516px，
+   症状是整页可横向拖动、导航栏被推出屏幕。
+   注意 :not(pre) —— 不动代码块里的 <code>（那里靠 overflow-x 滚动，不该折行）。
+   用 .post .content（而非 #main-content）是为了顺带覆盖评论区正文里的行内代码。 */
+.post .content :not(pre) > code,
+.post .content a code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 /* 剧透/模糊条（移植自 MrWillCom 博客）：文章里写 <span class="spoiler">文字</span>，
    默认模糊遮挡，悬停显示。原版 CSS 来自 MrWillCom/MrWillCom.github.io 文章内联 style */
 .spoiler {
@@ -978,9 +990,9 @@ body {
     <p class="tags">
       <i class="bi bi-tags icon"></i>
       
-      <a href="/tags/Blogging/" class="tag">#Blogging</a>
-      
       <a href="/tags/Markdown/" class="tag">#Markdown</a>
+      
+      <a href="/tags/Blogging/" class="tag">#Blogging</a>
       
     </p>
     
