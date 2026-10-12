@@ -959,8 +959,24 @@ body {
       <div class="container">
   
   <div class="hero exit-while-scroll with-blur">
-    <h2 class="title">Helloヾ(≧▽≦*)o</h2>
-    <h2 class="description">欢迎来到Xjhjtzac的Blog</h2>
+    <h2 class="title"><span id="random-hello-text">Hello</span> ヾ(≧▽≦*)o <script> (function() {
+  const greetings = [
+    { lang: "中文", text: "你好!" },
+    { lang: "中文2", text: "你好!" },
+    { lang: "英文", text: "Hello!" },
+    { lang: "法语", text: "Bonjour!" },
+    { lang: "德语", text: "Hallo!" },
+    { lang: "俄语", text: "Привет!" },
+    { lang: "意大利语", text: "Ciao!" },
+    { lang: "西班牙语", text: "Hola!" },
+  ];
+  const el = document.getElementById('random-hello-text');
+  if (el) {
+    const item = greetings[Math.floor(Math.random() * greetings.length)];
+    el.textContent = item.text;
+  }
+})(); </script></h2>
+    <h2 class="description">欢迎来到xjhjtzac的Blog</h2>
   </div>
 
   <h1 class="section-title">Latest Posts</h1>
