@@ -880,6 +880,111 @@ body {
 /* 正文图片可点提示 */
 #main-content .content img[data-lb-index] { cursor: zoom-in; }
 #main-content .content a:has(img[data-lb-index]) { border-bottom: 0; }
+
+/* ================= 文章摘要（front-matter 的 description，v2026-10-08）=================
+   由 scripts/post-summary.js 注入：只有站长在 front-matter 写了 description（或手写 excerpt）才出现，
+   没写的文章页面上一个字符都不多。元素是带 post-summary 类的段落，插在文章大标题之后。
+
+   设计语言 = Cupertino / Apple：
+     ① 纯白超椭圆卡片 —— 元素上直接挂主题自带的 .corner-squircle 工具类（见 post-summary.js），
+        跟随主题 squircle 开关，不在这里手工复刻 token；**不用渐变**，就是一块干净的白
+     ② 发丝描边（--color-border-primary 就是 #88888822，天然 hairline）+ 顶部一道内高光
+     ③ 小标签「图标 + 摘要」：13px / 600 / 加字距，用压暗一档的次要色，和正文拉开层次
+     ④ 正文 17px / 1.7 行高 / 主色，字距微收（0.01em），中文正文更紧凑耐读
+   全部走主题变量 → 亮/暗/跟随系统自动全对；零 JS、零外部依赖、零动画（不与主题
+   scroll-reveal / Lenis 抢帧）。
+
+   ⚠️ 选择器必须写到 #main-content > * > .meta > .post-summary 这一级：
+      主题 post.scss 的 `#main-content > * > .meta > *`（特异度 1,2,0）会给 .meta 的每个子元素
+      强制 max-width:800px + padding:0 16px，用 `.post .meta .post-summary`（0,3,0）压不过它，
+      会出现"我的 padding/宽度根本不生效"的假象。这里用同等特异度 + 类名接在后面取胜。 */
+#main-content > * > .meta > .post-summary {
+  /* 上下 20px 的节奏；下边距是必要的——卡片紧接着就是主题的目录 aside，
+     不留就会被目录顶住（实测 0px 贴死）。 */
+  margin: 20px auto 24px;
+  /* 留白比第一版大一圈（16 → 20/18）：用户反馈"内边距偏小、整体显拥挤"。 */
+  padding: 20px 18px;
+  /* ⚠️ 对齐基准 = **目录里的文字**（用户 2026-10-08 当面确认的那条线），不是标题。
+     主题里这两条线本来就差 16px：
+       标题 / 正文 / 目录块      left = 304  （.meta > * 与 aside 都是 max-width:800 + padding:16）
+       目录里的文字 (.toc > p)   left = 320  ← 目录块再 padding 16 之后才是文字
+     所以卡片"外框"要落在 320~1120，也就是宽度写 800px、左右 auto 居中。
+     若写回 calc(800px + 16px * 2) = 832px，卡片会和标题齐平、比目录文字鼓出 16px ——
+     那正是用户否掉的那一版，别改回去。 */
+  width: 800px;
+  max-width: none;
+  box-sizing: border-box;
+  font-size: 17px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;   /* 中文正文微收字距，比默认更紧凑耐读 */
+  color: var(--color-text-primary);
+  border-radius: var(--radius-large);
+  background-color: var(--color-background-secondary);   /* 纯白卡片（暗色下是主题的 #181818），无渐变 */
+  /* 发丝描边 + 顶部一道内高光（Apple 卡片的那道顶边光）；无外阴影，避免"贴纸感" */
+  border: 1px solid var(--color-border-primary);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-background-secondary) 60%, transparent);
+  overflow-wrap: anywhere;   /* 摘要里贴长链接也不撑破布局 */
+}
+/* 标签行「图标 + 摘要」：独占一行，13px / 600 / 加字距，与正文拉开层次 */
+#main-content > * > .meta > .post-summary > .post-summary__label {
+  display: flex;
+  align-items: center;   /* 图标与文字用 flex 垂直居中（不用 baseline 对齐，中文基线下沉会偏） */
+  gap: 7px;
+  width: fit-content;
+  margin-bottom: 10px;   /* 与正文的呼吸感：8 → 10px */
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  /* 次要色再压暗一档：13px 小字要够清楚（纯次要色 #666 在卡片上是 5.7:1，压暗后 7:1+） */
+  color: color-mix(in oklab, var(--color-text-secondary) 88%, var(--color-text-primary));
+}
+#main-content > * > .meta > .post-summary > .post-summary__label .post-summary__icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex: none;
+  /* 图标压到文字的光学中心线上。center 对齐时，14px 图标 vs 13px 字，
+     字的下缘（含 CJK 的下沉）会让图标看着偏上，这里补 0.5px 微调。 */
+  transform: translateY(0.5px);
+}
+#main-content > * > .meta > .post-summary > .post-summary__body {
+  display: block;
+}
+#main-content > * > .meta > .post-summary a { color: var(--color-text-accent); }
+/* 圆角在窄屏收小：主题 .corner-squircle 给的是 40px（radius-large），
+   桌面 834px 宽的卡片很漂亮，但 360px 宽的竖屏上 40px 圆角会"吃掉"小半个卡片，
+   所以按视口宽度线性收窄（clamp 到 20px）。这一条写在元素作用域里、不是 @container 内，
+   才能覆盖主题那条 `.corner-squircle *` 的 token 重置。 */
+#main-content > * > .meta > .post-summary {
+  /* 圆角收到 32px / 竖屏 22px。主题 .corner-squircle 给的是 40px（radius-large），
+     但卡片只有约 100px 高，40px 圆角视觉上"全圆角化"，用户反馈显得不够精致。
+     写在元素作用域里（不是 @container 内）才能盖过主题那条 `.corner-squircle *` 的 token 重置。 */
+  --radius-large: clamp(22px, 2vw + 8px, 32px);
+}
+/* 竖屏：卡片本体也要从屏幕边缘让开。
+   主题只在 .meta > * 上给了 16px 的 padding（那是透明内边距，卡片的背景/圆角仍然顶到
+   屏幕两侧，看着像"铺满整行"），所以这里把左右外边距也留出来，卡片才是真正"浮"在页面上的。
+   同时收一收圆角/内边距/字号，让卡片在小屏上更紧凑。 */
+@media (max-width: 800px) {
+  #main-content > * > .meta > .post-summary {
+    --radius-large: 22px;
+    /* 竖屏让卡片本体从屏幕两侧缩进来（主题给的 16px 只是透明 padding，
+       卡片背景和圆角仍会顶到屏幕边缘，看着像"铺满整行"）。
+       width 归位成 auto，左右 margin 才有位置生效。 */
+    width: auto;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 20px;
+    padding: 18px 16px;
+    font-size: 16px;
+  }
+  #main-content > * > .meta > .post-summary > .post-summary__label { margin-bottom: 9px; }
+}
+/* 间距钉死：标题→摘要 20px。标题本来有 margin-bottom，会和摘要的上边距折叠成「取较大者」，
+   不清零间距就不可控；所以只在「真的有摘要」的页面 (.meta:has(.post-summary)) 上清零，
+   没写 description 的文章一个字节的样式都不受影响。 */
+.post .meta:has(.post-summary) .title { margin-bottom: 0; }
 </style>
 
 <!-- hexo injector head_end start -->
@@ -1249,7 +1354,7 @@ body {
 <h3 id="生成式AI使用说明："><a href="#生成式AI使用说明：" class="headerlink" title="生成式AI使用说明："></a>生成式AI使用说明：</h3><p>本文的部分片段和所有表格使用了生成式AI辅助创作。</p>
 <p>所有信息和文档均已经过本人查验。</p>
 
-<p class="post-updated" data-pagefind-ignore>本文最后更新于 2026-08-18，文章内容可能已经过时</p>
+<p class="post-updated" data-pagefind-ignore>本文最后更新于 2026-08-18</p>
 
   </div>
 
@@ -1261,9 +1366,9 @@ body {
     <p class="tags">
       <i class="bi bi-tags icon"></i>
       
-      <a href="/tags/103-%E8%AE%A1%E7%AE%97%E6%9C%BA/" class="tag">#103-计算机</a>
-      
       <a href="/tags/computer-history/" class="tag">#computer history</a>
+      
+      <a href="/tags/103-%E8%AE%A1%E7%AE%97%E6%9C%BA/" class="tag">#103-计算机</a>
       
     </p>
     
