@@ -1,0 +1,447 @@
+/* ===== About 页样式（/about/ 专用） =====
+   由 source/about/index.md 的内联 <style> 抽出，只挂在这一页上（scripts/about-assets.js 注入），
+   其他页面零请求、零影响。
+
+   作用域约定
+   - 只作用于本页的 .aa-* 类，以及正文里的 h4（问）/ blockquote（答）排版；
+   - 颜色与描边全部引用主题 CSS 变量 —— 亮色 / 暗色 /「跟随系统」三态自动跟随，零 JS；
+   - 前缀 #main-content .post .content 用于压过主题 #main-content > .post > .content 的权重。
+   注意：选择器依赖主题的 .post .content 结构，换主题时需复核。 */
+
+#main-content .post .content :is(.aa-hero, .aa-info, .aa-card, .aa-contact) {
+  --aa-line: var(--color-border-primary);
+  --aa-fill: var(--color-background-secondary);
+  --aa-shadow: 0 1px 1px rgba(0, 0, 0, 0.02), 0 10px 30px -16px rgba(0, 0, 0, 0.18);
+  --aa-glow: color-mix(in oklab, var(--color-background-accent) 14%, transparent);
+}
+
+/* ---------- 档案卡 ---------- */
+#main-content .post .content .aa-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 30px auto 16px;
+  padding: 26px 28px;
+  border: 1px solid var(--aa-line);
+  border-radius: 26px;
+  background: var(--aa-fill);
+  box-shadow: var(--aa-shadow);
+}
+
+#main-content .post .content .aa-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 120% at 50% -30%, var(--aa-glow), transparent 70%);
+  pointer-events: none;
+}
+
+#main-content .post .content .aa-hero > * {
+  position: relative;
+}
+
+#main-content .post .content .aa-hero-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#main-content .post .content .aa-avatar {
+  flex: 0 0 auto;
+  width: 104px;
+  height: 104px;
+  padding: 4px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg, #ffd2c9, #fbc4d6, #c6d8ff, #b9e6d0, #ffd2c9);
+  box-sizing: border-box;
+}
+
+#main-content .post .content .aa-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  margin: 0;
+}
+
+#main-content .post .content .aa-name {
+  margin: 0;
+  font-size: clamp(1.6rem, 4.2vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+#main-content .post .content .aa-quote {
+  margin: 8px 0 0;
+  padding: 0;
+  border: 0;
+  max-width: none;
+  font-size: 15.5px;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+#main-content .post .content .aa-meta {
+  margin: 12px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--color-text-tertiary);
+}
+
+/* ---------- 关键信息卡（dl） ---------- */
+#main-content .post .content .aa-info {
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 16px auto 0;
+  padding: 4px 22px;
+  border: 1px solid var(--aa-line);
+  border-radius: 24px;
+  background: var(--aa-fill);
+  box-shadow: var(--aa-shadow);
+}
+
+/* 档案卡里的那一份：不要卡片外框，只留一条竖分隔线，右对齐贴到卡片右缘 */
+#main-content .post .content .aa-hero .aa-info {
+  flex: 0 1 auto;
+  min-width: 240px;
+  max-width: 320px;
+  margin: 0 0 0 auto;
+  padding: 0 0 0 24px;
+  border: 0;
+  border-left: 1px solid var(--aa-line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#main-content .post .content .aa-hero .aa-info .aa-row {
+  padding: 9px 0;
+  font-size: 14px;
+}
+
+#main-content .post .content .aa-hero .aa-info dt {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+
+#main-content .post .content .aa-info .aa-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid var(--aa-line);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+#main-content .post .content .aa-info .aa-row:first-child {
+  border-top: 0;
+}
+
+#main-content .post .content .aa-info dt {
+  flex: none;
+  color: var(--color-text-secondary);
+}
+
+#main-content .post .content .aa-info dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+  color: var(--color-text-primary);
+}
+
+#main-content .post .content .aa-info dd a {
+  color: var(--color-text-accent);
+  text-decoration: none;
+}
+
+/* ---------- 卡片组（在做的事） ---------- */
+#main-content .post .content .aa-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 22px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+#main-content .post .content .aa-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+  padding: 20px 22px;
+  border: 1px solid var(--aa-line);
+  border-radius: 22px;
+  background: var(--aa-fill);
+  box-shadow: var(--aa-shadow);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+
+#main-content .post .content .aa-card .aa-tag {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--color-text-tertiary);
+}
+
+#main-content .post .content .aa-card .aa-card-title {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--color-text-primary);
+}
+
+#main-content .post .content .aa-card p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- 技术栈胶囊 ---------- */
+#main-content .post .content .aa-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 18px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+#main-content .post .content .aa-chip {
+  margin: 0;
+  padding: 6px 13px;
+  border: 1px solid var(--color-border-primary);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-text-primary) 9%, transparent);
+  font-size: 13.5px;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
+/* ---------- 联系面板 ---------- */
+#main-content .post .content .aa-contact {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 48px auto 0;
+  padding: 40px 28px;
+  border: 1px solid var(--aa-line);
+  border-radius: 26px;
+  background: var(--aa-fill);
+  box-shadow: var(--aa-shadow);
+  text-align: center;
+}
+
+#main-content .post .content .aa-contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 100% at 50% 0%, var(--aa-glow), transparent 70%);
+  pointer-events: none;
+}
+
+#main-content .post .content .aa-contact > * {
+  position: relative;
+}
+
+#main-content .post .content .aa-kicker {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+}
+
+#main-content .post .content .aa-contact-title {
+  margin: 10px 0 0;
+  font-size: clamp(1.4rem, 3.6vw, 1.95rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: var(--color-text-primary);
+}
+
+#main-content .post .content .aa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+#main-content .post .content .aa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 20px;
+  border: 1px solid var(--aa-line);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-text-primary) 5%, transparent);
+  color: var(--color-text-primary);
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease;
+}
+
+#main-content .post .content .aa-btn--primary {
+  border-color: transparent;
+  background: var(--color-background-accent);
+  color: var(--color-background-accent-contrast);
+}
+
+#main-content .post .content .aa-btn:active {
+  transform: scale(0.975);
+}
+
+/* ---------- Q&A 区排版（h4 问 / blockquote 答） ---------- */
+#main-content .post .content > h4 {
+  margin-top: 34px;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+#main-content .post .content > blockquote {
+  margin-top: 10px;
+  border-left: 3px solid color-mix(in oklab, var(--color-background-accent) 65%, transparent);
+  padding-left: 12px;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+#main-content .post .content > blockquote a {
+  color: var(--color-text-accent);
+}
+
+/* ---------- 滚动渐显（JS 加 .aa-pending 才隐藏，脚本失效则默认可见） ---------- */
+#main-content .post .content .aa-pending {
+  opacity: 0;
+  translate: 0 18px;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), translate 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#main-content .post .content .aa-pending.aa-in {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main-content .post .content .aa-pending {
+    opacity: 1;
+    translate: 0 0;
+    transition: none;
+  }
+}
+
+/* ---------- 悬停（仅精确指针） ---------- */
+@media (hover: hover) {
+  #main-content .post .content .aa-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--color-background-accent) 40%, var(--aa-line));
+  }
+
+  #main-content .post .content .aa-btn:hover {
+    border-color: color-mix(in oklab, var(--color-background-accent) 45%, var(--aa-line));
+    background: color-mix(in oklab, var(--color-text-primary) 9%, transparent);
+  }
+
+  #main-content .post .content .aa-btn--primary:hover {
+    border-color: transparent;
+    background: var(--color-background-accent-hover);
+  }
+
+  #main-content .post .content .aa-info dd a:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 620px) {
+  #main-content .post .content :is(.aa-hero, .aa-info, .aa-grid, .aa-chips, .aa-contact) {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  #main-content .post .content .aa-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px;
+  }
+
+  #main-content .post .content .aa-hero-body {
+    width: 100%;
+  }
+
+  #main-content .post .content .aa-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  #main-content .post .content .aa-hero .aa-info {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin: 4px 0 0;
+    padding: 8px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--aa-line);
+  }
+
+  #main-content .post .content .aa-chips {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  #main-content .post .content .aa-chip {
+    padding: 5px 10px;
+    font-size: 12.5px;
+  }
+
+  #main-content .post .content .aa-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  #main-content .post .content .aa-btn {
+    min-height: 44px;
+  }
+
+  #main-content .post .content .aa-contact {
+    padding: 32px 20px;
+  }
+}
+
+/* ---------- 跟随主题的超椭圆圆角开关 ---------- */
+@supports (corner-shape: squircle) {
+  @container document-body style(--config-corner-squircle: true) {
+    #main-content .post .content :is(.aa-hero, .aa-info, .aa-card, .aa-contact) {
+      corner-shape: squircle;
+    }
+  }
+}
+
