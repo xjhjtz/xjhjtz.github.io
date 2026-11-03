@@ -23,7 +23,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
 <meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-11-01T04:13:49.561Z">
+<meta property="article:modified_time" content="2026-11-03T14:08:37.704Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -1085,127 +1085,98 @@ body {
 
   <div class="content">
     <style>
-.friends-grid {
+#main-content .post .content .friends-grid {
+  --aa-line: var(--color-border-primary);
+  --aa-fill: var(--color-background-secondary);
+  --aa-shadow: 0 1px 1px rgba(0,0,0,.02), 0 10px 30px -16px rgba(0,0,0,.18);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
   gap: 14px;
-  margin: 24px 0;
+  max-width: 800px;
+  margin: 22px auto 0;
+  padding: 0;
+  list-style: none;
 }
+#main-content .post .content .friends-grid > li { min-width: 0; margin: 0; }
 
-.friends-grid .friend-card {
-  position: relative;
+#main-content .post .content .friend-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: var(--radius-m, 12px);
-  overflow: hidden;
-  text-decoration: none !important;
+  gap: 14px;
+  height: 100%;
+  padding: 16px 18px;
+  box-sizing: border-box;
+  border: 1px solid var(--aa-line);
+  border-radius: 22px;
+  background: var(--aa-fill);
+  box-shadow: var(--aa-shadow);
   color: inherit;
-
-  /* 浅色模式：带一点灰调的卡片底色 + 更明显的边框和阴影 */
-  background: var(--card-background, #fafafa);
-  border: 1px solid var(--card-border-color, rgba(0, 0, 0, .12));
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, .06),
-    0 4px 12px rgba(0, 0, 0, .05);
-
-  transition: transform .28s cubic-bezier(.22, .61, .36, 1),
-              box-shadow .28s, border-color .28s, background .28s;
+  text-decoration: none !important;
+  transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .3s;
+}
+#main-content .post .content .friend-card:focus-visible {
+  outline: 2px solid var(--color-text-accent);
+  outline-offset: 2px;
 }
 
-.friends-grid .friend-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--primary-color, #49b1f5), #8e6bff);
-  transform: scaleY(0);
-  transition: transform .3s;
-}
-
-.friends-grid .friend-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--primary-color, rgba(73, 177, 245, .5));
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, .06),
-    0 10px 24px rgba(0, 0, 0, .12);
-}
-
-.friends-grid .friend-card:hover::before {
-  transform: scaleY(1);
-}
-
-.friends-grid .friend-avatar {
-  width: 46px;
-  height: 46px;
+#main-content .post .content .friend-avatar {
+  flex: 0 0 auto;
+  width: 44px; height: 44px;
+  margin: 0;
   border-radius: 50%;
   object-fit: cover;
-  flex-shrink: 0;
-  margin: 0;
-  vertical-align: middle;
-  background: rgba(0, 0, 0, .06);
-  transition: transform .3s;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-background-accent) 12%, transparent);
+  transition: transform .4s cubic-bezier(.16,1,.3,1);
 }
 
-.friends-grid .friend-card:hover .friend-avatar {
-  transform: rotate(-8deg) scale(1.08);
+#main-content .post .content .friend-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+#main-content .post .content .friend-name {
+  font-size: 15.5px; font-weight: 600; line-height: 1.35;
+  color: var(--color-text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#main-content .post .content .friend-desc {
+  display: -webkit-box; font-size: 13.5px; line-height: 1.55;
+  color: var(--color-text-secondary);
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+#main-content .post .content .friend-url {
+  font-size: 12px; color: var(--color-text-tertiary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-.friends-grid .friend-info {
-  min-width: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.friends-grid .friend-name {
-  display: block;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.friends-grid .friend-desc {
-  display: -webkit-box;
-  margin-top: 2px;
-  font-size: 12.5px;
-  line-height: 1.5;
-  opacity: .62;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.friends-grid .friend-url {
-  display: block;
-  margin-top: 4px;
-  font-size: 11.5px;
-  opacity: .45;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 深色模式 */
-@media (prefers-color-scheme: dark) {
-  .friends-grid .friend-card {
-    background: var(--card-background, rgba(255, 255, 255, .045));
-    border-color: var(--card-border-color, rgba(255, 255, 255, .1));
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+@media (hover: hover) {
+  #main-content .post .content .friend-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--color-background-accent) 40%, var(--aa-line));
   }
-  .friends-grid .friend-card:hover {
-    box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
+  #main-content .post .content .friend-card:hover .friend-avatar { transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main-content .post .content :is(.friend-card, .friend-avatar) { transition: none; }
+  #main-content .post .content .friend-card:hover,
+  #main-content .post .content .friend-card:hover .friend-avatar { transform: none; }
+}
+
+@media (max-width: 620px) {
+  #main-content .post .content .friends-grid { margin-left: 16px; margin-right: 16px; gap: 12px; }
+  #main-content .post .content .friend-card { padding: 14px 16px; gap: 12px; }
+  #main-content .post .content .friend-avatar { width: 40px; height: 40px; }
+}
+
+@supports (corner-shape: squircle) {
+  @container document-body style(--config-corner-squircle: true) {
+    #main-content .post .content .friends-grid .friend-card {
+      corner-shape: squircle;
+    }
   }
 }
 </style>
 
 <h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
 <ul>
-<li>邮箱: <a href="mailto:&#104;&#x69;&#95;&#x78;&#x6a;&#x68;&#x6a;&#x74;&#122;&#97;&#x63;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
+<li>邮箱: <a href="mailto:&#x68;&#105;&#x5f;&#120;&#106;&#104;&#x6a;&#x74;&#x7a;&#x61;&#x63;&#64;&#x31;&#54;&#x33;&#46;&#99;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
 <li>本页评论区</li>
 </ul>
 <p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
