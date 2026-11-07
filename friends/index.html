@@ -23,7 +23,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
 <meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-11-03T14:08:37.704Z">
+<meta property="article:modified_time" content="2026-11-07T13:56:17.522Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -1172,11 +1172,110 @@ body {
     }
   }
 }
+/* ---------- 朋友圈入口卡（与 About 页「联系面板」同一套呈现） ---------- */
+#main-content .post .content .aa-contact {
+  --aa-line: var(--color-border-primary);
+  --aa-fill: var(--color-background-secondary);
+  --aa-shadow: 0 1px 1px rgba(0, 0, 0, 0.02), 0 10px 30px -16px rgba(0, 0, 0, 0.18);
+  --aa-glow: color-mix(in oklab, var(--color-background-accent) 14%, transparent);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 48px auto 0;
+  padding: 40px 28px;
+  border: 1px solid var(--aa-line);
+  border-radius: 26px;
+  background: var(--aa-fill);
+  box-shadow: var(--aa-shadow);
+  text-align: center;
+}
+
+#main-content .post .content .aa-contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 100% at 50% 0%, var(--aa-glow), transparent 70%);
+  pointer-events: none;
+}
+
+#main-content .post .content .aa-contact > * { position: relative; }
+
+#main-content .post .content .aa-kicker {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+}
+
+#main-content .post .content .aa-contact-title {
+  margin: 10px 0 0;
+  font-size: clamp(1.4rem, 3.6vw, 1.95rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: var(--color-text-primary);
+}
+
+#main-content .post .content .aa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+#main-content .post .content .aa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 20px;
+  border: 1px solid var(--aa-line);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-text-primary) 5%, transparent);
+  color: var(--color-text-primary);
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease;
+}
+
+#main-content .post .content .aa-btn--primary {
+  border-color: transparent;
+  background: var(--color-background-accent);
+  color: var(--color-background-accent-contrast);
+}
+
+#main-content .post .content .aa-btn:active { transform: scale(0.975); }
+
+@media (hover: hover) {
+  #main-content .post .content .aa-btn:hover {
+    border-color: color-mix(in oklab, var(--color-background-accent) 45%, var(--aa-line));
+    background: color-mix(in oklab, var(--color-text-primary) 9%, transparent);
+  }
+  #main-content .post .content .aa-btn--primary:hover {
+    border-color: transparent;
+    background: var(--color-background-accent-hover);
+  }
+}
+
+@media (max-width: 620px) {
+  #main-content .post .content .aa-contact { margin-top: 36px; padding: 32px 20px; }
+}
+
+@supports (corner-shape: squircle) {
+  @container document-body style(--config-corner-squircle: true) {
+    #main-content .post .content .aa-contact { corner-shape: squircle; }
+  }
+}
 </style>
 
 <h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
 <ul>
-<li>邮箱: <a href="mailto:&#x68;&#x69;&#x5f;&#x78;&#x6a;&#x68;&#x6a;&#x74;&#x7a;&#97;&#99;&#x40;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;">hi_xjhjtzac@163.com</a></li>
+<li>邮箱: <a href="mailto:&#104;&#105;&#x5f;&#x78;&#106;&#104;&#x6a;&#116;&#122;&#97;&#99;&#x40;&#49;&#54;&#x33;&#46;&#99;&#111;&#109;">hi_xjhjtzac@163.com</a></li>
 <li>本页评论区</li>
 </ul>
 <p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
@@ -1271,6 +1370,15 @@ body {
 </div>
 
 </div>
+
+<div class="aa-contact">
+  <p class="aa-kicker">友链朋友圈</p>
+  <p class="aa-contact-title">看看友友们最近都写了些什么。</p>
+  <div class="aa-actions">
+    <a class="aa-btn aa-btn--primary" href="/fcircle/">进入朋友圈</a>
+  </div>
+</div>
+
   </div>
 
   
