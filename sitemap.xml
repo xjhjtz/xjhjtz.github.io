@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://xjhjtz.github.io/2026/09/07/themehtml/</loc>
+    
+    <lastmod>2026-11-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://xjhjtz.github.io/friend.json</loc>
     
     <lastmod>2026-11-08</lastmod>
@@ -140,15 +149,6 @@
     <loc>https://xjhjtz.github.io/thanks/index.html</loc>
     
     <lastmod>2026-09-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://xjhjtz.github.io/2026/09/07/themehtml/</loc>
-    
-    <lastmod>2026-09-07</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
