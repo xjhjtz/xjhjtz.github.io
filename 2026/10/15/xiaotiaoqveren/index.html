@@ -14,16 +14,16 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="前言今天不知为何我的心情极差。一想到早上我在班主任考的英语小条上获得了“15错10”的“优异成绩”，我感到无尽的悲痛。 第九节课下课，我正帮着英语课代表发小条，有一同学找到了我。 为了保护这位同学的隐私，我特地将这位同学的名字以SHA3-256算法做了处理，其名字的hash值为e14b5834608a546cab749f192a200af62c52580ce0ed1d8f7ba5e37edadea">
+  <meta name="description" content="作者遇到神人手欠同学，拼尽全力无法战胜。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="确认缺位与“小条事故”">
 <meta property="og:url" content="https://xjhjtz.github.io/2026/10/15/xiaotiaoqveren/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="前言今天不知为何我的心情极差。一想到早上我在班主任考的英语小条上获得了“15错10”的“优异成绩”，我感到无尽的悲痛。 第九节课下课，我正帮着英语课代表发小条，有一同学找到了我。 为了保护这位同学的隐私，我特地将这位同学的名字以SHA3-256算法做了处理，其名字的hash值为e14b5834608a546cab749f192a200af62c52580ce0ed1d8f7ba5e37edadea">
+<meta property="og:description" content="作者遇到神人手欠同学，拼尽全力无法战胜。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/10/15/6ad0df960fa7f.jpg">
 <meta property="article:published_time" content="2026-10-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-10-16T14:41:24.328Z">
+<meta property="article:modified_time" content="2026-10-15T16:00:00.000Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="life">
 <meta property="article:tag" content="school">
@@ -899,9 +899,11 @@ body {
       强制 max-width:800px + padding:0 16px，用 `.post .meta .post-summary`（0,3,0）压不过它，
       会出现"我的 padding/宽度根本不生效"的假象。这里用同等特异度 + 类名接在后面取胜。 */
 #main-content > * > .meta > .post-summary {
-  /* 上下 20px 的节奏；下边距是必要的——卡片紧接着就是主题的目录 aside，
+  /* 上 36px / 下 24px。标题 48px，原先上面只留 20px，大字下面贴着卡片显得憋。
+     而且中文有字形下沉，20px 的 box 间距光学上只剩十几 px，所以按标题字号的 0.75 倍给到 36px。
+     下边距是必要的——卡片紧接着就是主题的目录 aside，
      不留就会被目录顶住（实测 0px 贴死）。 */
-  margin: 20px auto 24px;
+  margin: 36px auto 24px;
   /* 留白比第一版大一圈（16 → 20/18）：用户反馈"内边距偏小、整体显拥挤"。 */
   padding: 20px 18px;
   /* ⚠️ 对齐基准 = **目录里的文字**（用户 2026-10-08 当面确认的那条线），不是标题。
@@ -975,15 +977,16 @@ body {
     width: auto;
     margin-left: 16px;
     margin-right: 16px;
+    margin-top: 32px;
     margin-bottom: 20px;
     padding: 18px 16px;
     font-size: 16px;
   }
   #main-content > * > .meta > .post-summary > .post-summary__label { margin-bottom: 9px; }
 }
-/* 间距钉死：标题→摘要 20px。标题本来有 margin-bottom，会和摘要的上边距折叠成「取较大者」，
-   不清零间距就不可控；所以只在「真的有摘要」的页面 (.meta:has(.post-summary)) 上清零，
-   没写 description 的文章一个字节的样式都不受影响。 */
+/* 间距钉死：标题→摘要 36px（全部由 .post-summary 的 margin-top 提供）。标题本来有 margin-bottom，
+   会和摘要的上边距折叠成「取较大者」，不清零间距就不可控；所以只在「真的有摘要」的页面
+   (.meta:has(.post-summary)) 上清零，没写 description 的文章一个字节的样式都不受影响。 */
 .post .meta:has(.post-summary) .title { margin-bottom: 0; }
 </style>
 
@@ -1084,6 +1087,7 @@ body {
     
 
     <h1 class="title" data-pagefind-meta="title">确认缺位与“小条事故”</h1>
+<p class="post-summary corner-squircle"><span class="post-summary__label"><svg class="post-summary__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg>摘要</span><span class="post-summary__body">作者遇到神人手欠同学，拼尽全力无法战胜。</span></p>
   </div>
 
   <div class="content">
@@ -1159,7 +1163,14 @@ body {
   
 
   <div class="container post-prev-next" data-pagefind-ignore>
-    <a class="next"></a>
+    
+    <a href="/2026/11/08/my-first-pr-merged/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title">我等了 75 天，换来一句“Thanks! 😀”</h3>
+      </div>
+    </a>
+    
     
     <a href="/2026/10/08/twikoo-waline/" class="prev">
       <div class="text">

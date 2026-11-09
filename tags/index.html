@@ -904,9 +904,11 @@ body {
       强制 max-width:800px + padding:0 16px，用 `.post .meta .post-summary`（0,3,0）压不过它，
       会出现"我的 padding/宽度根本不生效"的假象。这里用同等特异度 + 类名接在后面取胜。 */
 #main-content > * > .meta > .post-summary {
-  /* 上下 20px 的节奏；下边距是必要的——卡片紧接着就是主题的目录 aside，
+  /* 上 36px / 下 24px。标题 48px，原先上面只留 20px，大字下面贴着卡片显得憋。
+     而且中文有字形下沉，20px 的 box 间距光学上只剩十几 px，所以按标题字号的 0.75 倍给到 36px。
+     下边距是必要的——卡片紧接着就是主题的目录 aside，
      不留就会被目录顶住（实测 0px 贴死）。 */
-  margin: 20px auto 24px;
+  margin: 36px auto 24px;
   /* 留白比第一版大一圈（16 → 20/18）：用户反馈"内边距偏小、整体显拥挤"。 */
   padding: 20px 18px;
   /* ⚠️ 对齐基准 = **目录里的文字**（用户 2026-10-08 当面确认的那条线），不是标题。
@@ -980,15 +982,16 @@ body {
     width: auto;
     margin-left: 16px;
     margin-right: 16px;
+    margin-top: 32px;
     margin-bottom: 20px;
     padding: 18px 16px;
     font-size: 16px;
   }
   #main-content > * > .meta > .post-summary > .post-summary__label { margin-bottom: 9px; }
 }
-/* 间距钉死：标题→摘要 20px。标题本来有 margin-bottom，会和摘要的上边距折叠成「取较大者」，
-   不清零间距就不可控；所以只在「真的有摘要」的页面 (.meta:has(.post-summary)) 上清零，
-   没写 description 的文章一个字节的样式都不受影响。 */
+/* 间距钉死：标题→摘要 36px（全部由 .post-summary 的 margin-top 提供）。标题本来有 margin-bottom，
+   会和摘要的上边距折叠成「取较大者」，不清零间距就不可控；所以只在「真的有摘要」的页面
+   (.meta:has(.post-summary)) 上清零，没写 description 的文章一个字节的样式都不受影响。 */
 .post .meta:has(.post-summary) .title { margin-bottom: 0; }
 </style>
 
@@ -1077,6 +1080,14 @@ body {
     
     <a href="/tags/Omni/" class="tag">#Omni<span class="count">1</span></a>
     
+    <a href="/tags/Blogging/" class="tag">#Blogging<span class="count">5</span></a>
+    
+    <a href="/tags/School/" class="tag">#School<span class="count">1</span></a>
+    
+    <a href="/tags/wtf/" class="tag">#wtf<span class="count">2</span></a>
+    
+    <a href="/tags/Github/" class="tag">#Github<span class="count">2</span></a>
+    
     <a href="/tags/Markdown/" class="tag">#Markdown<span class="count">2</span></a>
     
     <a href="/tags/ascii/" class="tag">#ascii<span class="count">1</span></a>
@@ -1087,39 +1098,35 @@ body {
     
     <a href="/tags/103-%E8%AE%A1%E7%AE%97%E6%9C%BA/" class="tag">#103-计算机<span class="count">1</span></a>
     
-    <a href="/tags/Blogging/" class="tag">#Blogging<span class="count">5</span></a>
-    
-    <a href="/tags/School/" class="tag">#School<span class="count">1</span></a>
-    
-    <a href="/tags/wtf/" class="tag">#wtf<span class="count">2</span></a>
-    
-    <a href="/tags/Github/" class="tag">#Github<span class="count">1</span></a>
-    
-    <a href="/tags/%E7%BD%91%E7%AB%99%E8%AE%B0/" class="tag">#网站记<span class="count">1</span></a>
-    
-    <a href="/tags/Ollama/" class="tag">#Ollama<span class="count">1</span></a>
-    
     <a href="/tags/Milktea/" class="tag">#Milktea<span class="count">1</span></a>
     
-    <a href="/tags/Twikoo/" class="tag">#Twikoo<span class="count">1</span></a>
-    
-    <a href="/tags/Website/" class="tag">#Website<span class="count">1</span></a>
-    
-    <a href="/tags/css/" class="tag">#css<span class="count">2</span></a>
+    <a href="/tags/%E7%BD%91%E7%AB%99%E8%AE%B0/" class="tag">#网站记<span class="count">1</span></a>
     
     <a href="/tags/website/" class="tag">#website<span class="count">1</span></a>
     
     <a href="/tags/html/" class="tag">#html<span class="count">1</span></a>
     
+    <a href="/tags/css/" class="tag">#css<span class="count">2</span></a>
+    
     <a href="/tags/js/" class="tag">#js<span class="count">1</span></a>
+    
+    <a href="/tags/Ollama/" class="tag">#Ollama<span class="count">1</span></a>
+    
+    <a href="/tags/Travel/" class="tag">#Travel<span class="count">1</span></a>
+    
+    <a href="/tags/Life/" class="tag">#Life<span class="count">1</span></a>
+    
+    <a href="/tags/Twikoo/" class="tag">#Twikoo<span class="count">1</span></a>
+    
+    <a href="/tags/Website/" class="tag">#Website<span class="count">1</span></a>
     
     <a href="/tags/school/" class="tag">#school<span class="count">1</span></a>
     
     <a href="/tags/life/" class="tag">#life<span class="count">1</span></a>
     
-    <a href="/tags/Travel/" class="tag">#Travel<span class="count">1</span></a>
+    <a href="/tags/%E5%BC%80%E6%BA%90/" class="tag">#开源<span class="count">1</span></a>
     
-    <a href="/tags/Life/" class="tag">#Life<span class="count">1</span></a>
+    <a href="/tags/%E6%B1%89%E5%8C%96/" class="tag">#汉化<span class="count">1</span></a>
     
   </div>
 </div>

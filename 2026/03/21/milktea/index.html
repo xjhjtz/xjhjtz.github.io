@@ -14,15 +14,15 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="前言最近在学校想喝茶，喝了几天后想换口味，于是想到了制作奶茶，但是学校里没热水，所以我只好选择常温泡茶，现在我公布一下自制茉莉奶绿的配方。   本教程无需热水。 🧾 材料清单（一杯大约400ml） 茉莉花茶包 1包（约2g）——推荐用茉莉绿茶，香气最搭 纯牛奶 200ml（选浓的） 糖 2g (这里可以用两颗荷氏糖来代替) 水 约150ml 一个杯子（能装下所有东西的就行）  📝 制作步骤1.">
+  <meta name="description" content="学校没热水，只能用常温泡。一杯 400ml 茉莉奶绿的配方、材料清单，以及几次不太成功的尝试。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="论如何在学校里制作茉莉奶绿">
 <meta property="og:url" content="https://xjhjtz.github.io/2026/03/21/milktea/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="前言最近在学校想喝茶，喝了几天后想换口味，于是想到了制作奶茶，但是学校里没热水，所以我只好选择常温泡茶，现在我公布一下自制茉莉奶绿的配方。   本教程无需热水。 🧾 材料清单（一杯大约400ml） 茉莉花茶包 1包（约2g）——推荐用茉莉绿茶，香气最搭 纯牛奶 200ml（选浓的） 糖 2g (这里可以用两颗荷氏糖来代替) 水 约150ml 一个杯子（能装下所有东西的就行）  📝 制作步骤1.">
+<meta property="og:description" content="学校没热水，只能用常温泡。一杯 400ml 茉莉奶绿的配方、材料清单，以及几次不太成功的尝试。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-21T10:00:00.000Z">
-<meta property="article:modified_time" content="2026-07-20T13:49:13.837Z">
+<meta property="article:modified_time" content="2026-07-19T16:00:00.000Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="Blogging">
 <meta property="article:tag" content="Milktea">
@@ -896,9 +896,11 @@ body {
       强制 max-width:800px + padding:0 16px，用 `.post .meta .post-summary`（0,3,0）压不过它，
       会出现"我的 padding/宽度根本不生效"的假象。这里用同等特异度 + 类名接在后面取胜。 */
 #main-content > * > .meta > .post-summary {
-  /* 上下 20px 的节奏；下边距是必要的——卡片紧接着就是主题的目录 aside，
+  /* 上 36px / 下 24px。标题 48px，原先上面只留 20px，大字下面贴着卡片显得憋。
+     而且中文有字形下沉，20px 的 box 间距光学上只剩十几 px，所以按标题字号的 0.75 倍给到 36px。
+     下边距是必要的——卡片紧接着就是主题的目录 aside，
      不留就会被目录顶住（实测 0px 贴死）。 */
-  margin: 20px auto 24px;
+  margin: 36px auto 24px;
   /* 留白比第一版大一圈（16 → 20/18）：用户反馈"内边距偏小、整体显拥挤"。 */
   padding: 20px 18px;
   /* ⚠️ 对齐基准 = **目录里的文字**（用户 2026-10-08 当面确认的那条线），不是标题。
@@ -972,15 +974,16 @@ body {
     width: auto;
     margin-left: 16px;
     margin-right: 16px;
+    margin-top: 32px;
     margin-bottom: 20px;
     padding: 18px 16px;
     font-size: 16px;
   }
   #main-content > * > .meta > .post-summary > .post-summary__label { margin-bottom: 9px; }
 }
-/* 间距钉死：标题→摘要 20px。标题本来有 margin-bottom，会和摘要的上边距折叠成「取较大者」，
-   不清零间距就不可控；所以只在「真的有摘要」的页面 (.meta:has(.post-summary)) 上清零，
-   没写 description 的文章一个字节的样式都不受影响。 */
+/* 间距钉死：标题→摘要 36px（全部由 .post-summary 的 margin-top 提供）。标题本来有 margin-bottom，
+   会和摘要的上边距折叠成「取较大者」，不清零间距就不可控；所以只在「真的有摘要」的页面
+   (.meta:has(.post-summary)) 上清零，没写 description 的文章一个字节的样式都不受影响。 */
 .post .meta:has(.post-summary) .title { margin-bottom: 0; }
 </style>
 
@@ -1077,6 +1080,7 @@ body {
     
 
     <h1 class="title" data-pagefind-meta="title">论如何在学校里制作茉莉奶绿</h1>
+<p class="post-summary corner-squircle"><span class="post-summary__label"><svg class="post-summary__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg>摘要</span><span class="post-summary__body">学校没热水，只能用常温泡。一杯 400ml 茉莉奶绿的配方、材料清单，以及几次不太成功的尝试。</span></p>
   </div>
 
   <div class="content">

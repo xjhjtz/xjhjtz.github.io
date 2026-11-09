@@ -14,17 +14,17 @@
   <link rel='manifest' href='/manifest.json'>
   
 
-  <meta name="description" content="前言 最近想要在本地部署AI大模型，我经过深思熟虑后决定使用Ollama客户端，主要是它拥有便捷的图形化界面，但是我发现，客户端原生的选择模型界面并没有我想要的模型，下面我们就以deepseek-r1:7b作为模型进行演示。 操作1.下载Ollama客户端  点击这个网址，进入Ollama官网，选择Download for Windows，下载完成后双击安装包，点击右下角”Install”，等待安">
+  <meta name="description" content="Ollama 客户端自带的模型列表里没有 deepseek-r1，那就手动装。顺手把模型从 C 盘挪到 D 盘的完整步骤。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(教程向)在Ollama客户端中安装AI模型">
 <meta property="og:url" content="https://xjhjtz.github.io/2026/02/18/ollamaai/index.html">
 <meta property="og:site_name" content="Xjhjtzac的Blog">
-<meta property="og:description" content="前言 最近想要在本地部署AI大模型，我经过深思熟虑后决定使用Ollama客户端，主要是它拥有便捷的图形化界面，但是我发现，客户端原生的选择模型界面并没有我想要的模型，下面我们就以deepseek-r1:7b作为模型进行演示。 操作1.下载Ollama客户端  点击这个网址，进入Ollama官网，选择Download for Windows，下载完成后双击安装包，点击右下角”Install”，等待安">
+<meta property="og:description" content="Ollama 客户端自带的模型列表里没有 deepseek-r1，那就手动装。顺手把模型从 C 盘挪到 D 盘的完整步骤。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://free.picui.cn/free/2026/02/18/699532a4c760d.png">
 <meta property="og:image" content="https://free.picui.cn/free/2026/02/18/699533a1857b7.png">
 <meta property="article:published_time" content="2026-02-18T03:58:00.000Z">
-<meta property="article:modified_time" content="2026-08-14T11:03:25.817Z">
+<meta property="article:modified_time" content="2026-08-13T16:00:00.000Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="Blogging">
@@ -900,9 +900,11 @@ body {
       强制 max-width:800px + padding:0 16px，用 `.post .meta .post-summary`（0,3,0）压不过它，
       会出现"我的 padding/宽度根本不生效"的假象。这里用同等特异度 + 类名接在后面取胜。 */
 #main-content > * > .meta > .post-summary {
-  /* 上下 20px 的节奏；下边距是必要的——卡片紧接着就是主题的目录 aside，
+  /* 上 36px / 下 24px。标题 48px，原先上面只留 20px，大字下面贴着卡片显得憋。
+     而且中文有字形下沉，20px 的 box 间距光学上只剩十几 px，所以按标题字号的 0.75 倍给到 36px。
+     下边距是必要的——卡片紧接着就是主题的目录 aside，
      不留就会被目录顶住（实测 0px 贴死）。 */
-  margin: 20px auto 24px;
+  margin: 36px auto 24px;
   /* 留白比第一版大一圈（16 → 20/18）：用户反馈"内边距偏小、整体显拥挤"。 */
   padding: 20px 18px;
   /* ⚠️ 对齐基准 = **目录里的文字**（用户 2026-10-08 当面确认的那条线），不是标题。
@@ -976,15 +978,16 @@ body {
     width: auto;
     margin-left: 16px;
     margin-right: 16px;
+    margin-top: 32px;
     margin-bottom: 20px;
     padding: 18px 16px;
     font-size: 16px;
   }
   #main-content > * > .meta > .post-summary > .post-summary__label { margin-bottom: 9px; }
 }
-/* 间距钉死：标题→摘要 20px。标题本来有 margin-bottom，会和摘要的上边距折叠成「取较大者」，
-   不清零间距就不可控；所以只在「真的有摘要」的页面 (.meta:has(.post-summary)) 上清零，
-   没写 description 的文章一个字节的样式都不受影响。 */
+/* 间距钉死：标题→摘要 36px（全部由 .post-summary 的 margin-top 提供）。标题本来有 margin-bottom，
+   会和摘要的上边距折叠成「取较大者」，不清零间距就不可控；所以只在「真的有摘要」的页面
+   (.meta:has(.post-summary)) 上清零，没写 description 的文章一个字节的样式都不受影响。 */
 .post .meta:has(.post-summary) .title { margin-bottom: 0; }
 </style>
 
@@ -1081,6 +1084,7 @@ body {
     
 
     <h1 class="title" data-pagefind-meta="title">(教程向)在Ollama客户端中安装AI模型</h1>
+<p class="post-summary corner-squircle"><span class="post-summary__label"><svg class="post-summary__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg>摘要</span><span class="post-summary__body">Ollama 客户端自带的模型列表里没有 deepseek-r1，那就手动装。顺手把模型从 C 盘挪到 D 盘的完整步骤。</span></p>
   </div>
 
   <div class="content">
