@@ -23,7 +23,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
 <meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-11-12T11:26:58.188Z">
+<meta property="article:modified_time" content="2026-11-12T14:45:43.946Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -1137,18 +1137,20 @@ body {
   margin: 0;
   border-radius: 50%;
   object-fit: cover;
-  /* —— 兜底图 ——
-     无 src / 加载失败 / 透明图时，头像框里露出上面的双层背景，
-     不会出现空白圆圈或裂图。正常加载时背景被图片完全覆盖，不可见。 */
-  background-color: color-mix(in oklab, var(--color-text-primary) 8%, transparent);
-  background-image: var(--aa-avatar-fallback, none);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-background-accent) 12%, transparent);
+  transition: transform .4s cubic-bezier(.16,1,.3,1);
+  
+  /* ====== 1. 兜底背景图 ====== */
+  background-image: var(--aa-avatar-fallback);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  color: transparent; /* 裂图时不显示 alt 文本（读屏软件仍会朗读 alt） */
-  font-size: 0;       /* 裂图时不显示浏览器自带的破图小图标 */
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-background-accent) 12%, transparent);
-  transition: transform .4s cubic-bezier(.16,1,.3,1);
+  
+  /* ====== 2. 干掉破图图标和 alt 文字 ====== */
+  color: transparent !important; /* 隐藏裂图时的 alt 文本 */
+  font-size: 0 !important;       /* 进一步压缩文本空间 */
+  text-indent: -9999px;          /* 强行把破图内容移出可视区域 */
+  overflow: hidden;              /* 裁掉溢出部分 */
 }
 
 #main-content .post .content .friend-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -1301,7 +1303,7 @@ body {
 
 <h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
 <ul>
-<li>邮箱: <a href="mailto:&#104;&#105;&#95;&#120;&#x6a;&#x68;&#x6a;&#116;&#122;&#97;&#x63;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
+<li>邮箱: <a href="mailto:&#x68;&#x69;&#x5f;&#120;&#106;&#x68;&#x6a;&#116;&#x7a;&#97;&#99;&#x40;&#49;&#54;&#x33;&#x2e;&#99;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
 <li>本页评论区</li>
 </ul>
 <p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
