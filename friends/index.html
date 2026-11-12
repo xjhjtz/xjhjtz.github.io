@@ -23,7 +23,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://a1.boltp.com/2026/08/15/6a8047adbeeee.jpg">
 <meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-11-11T14:48:16.138Z">
+<meta property="article:modified_time" content="2026-11-12T11:26:58.188Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -1092,6 +1092,12 @@ body {
   --aa-line: var(--color-border-primary);
   --aa-fill: var(--color-background-secondary);
   --aa-shadow: 0 1px 1px rgba(0,0,0,.02), 0 10px 30px -16px rgba(0,0,0,.18);
+  /* 头像兜底图：双层叠加。
+     第一层 = 你指定的图；第二层 = 内联 SVG 剪影（不发额外请求）。
+     外部图 404/超时/被墙时会自动露出第二层，不会出现空白圆圈或裂图。 */
+  --aa-avatar-fallback:
+    url("https://a1.boltp.com/2026/09/11/6aa3fe1a4fbb6.jpeg"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%238a8a94' fill-opacity='.16'/%3E%3Ccircle cx='48' cy='37' r='15' fill='%238a8a94' fill-opacity='.55'/%3E%3Cpath d='M17 96a31 31 0 0 1 62 0z' fill='%238a8a94' fill-opacity='.55'/%3E%3C/svg%3E");
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
   gap: 14px;
@@ -1131,6 +1137,16 @@ body {
   margin: 0;
   border-radius: 50%;
   object-fit: cover;
+  /* —— 兜底图 ——
+     无 src / 加载失败 / 透明图时，头像框里露出上面的双层背景，
+     不会出现空白圆圈或裂图。正常加载时背景被图片完全覆盖，不可见。 */
+  background-color: color-mix(in oklab, var(--color-text-primary) 8%, transparent);
+  background-image: var(--aa-avatar-fallback, none);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: transparent; /* 裂图时不显示 alt 文本（读屏软件仍会朗读 alt） */
+  font-size: 0;       /* 裂图时不显示浏览器自带的破图小图标 */
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-background-accent) 12%, transparent);
   transition: transform .4s cubic-bezier(.16,1,.3,1);
 }
@@ -1285,7 +1301,7 @@ body {
 
 <h2 id="友链申请"><a href="#友链申请" class="headerlink" title="友链申请"></a>友链申请</h2><p>欢迎交换友链，若有意向请通过以下方式联系我：</p>
 <ul>
-<li>邮箱: <a href="mailto:&#x68;&#x69;&#x5f;&#x78;&#106;&#x68;&#106;&#116;&#122;&#97;&#x63;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;">hi_xjhjtzac@163.com</a></li>
+<li>邮箱: <a href="mailto:&#104;&#105;&#95;&#120;&#x6a;&#x68;&#x6a;&#116;&#122;&#97;&#x63;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#109;">hi_xjhjtzac@163.com</a></li>
 <li>本页评论区</li>
 </ul>
 <p>将本站添加至贵站的友链后，您可根据模板进行填写并发送至我的邮箱。</p>
