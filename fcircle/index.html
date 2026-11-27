@@ -21,8 +21,9 @@
 <meta property="og:site_name" content="Xjhjtzac的Blog">
 <meta property="og:description" content="看看友友们最近都写了些什么">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/picgo@master/9a2bc8649a19026f5491494645e7613d244367652.png">
 <meta property="article:published_time" content="2026-11-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-11-07T14:29:50.538Z">
+<meta property="article:modified_time" content="2026-11-27T14:33:23.212Z">
 <meta property="article:author" content="xjhjtzac">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="OI">
@@ -31,6 +32,7 @@
 <meta property="article:tag" content="计算机">
 <meta property="article:tag" content="铁路">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdmirror.com/gh/xjhjtz/picgo@master/9a2bc8649a19026f5491494645e7613d244367652.png">
 
   <script>window.ThemeCupertino = {}</script>
 
@@ -1068,6 +1070,10 @@ body {
       
 <article class="post">
   
+  <div class="cover">
+    <img src="https://cdn.jsdmirror.com/gh/xjhjtz/picgo@master/9a2bc8649a19026f5491494645e7613d244367652.png" alt="" class="cover-img" data-pagefind-meta="image[src], image_alt[alt]" />
+  </div>
+  
   <div class="meta">
     
 
@@ -1083,6 +1089,11 @@ body {
   <div class="content">
     <div class="container">
   <div class="fcircle-wrap" data-no-lightbox>
+    <div id="fcl-status" class="fcl-status" hidden>
+      <span id="fcl-status-icon" class="fcl-status-icon" aria-hidden="true">✅</span>
+      <span id="fcl-status-text" class="fcl-status-text">数据正常更新</span>
+      <span id="fcl-status-time" class="fcl-status-time"></span>
+    </div>
     <div id="friend-circle-lite-root"></div>
   </div>
 </div>
@@ -1111,6 +1122,40 @@ body {
 .fcircle-wrap .stat-item {
   border-radius: var(--radius-medium);
 }
+
+/* 数据新鲜度状态条：新鲜=绿色「数据正常更新」，超过 24h=橙色警示（配色走主题变量，亮/暗自动） */
+.fcl-status {
+  --fcl-status-color: #2f9e44;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in oklab, var(--fcl-status-color) 45%, var(--color-border-primary));
+  border-radius: var(--radius-medium);
+  background: color-mix(in oklab, var(--fcl-status-color) 10%, transparent);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.fcl-status[data-state='stale'] {
+  --fcl-status-color: #e8890c;
+}
+/* 类选择器会盖过 [hidden] 的浏览器默认 display:none，必须显式写 */
+.fcl-status[hidden] {
+  display: none;
+}
+.fcl-status-icon {
+  flex: 0 0 auto;
+}
+.fcl-status-text {
+  font-weight: 500;
+}
+.fcl-status-time {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
 </style>
 
 <script>
@@ -1125,6 +1170,58 @@ body {
 </script>
 
 <script src="https://cdn.jsdmirror.com/gh/xjhjtz/Friend-Circle-Lite@main/main/fclite.js"></script>
+
+<script>
+/* 数据新鲜度状态条：all.json 的 statistical_data.last_updated_time 决定「正常」还是「超 24h 未更新」 */
+(function () {
+  var MAX_AGE = 24 * 60 * 60 * 1000;
+  var notice = document.getElementById('fcl-status');
+  var iconEl = document.getElementById('fcl-status-icon');
+  var textEl = document.getElementById('fcl-status-text');
+  var timeEl = document.getElementById('fcl-status-time');
+  if (!notice) return;
+
+  var base = (window.UserConfig && UserConfig.private_api_url) || 'https://xjhjtz.github.io/Friend-Circle-Lite/';
+
+  // "2026-11-27 21:57:53"（Action 生成，Asia/Shanghai 本地时间）→ 毫秒；带时区后缀的按标准解析
+  function parseTime(str) {
+    if (typeof str !== 'string') return NaN;
+    str = str.trim();
+    if (!str) return NaN;
+    if (/[TZ]|[+-]\d{2}:?\d{2}$/.test(str)) return Date.parse(str);
+    var m = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})[ T](\d{1,2}):(\d{2})(?::(\d{2}))?/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0)).getTime();
+    return Date.parse(str);
+  }
+
+  function humanAge(ms) {
+    var min = Math.floor(ms / 60000);
+    if (min < 60) return min + ' 分钟前';
+    var h = Math.floor(min / 60);
+    if (h < 48) return h + ' 小时前';
+    return Math.floor(h / 24) + ' 天前';
+  }
+
+  function render(data) {
+    var stats = data && data.statistical_data;
+    var raw = stats && stats.last_updated_time;
+    var t = parseTime(raw);
+    if (isNaN(t)) return;
+    var age = Math.max(0, Date.now() - t);   // 服务器时钟偏快时 age 为负，按 0 处理
+    var stale = age >= MAX_AGE;
+    notice.dataset.state = stale ? 'stale' : 'ok';
+    iconEl.textContent = stale ? '⚠️' : '✅';
+    textEl.textContent = stale ? '数据已连续 24 小时未更新，请注意' : '数据正常更新';
+    timeEl.textContent = '上次更新：' + String(raw).trim() + '（' + humanAge(age) + '）';
+    notice.hidden = false;
+  }
+
+  fetch(base + 'all.json')
+    .then(function (res) { return res.ok ? res.json() : null; })
+    .then(function (data) { if (data) render(data); })
+    .catch(function () { /* 拉不到数据就不显示状态条，交给 FCL 自己的错误态 */ });
+})();
+</script>
 
   </div>
 
